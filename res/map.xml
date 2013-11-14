@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jVivarium>
+	<map>
+		<chunk>
+			<size>
+				<x></x>
+				<y></y>
+			</size>
+			<position>
+				<x></x>
+				<y></y>
+			</position>
+			<type>
+			</type>
+		</chunk>
+	</map>
+	<espece>
+	</espece>
+</jVivarium>

@@ -3,12 +3,14 @@
  */
 package fr.utbm.lo43.jvivarium.core.testunit;
 
+import fr.utbm.lo43.jvivarium.core.XMLLoader;
+
 /**
  * Class for testing the XML parser.
  * 
  * @author Alexandre Guyon
  */
-public class XMLLoader
+public class TestXMLLoader
 {
 
 	/**
@@ -16,8 +18,9 @@ public class XMLLoader
 	 */
 	public static void main(String[] args)
 	{
-		// TODO Auto-generated method stub
-
+		XMLLoader xml = new XMLLoader();
+		xml.startParse();
+		System.out.println("Fini !");
 	}
 
 }
