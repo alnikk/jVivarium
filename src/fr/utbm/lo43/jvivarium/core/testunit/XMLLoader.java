@@ -1,13 +1,14 @@
 /**
  * 
  */
-package fr.utbm.lo43.jvivarium.testunit;
+package fr.utbm.lo43.jvivarium.core.testunit;
 
 /**
- * @author alexandre
- *
+ * Class for testing the XML parser.
+ * 
+ * @author Alexandre Guyon
  */
-public class Coordinates
+public class XMLLoader
 {
 
 	/**
