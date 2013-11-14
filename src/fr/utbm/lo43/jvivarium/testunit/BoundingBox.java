@@ -1,13 +1,13 @@
 /**
  * 
  */
-package jVivarium;
+package fr.utbm.lo43.jvivarium.testunit;
 
 /**
  * @author alexandre
  *
  */
-public class Test
+public class BoundingBox
 {
 
 	/**
@@ -15,7 +15,7 @@ public class Test
 	 */
 	public static void main(String[] args)
 	{
-		System.out.println("Hello World !");
+		// TODO Auto-generated method stub
 
 	}
 
