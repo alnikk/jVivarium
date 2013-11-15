@@ -3,17 +3,14 @@
  */
 package fr.utbm.lo43.jvivarium.core;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.File;
 
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * This class is used for load the map
@@ -34,125 +31,77 @@ public class XMLLoader
 	//******************* Variable ********************/
 	
 	/**
-	 * XML Reader for parsing
+	 * DOM document
 	 */
-	private XMLHandler xmlH;
-	
-	/**
-	 * Used to read the xml file
-	 */
-	private XMLReader xr;
+	Document doc;
 	
 	//******************* Constructor ********************/
 	
 	/**
 	 * Constructor of the class.
 	 * Used for initialize the XML parser
-	 * @throws SAXException 
-	 * @throws ParserConfigurationException 
 	 */
 	public XMLLoader()
 	{		
+		DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
 		try
 		{
-			xr = XMLReaderFactory.createXMLReader();
-			xmlH = new XMLHandler();
-			xr.setContentHandler(xmlH);
-			xr.setErrorHandler(xmlH);
-		} 
-		catch (SAXException e)
+			DocumentBuilder constructeur = fabrique.newDocumentBuilder();
+			File xml = new File(FILENAME);
+			doc = constructeur.parse(xml);
+		}
+		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
 	}
 	
-	
-	//******************* Methods ********************/
-	
+	/**
+	 * Begin the parsing of xml
+	 */
 	public void startParse()
 	{
-		try
+		Element root = doc.getDocumentElement();
+		NodeList list = root.getChildNodes();
+		int i;
+		
+		for(i = 0 ; i < list.getLength() ; i++)
 		{
-			xr.parse(FILENAME);
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		} catch (SAXException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	//******************* Getters & Setters ********************/
-	
-	
-	
-	//************************* private class ********************/
-	
-	private class XMLHandler extends DefaultHandler
-	{
-		//********** Variables *************/
-		
-		private List<BoundingBox> lChunk;
-		
-		private Coordinates size;
-		
-		private Coordinates pos;
-		
-		//********** Constructor ***********/
-		
-		public XMLHandler()
-		{
-			lChunk = new LinkedList();
-			size = null;
-			pos =null;
-		}
-		
-		//*********** Methods *************/
-		
-		public void startDocument() throws SAXException
-		{
-			System.out.println("Begin parsing :");
-		}
-		
-		public void endDocument() throws SAXException
-		{
-			System.out.println("End parsing !");
-		}
-		
-		public void startElement(String uri, String localName, String qName,
-				Attributes attributes) throws SAXException
-		{
-			System.out.println("Begin URI : " + uri + " localName : " + localName +
-										" qName : " + qName + " attr : " + attributes);
-			switch(localName)
+			switch (list.item(i).getNodeName())
 			{
-				case "size":
-					size = new Coordinates(0, 0);
+				case "map":
+					this.parseMap(list.item(i).getChildNodes());
 					break;
-				case "position":
-					pos = new Coordinates(0, 0);
-					break;
-				case "x":
-					//if(size == new Coordinates(0, 0))
-						//size = new Coordinates(, y)
-					break;
-				case "y":
+				case "espece":
+					this.parseEspece();
+				default:
 					break;
 			}
 		}
+	}
+	
+	/**
+	 * Parse the map XML
+	 * @param l	(NodeList) The node which contains chunks
+	 */
+	private void parseMap(NodeList l)
+	{
+		int i;
 		
-		public void endElement(String uri, String localName, String qName)
-				throws SAXException
+		for(i = 0 ; i < l.getLength() ; i++)
 		{
-			System.out.println("End URI : " + uri + " localName : " + localName +
-					" qName : " + qName);
+			if(l.item(i).getNodeName() == "chunk")
+				//lChunk.put(new Chunk(l.item(i).getChildNodes()));
+				System.out.print("later");
 		}
-		
-		public void characters (char ch[], int start, int length)
-	   {
-
-	   }
+	}
+	
+	/**
+	 * Parse the espece XML
+	 * @param l	(NodeList) The node which contains espece
+	 */
+	private void parseEspece()
+	{
+		System.out.println("Parse espece");
 	}
 }

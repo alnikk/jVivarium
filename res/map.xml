@@ -7,8 +7,19 @@
 				<y>10</y>
 			</size>
 			<position>
-				<x>25</x>
-				<y>25</y>
+				<x>20</x>
+				<y>20</y>
+			</position>
+			<type>GRASS</type>
+		</chunk>
+		<chunk>
+			<size>
+				<x>10</x>
+				<y>10</y>
+			</size>
+			<position>
+				<x>10</x>
+				<y>10</y>
 			</position>
 			<type>GRASS</type>
 		</chunk>

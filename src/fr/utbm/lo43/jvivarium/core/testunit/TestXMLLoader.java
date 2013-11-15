@@ -20,7 +20,6 @@ public class TestXMLLoader
 	{
 		XMLLoader xml = new XMLLoader();
 		xml.startParse();
-		System.out.println("Fini !");
 	}
 
 }
