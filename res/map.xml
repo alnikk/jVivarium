@@ -3,15 +3,14 @@
 	<map>
 		<chunk>
 			<size>
-				<x></x>
-				<y></y>
+				<x>10</x>
+				<y>10</y>
 			</size>
 			<position>
-				<x></x>
-				<y></y>
+				<x>25</x>
+				<y>25</y>
 			</position>
-			<type>
-			</type>
+			<type>GRASS</type>
 		</chunk>
 	</map>
 	<espece>

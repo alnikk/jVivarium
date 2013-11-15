@@ -4,6 +4,8 @@
 package fr.utbm.lo43.jvivarium.core;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -20,7 +22,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * 
  * @author Alexandre Guyon
  */
-public class XMLLoader extends DefaultHandler
+public class XMLLoader
 {
 	//******************* Constant ********************/
 	
@@ -34,7 +36,7 @@ public class XMLLoader extends DefaultHandler
 	/**
 	 * XML Reader for parsing
 	 */
-	private DefaultHandler xmlH;
+	private XMLHandler xmlH;
 	
 	/**
 	 * Used to read the xml file
@@ -54,7 +56,7 @@ public class XMLLoader extends DefaultHandler
 		try
 		{
 			xr = XMLReaderFactory.createXMLReader();
-			xmlH = new XMLLoader();
+			xmlH = new XMLHandler();
 			xr.setContentHandler(xmlH);
 			xr.setErrorHandler(xmlH);
 		} 
@@ -86,31 +88,71 @@ public class XMLLoader extends DefaultHandler
 	
 	
 	
-	//*******************************************************
+	//************************* private class ********************/
 	
-	// FIXME Private class ?
-	
-	public void startDocument() throws SAXException
+	private class XMLHandler extends DefaultHandler
 	{
-		System.out.println("Begin parsing :");
-	}
-	
-	public void endDocument() throws SAXException
-	{
-		System.out.println("End parsing !");
-	}
-	
-	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException
-	{
-		System.out.println("Begin URI : " + uri + " localName : " + localName +
-									" qName : " + qName + " attributes : " + attributes);
-	}
-	
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException
-	{
-		System.out.println("End URI : " + uri + " localName : " + localName +
-				" qName : " + qName);
+		//********** Variables *************/
+		
+		private List<BoundingBox> lChunk;
+		
+		private Coordinates size;
+		
+		private Coordinates pos;
+		
+		//********** Constructor ***********/
+		
+		public XMLHandler()
+		{
+			lChunk = new LinkedList();
+			size = null;
+			pos =null;
+		}
+		
+		//*********** Methods *************/
+		
+		public void startDocument() throws SAXException
+		{
+			System.out.println("Begin parsing :");
+		}
+		
+		public void endDocument() throws SAXException
+		{
+			System.out.println("End parsing !");
+		}
+		
+		public void startElement(String uri, String localName, String qName,
+				Attributes attributes) throws SAXException
+		{
+			System.out.println("Begin URI : " + uri + " localName : " + localName +
+										" qName : " + qName + " attr : " + attributes);
+			switch(localName)
+			{
+				case "size":
+					size = new Coordinates(0, 0);
+					break;
+				case "position":
+					pos = new Coordinates(0, 0);
+					break;
+				case "x":
+					//if(size == new Coordinates(0, 0))
+						//size = new Coordinates(, y)
+					break;
+				case "y":
+					break;
+			}
+		}
+		
+		public void endElement(String uri, String localName, String qName)
+				throws SAXException
+		{
+			System.out.println("End URI : " + uri + " localName : " + localName +
+					" qName : " + qName);
+		}
+		
+		public void characters (char ch[], int start, int length)
+	   {
+
+	   }
 	}
 }
