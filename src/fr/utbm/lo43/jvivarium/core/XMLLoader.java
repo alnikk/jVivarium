@@ -4,6 +4,8 @@
 package fr.utbm.lo43.jvivarium.core;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,6 +37,11 @@ public class XMLLoader
 	 */
 	Document doc;
 	
+	/**
+	 * List of Chunk loaded
+	 */
+	List<Chunk> lChunk;
+	
 	//******************* Constructor ********************/
 	
 	/**
@@ -43,26 +50,27 @@ public class XMLLoader
 	 */
 	public XMLLoader()
 	{		
-		DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
 		try
 		{
-			DocumentBuilder constructeur = fabrique.newDocumentBuilder();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
 			File xml = new File(FILENAME);
-			doc = constructeur.parse(xml);
+			doc = builder.parse(xml);
 		}
-		catch(Exception e)
+		catch(Exception e) // TODO Handle exception
 		{
 			e.printStackTrace();
 		}
+		
+		lChunk = new LinkedList<Chunk>();
 	}
 	
 	/**
-	 * Begin the parsing of xml
+	 * Begin the parsing of xml data
 	 */
 	public void startParse()
 	{
-		Element root = doc.getDocumentElement();
-		NodeList list = root.getChildNodes();
+		NodeList list = doc.getDocumentElement().getChildNodes();
 		int i;
 		
 		for(i = 0 ; i < list.getLength() ; i++)
@@ -86,13 +94,21 @@ public class XMLLoader
 	 */
 	private void parseMap(NodeList l)
 	{
-		int i;
+		int i;		
 		
 		for(i = 0 ; i < l.getLength() ; i++)
 		{
 			if(l.item(i).getNodeName() == "chunk")
-				//lChunk.put(new Chunk(l.item(i).getChildNodes()));
-				System.out.print("later");
+			{
+				try
+				{
+					lChunk.add(new Chunk(l.item(i).getChildNodes()));
+				}
+				catch (NegativeSizeException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
