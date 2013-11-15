@@ -7,8 +7,8 @@
 				<y>10</y>
 			</size>
 			<position>
-				<x>20</x>
-				<y>20</y>
+				<x>200</x>
+				<y>200</y>
 			</position>
 			<type>GRASS</type>
 		</chunk>
@@ -18,8 +18,8 @@
 				<y>10</y>
 			</size>
 			<position>
-				<x>10</x>
-				<y>10</y>
+				<x>200</x>
+				<y>210</y>
 			</position>
 			<type>GRASS</type>
 		</chunk>

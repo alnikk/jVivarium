@@ -11,7 +11,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
@@ -103,6 +102,7 @@ public class XMLLoader
 				try
 				{
 					lChunk.add(new Chunk(l.item(i).getChildNodes()));
+					// TODO Verify integrity of the map
 				}
 				catch (NegativeSizeException e)
 				{
@@ -119,5 +119,12 @@ public class XMLLoader
 	private void parseEspece()
 	{
 		System.out.println("Parse espece");
+	}
+	
+	//************************** Getters and setters ******************/
+	
+	public List<Chunk> getChunks()
+	{
+		return this.lChunk;
 	}
 }

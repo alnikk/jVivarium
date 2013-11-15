@@ -3,6 +3,10 @@
  */
 package fr.utbm.lo43.jvivarium.core.testunit;
 
+import java.util.Iterator;
+import java.util.List;
+
+import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
@@ -20,6 +24,13 @@ public class TestXMLLoader
 	{
 		XMLLoader xml = new XMLLoader();
 		xml.startParse();
+		List<Chunk> l = xml.getChunks();
+		
+		for (Iterator it = l.iterator(); it.hasNext();)
+		{
+			Chunk c = (Chunk) it.next();
+			System.out.println(c.toString());
+		}
 	}
 
 }

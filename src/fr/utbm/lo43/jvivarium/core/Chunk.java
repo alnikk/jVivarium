@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Alexandre Guyon
  */
-public class Chunk extends BoundingBox
+public class Chunk extends Element
 {
 	//*********************** Variables *****************************/
 	
@@ -26,14 +26,13 @@ public class Chunk extends BoundingBox
 	
 	/**
 	 * Allow to create a chunk by giving position size and field type
-	 * @param position The position of the chunk in the map
-	 * @param size The size of the Chunk
+	 * @param b The bounding box of the chunk
 	 * @param type The field type of the chunk
 	 * @throws NegativeSizeException When the size given is negative
 	 */
-	public Chunk(Coordinates position, Coordinates size, FieldType type) throws NegativeSizeException
+	public Chunk(BoundingBox b, FieldType type)
 	{
-		super(position, size);
+		super(b, Type.CHUNK);
 		this.type = type;
 	}
 	
@@ -44,7 +43,7 @@ public class Chunk extends BoundingBox
 	 */
 	public Chunk(NodeList l) throws NegativeSizeException
 	{
-		super(new Coordinates(0,0), new Coordinates(0,0));
+		super(null, null);
 		this.importChunk(l);
 	}
 	
@@ -60,6 +59,7 @@ public class Chunk extends BoundingBox
 		// Begin
 		int i,j;
 		int x = 0, y = 0;
+		Coordinates positionC = null, sizeC = null;
 		
 		// For all the element of the chunk node
 		for(i = 0; i < l.getLength() ; i++)
@@ -81,7 +81,7 @@ public class Chunk extends BoundingBox
 								break;
 						}
 					}
-					this.reSize(new Coordinates(x,y));
+					sizeC = new Coordinates(x,y);
 					break;
 				case "position":
 					NodeList position = l.item(i).getChildNodes();
@@ -97,7 +97,7 @@ public class Chunk extends BoundingBox
 								break;
 						}
 					}
-					this.moveTo(new Coordinates(x,y));
+					positionC = new Coordinates(x,y);
 					break;
 				case "type":
 					NodeList type = l.item(i).getChildNodes();
@@ -113,6 +113,7 @@ public class Chunk extends BoundingBox
 					break;
 			}
 		}
+		this.setArea(new BoundingBox(positionC, sizeC));
 	}
 	
 	//*************************** Getters & Setters *************************/
