@@ -23,6 +23,28 @@
 			</position>
 			<type>WATER</type>
 		</chunk>
+		<chunk>
+			<size>
+				<x>10</x>
+				<y>10</y>
+			</size>
+			<position>
+				<x>190</x>
+				<y>210</y>
+			</position>
+			<type>WATER</type>
+		</chunk>
+		<chunk>
+			<size>
+				<x>10</x>
+				<y>10</y>
+			</size>
+			<position>
+				<x>190</x>
+				<y>200</y>
+			</position>
+			<type>ROCK</type>
+		</chunk>
 	</map>
 	<espece>
 	</espece>

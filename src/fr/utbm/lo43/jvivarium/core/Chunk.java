@@ -101,7 +101,6 @@ public class Chunk extends Element
 					break;
 				case "type":
 					NodeList type = l.item(i).getChildNodes();
-					System.out.println(type.item(0).getNodeValue());
 					switch(type.item(0).getNodeValue())
 					{
 						case "GRASS":

@@ -59,6 +59,19 @@ public abstract class Element
 	{
 		return this.boundingBox.intersection(e.boundingBox);
 	}
+	
+	/**
+	 * Method to check if a point is contained in this bounding box.
+	 * 
+	 * @param point Coordinates of the point to check.
+	 * @return <tt>true</tt> if the point is in the area,
+	 * 		   <tt>false</tt> otherwise.
+	 */
+	public boolean pointIn(Coordinates c)
+	{
+		return this.boundingBox.pointIn(c);
+	}
+	
 
 	// ************* Getters and Setters ***************
 
@@ -78,7 +91,7 @@ public abstract class Element
 	 * 
 	 * @param area bounding box of the element
 	 */
-	protected void setArea(BoundingBox area)
+	public void setArea(BoundingBox area)
 	{
 		this.boundingBox = area;
 	}

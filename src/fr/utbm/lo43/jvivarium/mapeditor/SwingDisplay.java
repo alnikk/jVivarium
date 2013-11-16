@@ -5,21 +5,26 @@ package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.EventListener;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
-import fr.utbm.lo43.jvivarium.core.FieldType;
 
 /**
  * Display the map in a JFrame
  * 
  * @author Alexandre Guyon
  */
-public class SwingDisplay extends JFrame
+public class SwingDisplay extends JFrame implements Runnable
 {
+	private final int FPS = 1000/30;
 	/**
 	 * List of chunks to display
 	 */
@@ -35,7 +40,14 @@ public class SwingDisplay extends JFrame
 	 */
 	private int y = 0;
 	
-	public SwingDisplay(List<Chunk> list)
+	//****************************** Constructors *******************
+	
+	/**
+	 * Constructors of the class.
+	 * Load the map into the object and configure the frame
+	 * @param list List of the map's chunks
+	 */
+	public SwingDisplay(List<Chunk> list, EventListener mouse)
 	{
 		this.lChunk = list;
 		
@@ -49,10 +61,40 @@ public class SwingDisplay extends JFrame
 				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
 		}
 		
+		// Test menu bar
+		/*JMenuBar menuBar = new JMenuBar();
+		
+		JMenu menu = new JMenu("Test");
+		menuBar.add(menu);
+		this.setJMenuBar(menuBar);*/
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addMouseListener((MouseListener)mouse);
+		this.addMouseMotionListener((MouseMotionListener)mouse);
 		this.setSize(this.x, this.y);
 		this.setResizable(true);
 	}
+	
+	//******************************** run ***************************/
+	
+	@Override
+	public void run()
+	{
+		while(true)
+		{
+			this.repaint();
+			try
+			{
+				Thread.sleep(FPS);
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//***************************** Methods *************************
 	
 	@Override
 	public void paint(Graphics g)
