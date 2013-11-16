@@ -31,7 +31,12 @@ public class SwingController implements MouseListener, MouseMotionListener
 	/**
 	 * List of the map's chunks
 	 */
-	List<Chunk> lChunk;
+	private List<Chunk> lChunk;
+	
+	/**
+	 * Coordinates used for the chunk stay at the same distance from cursor
+	 */
+	private Coordinates followCursor = null;
 	
 	//**************************** Constructors *******************
 	
@@ -55,7 +60,12 @@ public class SwingController implements MouseListener, MouseMotionListener
 				Chunk c = it.next();
 				
 				if(c.pointIn(new Coordinates(e.getX(), e.getY())))
+				{
+					followCursor = new Coordinates(
+							e.getX() - c.getArea().getPosition().getX(), 
+							e.getY() - c.getArea().getPosition().getY());
 					this.drag = c;
+				}
 			}
 		}
 		else
@@ -99,7 +109,13 @@ public class SwingController implements MouseListener, MouseMotionListener
 	public void mouseMoved(MouseEvent e)
 	{
 		if(this.drag != null)
-			this.drag.setArea(this.drag.getArea().moveTo(new Coordinates(e.getX(), e.getY())));
+		{
+			this.drag.setArea(
+					this.drag.getArea()
+								.moveTo(new Coordinates(
+										e.getX() - followCursor.getX(),
+										e.getY() - followCursor.getY())));
+		}
 	}
 	
 }

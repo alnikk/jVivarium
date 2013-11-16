@@ -12,8 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
+
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
 
@@ -24,7 +23,7 @@ import fr.utbm.lo43.jvivarium.core.Chunk;
  */
 public class SwingDisplay extends JFrame implements Runnable
 {
-	private final int FPS = 1000/30;
+	private final int FPS = 35;
 	/**
 	 * List of chunks to display
 	 */
@@ -62,11 +61,19 @@ public class SwingDisplay extends JFrame implements Runnable
 		}
 		
 		// Test menu bar
-		/*JMenuBar menuBar = new JMenuBar();
+		/*
+		JMenuBar menuBar = new JMenuBar();
 		
 		JMenu menu = new JMenu("Test");
+		
+		JMenuItem menuItem = new JMenuItem("Item");
+		menu.add(menuItem);
+		
 		menuBar.add(menu);
-		this.setJMenuBar(menuBar);*/
+		
+		this.setJMenuBar(menuBar);
+		
+		*/
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addMouseListener((MouseListener)mouse);
@@ -85,7 +92,7 @@ public class SwingDisplay extends JFrame implements Runnable
 			this.repaint();
 			try
 			{
-				Thread.sleep(FPS);
+				Thread.sleep(1000/FPS);
 			}
 			catch (InterruptedException e)
 			{

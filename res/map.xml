@@ -3,8 +3,8 @@
 	<map>
 		<chunk>
 			<size>
-				<x>10</x>
-				<y>10</y>
+				<x>20</x>
+				<y>20</y>
 			</size>
 			<position>
 				<x>200</x>
@@ -14,8 +14,8 @@
 		</chunk>
 		<chunk>
 			<size>
-				<x>10</x>
-				<y>10</y>
+				<x>20</x>
+				<y>20</y>
 			</size>
 			<position>
 				<x>200</x>
@@ -25,8 +25,8 @@
 		</chunk>
 		<chunk>
 			<size>
-				<x>10</x>
-				<y>10</y>
+				<x>20</x>
+				<y>20</y>
 			</size>
 			<position>
 				<x>190</x>
@@ -36,8 +36,8 @@
 		</chunk>
 		<chunk>
 			<size>
-				<x>10</x>
-				<y>10</y>
+				<x>20</x>
+				<y>20</y>
 			</size>
 			<position>
 				<x>190</x>
