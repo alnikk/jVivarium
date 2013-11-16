@@ -101,14 +101,18 @@ public class Chunk extends Element
 					break;
 				case "type":
 					NodeList type = l.item(i).getChildNodes();
+					System.out.println(type.item(0).getNodeValue());
 					switch(type.item(0).getNodeValue())
 					{
 						case "GRASS":
 							this.type = FieldType.GRASS;
+							break;
 						case "ROCK":
 							this.type = FieldType.ROCK;
+							break;
 						case "WATER":
 							this.type = FieldType.WATER;
+							break;
 					}
 					break;
 			}
@@ -117,6 +121,11 @@ public class Chunk extends Element
 	}
 	
 	//*************************** Getters & Setters *************************/
+	
+	public FieldType getFieldType()
+	{
+		return this.type;
+	}
 	
 	@Override
 	public String toString()
