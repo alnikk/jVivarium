@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
-
+import javax.swing.JPanel;
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
 
@@ -21,7 +21,7 @@ import fr.utbm.lo43.jvivarium.core.Chunk;
  * 
  * @author Alexandre Guyon
  */
-public class SwingDisplay extends JFrame implements Runnable
+public class SwingDisplayEditor extends JPanel implements Runnable
 {
 	private final int FPS = 35;
 	/**
@@ -46,7 +46,7 @@ public class SwingDisplay extends JFrame implements Runnable
 	 * Load the map into the object and configure the frame
 	 * @param list List of the map's chunks
 	 */
-	public SwingDisplay(List<Chunk> list, EventListener mouse)
+	public SwingDisplayEditor(List<Chunk> list, EventListener mouse)
 	{
 		this.lChunk = list;
 		
@@ -59,27 +59,10 @@ public class SwingDisplay extends JFrame implements Runnable
 			if(c.getArea().getPosition().getY() + c.getArea().getSize().getY() > this.x)
 				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
 		}
-		
-		// Test menu bar
-		/*
-		JMenuBar menuBar = new JMenuBar();
-		
-		JMenu menu = new JMenu("Test");
-		
-		JMenuItem menuItem = new JMenuItem("Item");
-		menu.add(menuItem);
-		
-		menuBar.add(menu);
-		
-		this.setJMenuBar(menuBar);
-		
-		*/
-		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
 		this.addMouseListener((MouseListener)mouse);
 		this.addMouseMotionListener((MouseMotionListener)mouse);
 		this.setSize(this.x, this.y);
-		this.setResizable(true);
 	}
 	
 	//******************************** run ***************************/

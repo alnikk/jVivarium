@@ -19,7 +19,7 @@ import fr.utbm.lo43.jvivarium.core.Coordinates;
  * 
  * @author Alexandre Guyon
  */
-public class SwingController implements MouseListener, MouseMotionListener
+public class SwingControllerEditor implements MouseListener, MouseMotionListener
 {	
 	//**************************** Variables *************************
 	
@@ -45,7 +45,7 @@ public class SwingController implements MouseListener, MouseMotionListener
 	 * Initialize map elements for user can control its
 	 * @param lChunk List of the map's chunks
 	 */
-	public SwingController(List<Chunk> lChunk)
+	public SwingControllerEditor(List<Chunk> lChunk)
 	{
 		this.lChunk = lChunk;
 	}

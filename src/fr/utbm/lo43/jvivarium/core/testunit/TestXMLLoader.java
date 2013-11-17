@@ -26,7 +26,7 @@ public class TestXMLLoader
 		xml.startParse();
 		List<Chunk> l = xml.getChunks();
 		
-		for (Iterator it = l.iterator(); it.hasNext();)
+		for (Iterator<Chunk> it = l.iterator(); it.hasNext();)
 		{
 			Chunk c = (Chunk) it.next();
 			System.out.println(c.toString());
