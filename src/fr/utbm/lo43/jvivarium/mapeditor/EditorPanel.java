@@ -4,6 +4,7 @@
 package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -21,23 +22,13 @@ import fr.utbm.lo43.jvivarium.core.Chunk;
  * 
  * @author Alexandre Guyon
  */
-public class SwingDisplayEditor extends JPanel implements Runnable
+public class EditorPanel extends JPanel implements Runnable
 {
 	private final int FPS = 35;
 	/**
 	 * List of chunks to display
 	 */
 	private List<Chunk> lChunk;
-	
-	/**
-	 * The x size of the window in pixel
-	 */
-	private int x = 0;
-	
-	/**
-	 * The y size of the window in pixel
-	 */
-	private int y = 0;
 	
 	//****************************** Constructors *******************
 	
@@ -46,23 +37,24 @@ public class SwingDisplayEditor extends JPanel implements Runnable
 	 * Load the map into the object and configure the frame
 	 * @param list List of the map's chunks
 	 */
-	public SwingDisplayEditor(List<Chunk> list, EventListener mouse)
+	public EditorPanel(List<Chunk> list, EventListener mouse)
 	{
 		this.lChunk = list;
+		int x=0,y=0;
 		
 		for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
 			
-			if(c.getArea().getPosition().getX() + c.getArea().getSize().getX() > this.x)
+			if(c.getArea().getPosition().getX() + c.getArea().getSize().getX() > x)
 				x = c.getArea().getPosition().getX() + c.getArea().getSize().getX();
-			if(c.getArea().getPosition().getY() + c.getArea().getSize().getY() > this.x)
+			if(c.getArea().getPosition().getY() + c.getArea().getSize().getY() > y)
 				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
 		}
-			
 		this.addMouseListener((MouseListener)mouse);
 		this.addMouseMotionListener((MouseMotionListener)mouse);
-		this.setSize(this.x, this.y);
+		this.setSize(x, y);
+		//this.setPreferredSize(new Dimension(x, y));
 	}
 	
 	//******************************** run ***************************/
