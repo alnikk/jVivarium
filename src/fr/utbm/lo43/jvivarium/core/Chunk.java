@@ -126,6 +126,11 @@ public class Chunk extends Element
 		return this.type;
 	}
 	
+	public Chunk clone()
+	{
+		return new Chunk(this.getArea(), this.type);
+	}
+	
 	@Override
 	public String toString()
 	{

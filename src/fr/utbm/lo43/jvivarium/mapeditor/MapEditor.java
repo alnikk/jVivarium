@@ -29,20 +29,11 @@ public class MapEditor extends JFrame
 	private XMLLoader xml = new XMLLoader();
 	
 			//************* [View] ******************/
-	/**
-	 * Layout of the JFrame
-	 */
-	private FlowLayout layout;
 	
 	/**
 	 * Editor's panel
 	 */
 	private EditorPanel editor;
-	
-	/**
-	 * Editor's controller
-	 */
-	private EditorController mouseEditor;
 	
 	/**
 	 * Menu's Panel
@@ -65,24 +56,22 @@ public class MapEditor extends JFrame
 		
 		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.layout = new FlowLayout();
-		this.setLayout(layout);
+		this.setLayout(null);
 		
 		//**** XML ****
 		xml.startParse();
 		this.lChunk = xml.getChunks();
 		
 		//**** View ****
-		// Menu
-		this.menu = new MenuPanel();		
-		this.add(menu);
-		this.menu.setBounds(0, 0, 50, 300);
-		
 		// Editor
-		this.mouseEditor = new EditorController(this.lChunk);
-		this.editor = new EditorPanel(this.lChunk, this.mouseEditor);
+		this.editor = new EditorPanel(this.lChunk);
 		this.add(this.editor);
 		this.editor.setBounds(50, 0, 400, 300);
+		
+		// Menu
+		this.menu = new MenuPanel(this.editor);
+		this.add(menu);
+		this.menu.setBounds(0, 0, 50, 300);
 		
 		// Resize JFrame
 		int y= 0;
