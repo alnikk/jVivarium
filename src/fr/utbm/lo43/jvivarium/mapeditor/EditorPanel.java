@@ -4,16 +4,13 @@
 package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.EventListener;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
@@ -26,6 +23,19 @@ import fr.utbm.lo43.jvivarium.core.Coordinates;
  */
 public class EditorPanel extends JPanel implements Runnable, MouseListener, MouseMotionListener, MenuListener
 {
+	//****************************** Constants ********************
+	
+	/**
+	 * The default x size of a Chunk
+	 */
+	private final int XCHUNK = 20;
+	
+	/**
+	 * The default y size of a Chunk
+	 */
+	private final int YCHUNK = 20;
+	
+	//****************************** Variable **********************
 	/**
 	 * Display's FPS of the panel
 	 */
@@ -43,11 +53,6 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	 */
 	private Chunk drag = null;
 	
-	/**
-	 * Coordinates used for the chunk stay at the same distance from cursor
-	 */
-	private Coordinates followCursor = null;
-	
 	//****************************** Constructors *******************
 	
 	/**
@@ -56,7 +61,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	 * @param list List of the map's chunks
 	 */
 	public EditorPanel(List<Chunk> list)
-	{
+	{		
 		this.lChunk = list;
 		int x=0,y=0;
 		
@@ -134,12 +139,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 					Chunk c = it.next();
 					
 					if(c.pointIn(new Coordinates(e.getX(), e.getY())))
-					{
-						followCursor = new Coordinates(
-								e.getX() - c.getArea().getPosition().getX(), 
-								e.getY() - c.getArea().getPosition().getY());
 						this.drag = c;
-					}
 				}
 			}
 			else
@@ -149,14 +149,12 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		@Override
 		public void mouseEntered(MouseEvent e)
 		{
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e)
 		{
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -183,13 +181,22 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		@Override
 		public void mouseMoved(MouseEvent e)
 		{
+			int x = 0, y = 0;
 			if(this.drag != null)
 			{
+				if((e.getX() % XCHUNK) >= XCHUNK)
+					x = e.getX() + (XCHUNK - (e.getX() % XCHUNK));
+				else
+					x = e.getX() - (e.getX() % XCHUNK);
+				
+				if((e.getY() % YCHUNK) >= XCHUNK)
+					y = e.getY() + (YCHUNK - (e.getX() % YCHUNK));
+				else
+					y = e.getY() - ((e.getY() % YCHUNK));
+				
 				this.drag.setArea(
 						this.drag.getArea()
-									.moveTo(new Coordinates(
-											e.getX() - followCursor.getX(),
-											e.getY() - followCursor.getY())));
+							.moveTo(new Coordinates(x, y)));				
 			}
 		}
 
