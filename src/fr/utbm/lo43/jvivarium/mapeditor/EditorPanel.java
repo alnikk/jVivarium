@@ -65,6 +65,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		this.lChunk = list;
 		int x=0,y=0;
 		
+		// Set the size of the panel
 		for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
@@ -74,9 +75,10 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 			if(c.getArea().getPosition().getY() + c.getArea().getSize().getY() > y)
 				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
 		}
+		this.setSize(x, y);
+		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		this.setSize(x, y);
 	}
 	
 	//******************************** run ***************************/

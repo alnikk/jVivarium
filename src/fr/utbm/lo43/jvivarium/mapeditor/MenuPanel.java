@@ -32,6 +32,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	 */
 	private final int YPANEL = 200;
 	
+	// FIXME Size of chunk
 	/**
 	 * The X size of each Chunk
 	 */
@@ -134,7 +135,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	{
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(1000/FPS);
 			this.repaint();
 		}
 		catch (InterruptedException e)
@@ -163,28 +164,24 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 }

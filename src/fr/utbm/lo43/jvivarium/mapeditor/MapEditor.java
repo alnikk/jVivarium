@@ -11,6 +11,9 @@ import java.awt.event.ComponentListener;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
@@ -63,6 +66,15 @@ public class MapEditor extends JFrame
 		this.lChunk = xml.getChunks();
 		
 		//**** View ****
+		// Menu
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
+		JMenuItem test = new JMenuItem("test");
+		
+		menuFile.add(test);
+		menuBar.add(menuFile);
+		this.setJMenuBar(menuBar);
+		
 		// Editor
 		this.editor = new EditorPanel(this.lChunk);
 		this.add(this.editor);
@@ -128,7 +140,6 @@ public class MapEditor extends JFrame
 			}
 		});
 	}
-	
 	//***************************** Methods *************************/
 	
 	public void start()
