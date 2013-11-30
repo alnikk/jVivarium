@@ -12,5 +12,13 @@ public enum Type
 	/**
 	 * Type of element chunk
 	 */
-	CHUNK
+	CHUNK,
+	/**
+	 * A moving entity on the map
+	 */
+	ENTITY,
+	/**
+	 * An object on the map
+	 */
+	OBJECT
 }
