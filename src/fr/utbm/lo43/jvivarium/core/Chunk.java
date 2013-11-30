@@ -3,6 +3,9 @@
  */
 package fr.utbm.lo43.jvivarium.core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import org.w3c.dom.NodeList;
 
 /**
@@ -117,6 +120,25 @@ public class Chunk extends Element
 			}
 		}
 		this.setArea(new BoundingBox(positionC, sizeC));
+	}
+	
+	public void paint(Graphics g)
+	{
+		g.setColor(new Color(0, 0, 0));
+		g.drawRect(this.getArea().getPosition().getX(), this.getArea().getPosition().getY(), this.getArea().getSize().getX(), this.getArea().getSize().getY());
+		switch(this.getFieldType())
+		{
+			case GRASS:
+				g.setColor(new Color(0, 255, 0));
+				break;
+			case WATER:
+				g.setColor(new Color(0, 0, 255));
+				break;
+			case ROCK:
+				g.setColor(new Color(125, 125, 125));
+				break;
+		}
+		g.fillRect(this.getArea().getPosition().getX() + 1, this.getArea().getPosition().getY() + 1, this.getArea().getSize().getX() - 1, this.getArea().getSize().getY() - 1);
 	}
 	
 	//*************************** Getters & Setters *************************/
