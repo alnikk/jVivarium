@@ -5,6 +5,8 @@ package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -13,28 +15,18 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
+import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
  * Display the map in a JFrame
  * 
  * @author Alexandre Guyon
  */
-public class EditorPanel extends JPanel implements Runnable, MouseListener, MouseMotionListener, MenuListener
-{
-	//****************************** Constants ********************
-	
-	/**
-	 * The default x size of a Chunk
-	 */
-	private final int XCHUNK = 20;
-	
-	/**
-	 * The default y size of a Chunk
-	 */
-	private final int YCHUNK = 20;
-	
+public class EditorPanel extends JPanel implements Runnable, MouseListener, MouseMotionListener, MenuListener, KeyListener
+{	
 	//****************************** Variable **********************
 	/**
 	 * Display's FPS of the panel
@@ -53,6 +45,11 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	 */
 	private Chunk drag = null;
 	
+	/**
+	 * The old position of the chunk
+	 */
+	private BoundingBox oldPosition = null;
+	
 	//****************************** Constructors *******************
 	
 	/**
@@ -62,6 +59,10 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	 */
 	public EditorPanel(List<Chunk> list)
 	{		
+		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
+		this.setBackground(new Color(0, 0, 0));
+		
 		this.lChunk = list;
 		int x=0,y=0;
 		
@@ -76,9 +77,6 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
 		}
 		this.setSize(x, y);
-		
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
 	}
 	
 	//******************************** run ***************************/
@@ -110,22 +108,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
-			// FIXME Add a paint method in chunk class
-			g.setColor(new Color(0, 0, 0));
-			g.drawRect(c.getArea().getPosition().getX(), c.getArea().getPosition().getY(), c.getArea().getSize().getX(), c.getArea().getSize().getY());
-			switch(c.getFieldType())
-			{
-				case GRASS:
-					g.setColor(new Color(0, 255, 0));
-					break;
-				case WATER:
-					g.setColor(new Color(0, 0, 255));
-					break;
-				case ROCK:
-					g.setColor(new Color(125, 125, 125));
-					break;
-			}
-			g.fillRect(c.getArea().getPosition().getX() + 1, c.getArea().getPosition().getY() + 1, c.getArea().getSize().getX() - 1, c.getArea().getSize().getY() - 1);
+			c.paint(g);
 		}
 	}
 	
@@ -141,7 +124,10 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 					Chunk c = it.next();
 					
 					if(c.pointIn(new Coordinates(e.getX(), e.getY())))
+					{
 						this.drag = c;
+						this.oldPosition = c.getArea();
+					}
 				}
 			}
 			else
@@ -186,12 +172,15 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 			int x = 0, y = 0;
 			if(this.drag != null)
 			{
+				int XCHUNK = this.drag.getArea().getSize().getX();
+				int YCHUNK = this.drag.getArea().getSize().getY();
+				
 				if((e.getX() % XCHUNK) >= XCHUNK)
 					x = e.getX() + (XCHUNK - (e.getX() % XCHUNK));
 				else
 					x = e.getX() - (e.getX() % XCHUNK);
 				
-				if((e.getY() % YCHUNK) >= XCHUNK)
+				if((e.getY() % YCHUNK) >= YCHUNK)
 					y = e.getY() + (YCHUNK - (e.getX() % YCHUNK));
 				else
 					y = e.getY() - ((e.getY() % YCHUNK));
@@ -207,8 +196,48 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		@Override
 		public void addChunk(Chunk c)
 		{
+			this.drag = c;
 			this.lChunk.add(c);
 		}
-	
-	
+		
+		@Override
+		public void saveMap()
+		{
+			XMLLoader xml = new XMLLoader();
+			xml.saveChunks(lChunk);
+		}
+		
+		
+		//*************************** Key Listener ************************	
+		
+		@Override
+		public void keyPressed(KeyEvent arg0)
+		{
+			switch(arg0.getKeyCode())
+			{
+				case KeyEvent.VK_S:
+					saveMap();
+					break;
+				case KeyEvent.VK_ESCAPE:
+					if(this.drag != null)
+					{
+						this.drag.setArea(this.oldPosition);
+						this.drag = null;
+					}
+					break;
+				default:
+					System.out.println(arg0.getKeyChar() + " isn't handled");
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0)
+		{
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0)
+		{
+			
+		}	
 }

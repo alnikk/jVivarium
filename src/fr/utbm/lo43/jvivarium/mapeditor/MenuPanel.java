@@ -1,16 +1,22 @@
 package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Chunk;
@@ -32,7 +38,6 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	 */
 	private final int YPANEL = 200;
 	
-	// FIXME Size of chunk
 	/**
 	 * The X size of each Chunk
 	 */
@@ -72,22 +77,28 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 		this.setBackground(new Color(100, 100, 100));
 		this.setSize(XPANEL, YPANEL);
 		
-		JLabel lbMenu = new JLabel("Menu");
+		JLabel lbMenu = new JLabel("Chunk");
 		this.add(lbMenu);
 		
+		// FIXME It's shit !
 		// List each type of chunk
+		JPanel t = new JPanel();
+		t.setPreferredSize(new Dimension(XPANEL, 90));
+		t.setSize(XPANEL, 90);
+		t.setBackground(new Color(100, 100, 100));
+		this.add(t);
 		try
 		{
 			this.lVChunk.add(new Chunk(new BoundingBox(
-					new Coordinates((XPANEL/2) - (XCHUNK/2), 20), 
+					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 1), 
 					new Coordinates(XCHUNK, YCHUNK)), 
 					FieldType.GRASS));
 			this.lVChunk.add(new Chunk(new BoundingBox(
-					new Coordinates((XPANEL/2) - (XCHUNK/2), 50), 
+					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 2), 
 					new Coordinates(XCHUNK, YCHUNK)), 
 					FieldType.ROCK));
 			this.lVChunk.add(new Chunk(new BoundingBox(
-					new Coordinates((XPANEL/2) - (XCHUNK/2), 80), 
+					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 3), 
 					new Coordinates(XCHUNK, YCHUNK)), 
 					FieldType.WATER));
 		}
@@ -96,6 +107,19 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 			System.out.println(e);
 		}
 		
+		// Save button
+		JButton bt_save = new JButton("Save");
+		bt_save.addActionListener(new ActionListener()
+		{
+			@Override // On click
+			public void actionPerformed(ActionEvent arg0)
+			{
+				MenuPanel.this.mListener.saveMap();				
+			}
+		});
+		this.add(bt_save);
+		
+		// Handle mouse
 		this.addMouseListener(this);
 	}
 	
@@ -109,22 +133,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 		for (Iterator<Chunk> it = lVChunk.iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
-			// FIXME Add a paint method in chunk class
-			g.setColor(new Color(0, 0, 0));
-			g.drawRect(c.getArea().getPosition().getX(), c.getArea().getPosition().getY(), c.getArea().getSize().getX(), c.getArea().getSize().getY());
-			switch(c.getFieldType())
-			{
-				case GRASS:
-					g.setColor(new Color(0, 255, 0));
-					break;
-				case WATER:
-					g.setColor(new Color(0, 0, 255));
-					break;
-				case ROCK:
-					g.setColor(new Color(125, 125, 125));
-					break;
-			}
-			g.fillRect(c.getArea().getPosition().getX() + 1, c.getArea().getPosition().getY() + 1, c.getArea().getSize().getX() - 1, c.getArea().getSize().getY() - 1);
+			c.paint(g);
 		}
 	}
 
@@ -140,7 +149,6 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 		}
 		catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

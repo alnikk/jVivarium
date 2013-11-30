@@ -17,4 +17,9 @@ public interface MenuListener
 	 * @param c The chunk to add
 	 */
 	public void addChunk(Chunk c);
+	
+	/**
+	 * Save the map
+	 */
+	public void saveMap();
 }

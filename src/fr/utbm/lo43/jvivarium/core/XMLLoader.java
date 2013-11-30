@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
 /**
  * This class is used for load the map
  * and others objects describes in the XML, 
- * into the memory.
+ * into the memory (And reverse too)
  * 
  * @author Alexandre Guyon
  */
@@ -56,7 +56,7 @@ public class XMLLoader
 			File xml = new File(FILENAME);
 			doc = builder.parse(xml);
 		}
-		catch(Exception e) // TODO Handle exception
+		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -119,6 +119,15 @@ public class XMLLoader
 	private void parseEspece()
 	{
 		System.out.println("Parse espece");
+	}
+	
+	/**
+	 * Save chunks to XML
+	 * @param lChunk List of chunk to save
+	 */
+	public void saveChunks(List<Chunk> lChunk)
+	{
+		System.out.println("Save Chunk !");
 	}
 	
 	//************************** Getters and setters ******************/
