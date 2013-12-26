@@ -119,7 +119,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			if(this.drag == null)
 			{
-				for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext() && true;)
+				for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
 				{
 					Chunk c = it.next();
 					

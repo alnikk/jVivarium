@@ -64,14 +64,6 @@ public class MapEditor extends JFrame
 		this.lChunk = xml.getChunks();
 		
 		//**** View ****
-		// Menu
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu("File");
-		JMenuItem test = new JMenuItem("test");
-		
-		menuFile.add(test);
-		menuBar.add(menuFile);
-		this.setJMenuBar(menuBar);
 		
 		// Editor
 		this.editor = new EditorPanel(this.lChunk);

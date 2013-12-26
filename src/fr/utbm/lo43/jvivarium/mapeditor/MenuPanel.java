@@ -80,7 +80,6 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 		JLabel lbMenu = new JLabel("Chunk");
 		this.add(lbMenu);
 		
-		// FIXME It's shit !
 		// List each type of chunk
 		JPanel t = new JPanel();
 		t.setPreferredSize(new Dimension(XPANEL, 90));

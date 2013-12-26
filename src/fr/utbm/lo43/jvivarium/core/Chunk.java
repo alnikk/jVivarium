@@ -6,6 +6,8 @@ package fr.utbm.lo43.jvivarium.core;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -146,6 +148,78 @@ public class Chunk extends Element
 	public FieldType getFieldType()
 	{
 		return this.type;
+	}
+	
+	public void saveXML(Document doc, Node n)
+	{
+		Node chunk, size, pos, type;
+		Node e;
+		n.appendChild(doc.createElement("chunk"));
+		n = n.getLastChild();
+		
+		// Recherche de chunk
+		while(n.getNodeName() != "chunk")
+			n = n.getPreviousSibling();
+		
+		// Si trouvé
+		if(n.getNodeName() == "chunk")
+		{
+			chunk = n;
+			
+			// Size
+			chunk.appendChild(doc.createElement("size"));
+			
+			n = chunk.getFirstChild();
+			while(n.getNodeName() != "size")
+				n = n.getNextSibling();
+			if(n.getNodeName() == "size")
+			{
+				size = n;
+				
+				e = doc.createElement("x");
+				e.setTextContent(this.getArea().getSize().getX() + "");
+				size.appendChild(e);
+				
+				e = doc.createElement("y");
+				e.setTextContent(this.getArea().getSize().getY() + "");
+				size.appendChild(e);
+			}
+			else
+				System.out.println("pb saveXML in Chunk.java !");
+			// Position 
+			chunk.appendChild(doc.createElement("position"));
+			
+			while(n.getNodeName() != "position")
+				n = n.getNextSibling();
+			if(n.getNodeName() == "position")
+			{
+				pos = n;
+				
+				e = doc.createElement("x");
+				e.setTextContent(this.getArea().getPosition().getX() + "");
+				pos.appendChild(e);
+				
+				e = doc.createElement("y");
+				e.setTextContent(this.getArea().getPosition().getY() + "");
+				pos.appendChild(e);
+			}
+			else
+				System.out.println("pb saveXML in Chunk.java !");
+			// Type
+			chunk.appendChild(doc.createElement("type"));
+			
+			while(n.getNodeName() != "type")
+				n = n.getNextSibling();
+			if(n.getNodeName() == "type")
+			{
+				type = n;
+				type.setTextContent(this.getFieldType().toString());
+			}
+			else
+				System.out.println("pb saveXML in Chunk.java !");
+		}
+		else // Si chunk pas trouvé
+			System.out.println("pb saveXML in Chunk.java !");
 	}
 	
 	public Chunk clone()
