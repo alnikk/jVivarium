@@ -1,6 +1,2 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><jVivarium>
-	<map></map>
-	
-	<espece>
-	</espece>
-</jVivarium>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jVivarium><map></map><entity></entity><obj></obj></jVivarium>

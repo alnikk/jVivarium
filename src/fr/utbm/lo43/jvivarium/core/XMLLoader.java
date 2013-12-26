@@ -69,6 +69,9 @@ public class XMLLoader
 		}
 	}
 	
+	
+	//********************* Parse *******************************************
+	
 	/**
 	 * Begin the parsing of xml data
 	 */
@@ -84,14 +87,16 @@ public class XMLLoader
 				case "map":
 					this.parseMap(list.item(i).getChildNodes());
 					break;
-				case "espece":
-					this.parseEspece();
+				case "entity":
+					this.parseEntity();
+				case "obj":
+					this.parseObj();
 				default:
 					break;
 			}
 		}
 	}
-	
+
 	/**
 	 * Parse the map XML
 	 * @param l	(NodeList) The node which contains chunks
@@ -115,94 +120,23 @@ public class XMLLoader
 				}
 			}
 		}
-		
-		// Check the integrity
-		// FIXME Better algo // It's crap
-		int x,y;
-		int maxX = 0,maxY = 0;
-		int affX, affY;
-		Chunk c;
-		boolean find;
-		
-		// find the max x and y
-		for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext() ;)
-		{
-			c = it.next();
-			
-			if(maxX < (c.getArea().getPosition().getX() + c.getArea().getSize().getX()))
-				maxX = (c.getArea().getPosition().getX() + c.getArea().getSize().getX());
-			if(maxY < (c.getArea().getPosition().getY() + c.getArea().getSize().getY()))
-				maxY = (c.getArea().getPosition().getY() + c.getArea().getSize().getY());
-		}
-		
-		affX = maxX;
-		affY = maxY;
-		
-		// Try to find a place where there's no chunk
-		for(x=maxX;x>0;x--)
-		{
-			for(y=maxY;y>0;y--)
-			{
-				find = false;
-				for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext() ;)
-				{
-					c = it.next();
-					
-					if(c.getArea().pointIn(new Coordinates(x, y)))
-						find = true;
-				}
-				
-				if(!find)
-				{
-					//if(affX > x)
-						//affX = x;
-					//if(affY > y)
-						affY = y;
-				}
-			}
-		}
-		
-		for(y=maxY;y>0;y--)
-		{
-			for(x=maxX;x>0;x--)
-			{
-				find = false;
-				for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext() ;)
-				{
-					c = it.next();
-					
-					if(c.getArea().pointIn(new Coordinates(x, y)))
-						find = true;
-				}
-				
-				if(!find)
-				{
-					//if(affX > x)
-						affX = x;
-					//if(affY > y)
-						//affY = y;
-				}
-			}
-		}
-		/*
-		i = 0;
-		while(i < this.lChunk.size())
-		{
-			if(this.lChunk.get(i).getArea().getPosition().getX() > affX
-					|| this.lChunk.get(i).getArea().getPosition().getY() > affY)
-				this.lChunk.remove(i);
-			i++;
-		}*/
 	}
 	
 	/**
 	 * Parse the espece XML
 	 * @param l	(NodeList) The node which contains espece
 	 */
-	private void parseEspece()
+	private void parseEntity()
 	{
-		System.out.println("Parse espece");
+		System.out.println("Parse entity");
 	}
+	
+	private void parseObj()
+	{
+		System.out.println("Parse Obj");
+	}
+	
+	//******************* Save **********************************
 	
 	/**
 	 * Save chunks to XML
