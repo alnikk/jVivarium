@@ -225,6 +225,12 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 						this.drag = null;
 					}
 					break;
+				case KeyEvent.VK_DELETE:
+					if(this.drag != null)
+					{
+						this.lChunk.remove(this.drag);
+					}
+					break;
 				default:
 					System.out.println(arg0.getKeyChar() + " isn't handled");
 			}
