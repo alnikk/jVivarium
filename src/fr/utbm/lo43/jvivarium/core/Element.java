@@ -2,7 +2,6 @@ package fr.utbm.lo43.jvivarium.core;
 
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Element;
-import fr.utbm.lo43.jvivarium.core.Type;
 
 /**
  * The element Class is the basic class of 
@@ -13,12 +12,7 @@ import fr.utbm.lo43.jvivarium.core.Type;
  * @author Alexandre Guyon
  */
 public abstract class Element
-{
-	/**
-	 * It defines the type of the element.
-	 */
-	private Type type;
-	
+{	
 	/**
 	 * Area of the grid filled by the element
 	 */
@@ -33,11 +27,10 @@ public abstract class Element
 	 * @param area The BoundingBox of the element to create.
 	 * @param t The type of the element
 	 */
-	public Element(BoundingBox area, Type t)
+	public Element(BoundingBox area)
 	{
 		super();
 		this.boundingBox = area;
-		this.setType(t);
 	}
 
 	// ************* Methods **************
@@ -94,24 +87,6 @@ public abstract class Element
 	public void setArea(BoundingBox area)
 	{
 		this.boundingBox = area;
-	}
-
-	/**
-	 * Return the type of the element.
-	 * @return the type
-	 */
-	public Type getType()
-	{
-		return this.type;
-	}
-
-	/**
-	 * Set the type of the element.
-	 * @param type the type to set
-	 */
-	public void setType(Type type)
-	{
-		this.type = type;
 	}
 
 	/**
