@@ -82,8 +82,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 		
 		// List each type of chunk
 		JPanel t = new JPanel();
-		t.setPreferredSize(new Dimension(XPANEL, 90));
-		t.setSize(XPANEL, 90);
+		t.setPreferredSize(new Dimension(XPANEL, 5*30));
 		t.setBackground(new Color(100, 100, 100));
 		this.add(t);
 		try
@@ -91,15 +90,23 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 			this.lVChunk.add(new Chunk(new BoundingBox(
 					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 1), 
 					new Coordinates(XCHUNK, YCHUNK)), 
-					FieldType.GRASS));
+					FieldType.FIRE));
 			this.lVChunk.add(new Chunk(new BoundingBox(
 					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 2), 
 					new Coordinates(XCHUNK, YCHUNK)), 
-					FieldType.ROCK));
+					FieldType.CASTLE));
 			this.lVChunk.add(new Chunk(new BoundingBox(
 					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 3), 
 					new Coordinates(XCHUNK, YCHUNK)), 
-					FieldType.WATER));
+					FieldType.BRICK));
+			this.lVChunk.add(new Chunk(new BoundingBox(
+					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 4), 
+					new Coordinates(XCHUNK, YCHUNK)), 
+					FieldType.PIPE));
+			this.lVChunk.add(new Chunk(new BoundingBox(
+					new Coordinates((XPANEL/2) - (XCHUNK/2), (YCHUNK + 10) * 5), 
+					new Coordinates(XCHUNK, YCHUNK)), 
+					FieldType.PINK_BRICK));
 		}
 		catch(NegativeSizeException e)
 		{

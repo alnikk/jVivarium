@@ -10,15 +10,23 @@ package fr.utbm.lo43.jvivarium.core;
 public enum FieldType
 {
 	/**
-	 * Grass type
+	 * Fire type (Bowser)
 	 */
-	GRASS,
+	FIRE,
 	/**
-	 * Rock type
+	 * Castle type (Bowser)
 	 */
-	ROCK,
+	CASTLE,
 	/**
-	 * Water type
+	 * Brick type (Mario)
 	 */
-	WATER
+	BRICK,
+	/**
+	 * Pipe type (Mario)
+	 */
+	PIPE,
+	/**
+	 * Pink Brick type (Peach)
+	 */
+	PINK_BRICK
 }

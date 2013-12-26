@@ -37,18 +37,18 @@ public class Chunk extends Element
 	 */
 	public Chunk(BoundingBox b, FieldType type)
 	{
-		super(b, Type.CHUNK);
+		super(b);
 		this.type = type;
 	}
 	
 	/**
 	 * Constructs a chunk object with xml node
-	 * @param l (NodeList) xml node list
+	 * @param l (NodeList) xml node list pointing to chunk node
 	 * @throws NegativeSizeException Bad size in xml
 	 */
 	public Chunk(NodeList l) throws NegativeSizeException
 	{
-		super(null, null);
+		super(null);
 		this.importChunk(l);
 	}
 	
@@ -108,14 +108,20 @@ public class Chunk extends Element
 					NodeList type = l.item(i).getChildNodes();
 					switch(type.item(0).getNodeValue())
 					{
-						case "GRASS":
-							this.type = FieldType.GRASS;
+						case "FIRE":
+							this.type = FieldType.FIRE;
 							break;
-						case "ROCK":
-							this.type = FieldType.ROCK;
+						case "CASTLE":
+							this.type = FieldType.CASTLE;
 							break;
-						case "WATER":
-							this.type = FieldType.WATER;
+						case "BRICK":
+							this.type = FieldType.BRICK;
+							break;
+						case "PIPE":
+							this.type = FieldType.PIPE;
+							break;
+						case "PINK_BRICK":
+							this.type = FieldType.PINK_BRICK;
 							break;
 					}
 					break;
@@ -130,14 +136,20 @@ public class Chunk extends Element
 		g.drawRect(this.getArea().getPosition().getX(), this.getArea().getPosition().getY(), this.getArea().getSize().getX(), this.getArea().getSize().getY());
 		switch(this.getFieldType())
 		{
-			case GRASS:
+			case FIRE:
+				g.setColor(new Color(255, 0, 0));
+				break;
+			case CASTLE:
+				g.setColor(new Color(125, 125, 125));
+				break;
+			case BRICK:
+				g.setColor(new Color(175, 175, 0));
+				break;
+			case PIPE:
 				g.setColor(new Color(0, 255, 0));
 				break;
-			case WATER:
-				g.setColor(new Color(0, 0, 255));
-				break;
-			case ROCK:
-				g.setColor(new Color(125, 125, 125));
+			case PINK_BRICK:
+				g.setColor(new Color(255, 0, 255));
 				break;
 		}
 		g.fillRect(this.getArea().getPosition().getX() + 1, this.getArea().getPosition().getY() + 1, this.getArea().getSize().getX() - 1, this.getArea().getSize().getY() - 1);
