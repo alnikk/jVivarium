@@ -4,13 +4,7 @@
 package fr.utbm.lo43.jvivarium.core;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,18 +12,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.UserDataHandler;
 
 /**
  * This class is used for load the map
@@ -55,9 +44,9 @@ public class XMLLoader
 	private Document doc;
 	
 	/**
-	 * List of Chunk loaded
+	 * The map singleton
 	 */
-	private List<Chunk> lChunk;
+	private Map map = Map.getMap();
 	
 	//******************* Constructor ********************/
 	
@@ -78,8 +67,6 @@ public class XMLLoader
 		{
 			e.printStackTrace();
 		}
-		
-		lChunk = new LinkedList<Chunk>();
 	}
 	
 	/**
@@ -120,7 +107,7 @@ public class XMLLoader
 			{
 				try
 				{
-					lChunk.add(new Chunk(l.item(i).getChildNodes()));
+					this.map.add(new Chunk(l.item(i).getChildNodes()));
 				}
 				catch (NegativeSizeException e)
 				{
@@ -138,7 +125,7 @@ public class XMLLoader
 		boolean find;
 		
 		// find the max x and y
-		for(Iterator<Chunk> it = this.lChunk.iterator(); it.hasNext() ;)
+		for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext() ;)
 		{
 			c = it.next();
 			
@@ -157,7 +144,7 @@ public class XMLLoader
 			for(y=maxY;y>0;y--)
 			{
 				find = false;
-				for(Iterator<Chunk> it = this.lChunk.iterator(); it.hasNext() ;)
+				for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext() ;)
 				{
 					c = it.next();
 					
@@ -180,7 +167,7 @@ public class XMLLoader
 			for(x=maxX;x>0;x--)
 			{
 				find = false;
-				for(Iterator<Chunk> it = this.lChunk.iterator(); it.hasNext() ;)
+				for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext() ;)
 				{
 					c = it.next();
 					
@@ -222,7 +209,7 @@ public class XMLLoader
 	 */
 	public void saveChunks()
 	{
-		this.saveChunks(this.lChunk);
+		this.saveChunks(this.map.getChunks());
 	}
 	
 	/**
@@ -276,12 +263,5 @@ public class XMLLoader
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	//************************** Getters and setters ******************/
-	
-	public List<Chunk> getChunks()
-	{
-		return this.lChunk;
 	}
 }

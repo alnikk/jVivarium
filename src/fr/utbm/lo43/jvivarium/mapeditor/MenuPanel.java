@@ -1,9 +1,7 @@
 package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +14,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Chunk;
@@ -56,7 +53,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	private final int FPS = 35;
 	
 	/**
-	 * List of all various chunk
+	 * List of all various chunk (in the menu)
 	 */
 	private List<Chunk> lVChunk = new LinkedList<Chunk>();
 	

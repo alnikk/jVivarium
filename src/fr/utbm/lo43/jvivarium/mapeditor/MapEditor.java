@@ -15,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
+import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
@@ -39,15 +40,7 @@ public class MapEditor extends JFrame
 	/**
 	 * Menu's Panel
 	 */
-	private MenuPanel menu;
-	
-			//************ [List Entity] ************/
-	
-	/**
-	 * List of the map's chunk
-	 */
-	private List<Chunk> lChunk;
-	
+	private MenuPanel menu;	
 	
 	//*************************** Construcor ***********************/
 	
@@ -61,12 +54,11 @@ public class MapEditor extends JFrame
 		
 		//**** XML ****
 		xml.startParse();
-		this.lChunk = xml.getChunks();
 		
 		//**** View ****
 		
 		// Editor
-		this.editor = new EditorPanel(this.lChunk);
+		this.editor = new EditorPanel();
 		this.add(this.editor);
 		this.editor.setBounds(50, 0, 400, 300);
 		this.setFocusable(true);

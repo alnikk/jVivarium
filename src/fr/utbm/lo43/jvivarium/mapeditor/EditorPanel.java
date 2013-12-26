@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
+import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
@@ -34,9 +35,9 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	private final int FPS = 35;
 	
 	/**
-	 * List of chunks to display
+	 * Map singleton
 	 */
-	private List<Chunk> lChunk;
+	private Map map = Map.getMap();
 	
 	
 		//**** Listeners ****
@@ -57,17 +58,16 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	 * Load the map into the object and configure the frame
 	 * @param list List of the map's chunks
 	 */
-	public EditorPanel(List<Chunk> list)
+	public EditorPanel()
 	{		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.setBackground(new Color(0, 0, 0));
 		
-		this.lChunk = list;
 		int x=0,y=0;
 		
 		// Set the size of the panel
-		for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
+		for (Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
 			
@@ -105,7 +105,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	{
 		super.paint(g);
 		
-		for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
+		for (Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
 			c.paint(g);
@@ -119,7 +119,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			if(this.drag == null)
 			{
-				for (Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
+				for (Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
 				{
 					Chunk c = it.next();
 					
@@ -197,14 +197,14 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		public void addChunk(Chunk c)
 		{
 			this.drag = c;
-			this.lChunk.add(c);
+			this.map.add(c);
 		}
 		
 		@Override
 		public void saveMap()
 		{
 			XMLLoader xml = new XMLLoader();
-			xml.saveChunks(lChunk);
+			xml.saveChunks(this.map.getChunks());
 		}
 		
 		
@@ -228,7 +228,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 				case KeyEvent.VK_DELETE:
 					if(this.drag != null)
 					{
-						this.lChunk.remove(this.drag);
+						this.map.remove(this.drag);
 					}
 					break;
 				default:

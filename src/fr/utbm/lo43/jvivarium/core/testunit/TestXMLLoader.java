@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
+import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
@@ -24,7 +25,8 @@ public class TestXMLLoader
 	{
 		XMLLoader xml = new XMLLoader();
 		xml.startParse();
-		List<Chunk> l = xml.getChunks();
+		Map map = Map.getMap();
+		List<Chunk> l = map.getChunks();
 		
 		for (Iterator<Chunk> it = l.iterator(); it.hasNext();)
 		{
