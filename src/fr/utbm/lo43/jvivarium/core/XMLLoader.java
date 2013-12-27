@@ -88,9 +88,9 @@ public class XMLLoader
 					this.parseMap(list.item(i).getChildNodes());
 					break;
 				case "entity":
-					this.parseEntity();
+					this.parseEntity(list.item(i).getChildNodes());
 				case "obj":
-					this.parseObj();
+					this.parseObj(list.item(i).getChildNodes());
 				default:
 					break;
 			}
@@ -126,14 +126,113 @@ public class XMLLoader
 	 * Parse the espece XML
 	 * @param l	(NodeList) The node which contains espece
 	 */
-	private void parseEntity()
+	private void parseEntity(NodeList l)
 	{
-		System.out.println("Parse entity");
+		int i, j;
+		int x = 0, y = 0;
+		Coordinates sizeE = null, positionE = null;
+		
+		// Add entities to the list
+		for(i = 0 ; i < l.getLength() ; i++)
+		{
+			// Get the size, position, and type
+			switch(l.item(i).getNodeName())
+			{
+				case "size":
+					NodeList size = l.item(i).getChildNodes();
+					for(j = 0 ; j < size.getLength() ; j++)
+					{
+						switch(size.item(j).getNodeName())
+						{
+							case "x":
+								x = Integer.parseInt(size.item(j).getChildNodes().item(0).getNodeValue());
+								break;
+							case "y":
+								y = Integer.parseInt(size.item(j).getChildNodes().item(0).getNodeValue());
+								break;
+						}
+					}
+					sizeE = new Coordinates(x,y);
+					break;
+					
+				case "position":
+					NodeList position = l.item(i).getChildNodes();
+					for(j = 0 ; j < position.getLength() ; j++)
+					{
+						switch(position.item(j).getNodeName())
+						{
+							case "x":
+								x = Integer.parseInt(position.item(j).getChildNodes().item(0).getNodeValue());
+								break;
+							case "y":
+								y = Integer.parseInt(position.item(j).getChildNodes().item(0).getNodeValue());
+								break;
+						}
+					}
+					positionE = new Coordinates(x,y);
+					break;
+					
+				case "type":
+					NodeList type = l.item(i).getChildNodes();
+					
+					try
+					{
+						switch(type.item(0).getNodeValue())
+						{
+							case "MARIO":
+								this.map.add(new Mario(new BoundingBox(positionE, sizeE)));
+								break;
+							case "PEACH":
+								this.map.add(new Peach(new BoundingBox(positionE, sizeE)));
+								break;
+							case "BOWSER":
+								this.map.add(new Bowser(new BoundingBox(positionE, sizeE)));
+								break;
+						}
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					break;
+			}
+		}
 	}
-	
-	private void parseObj()
+
+	/**
+	 * Parse the objects XML
+	 * @param l	(NodeList) The node which contains objects
+	 */	
+	private void parseObj(NodeList l)
 	{
-		System.out.println("Parse Obj");
+		int i;
+		// Add objects to the list
+				for(i = 0 ; i < l.getLength() ; i++)
+				{
+					// Get the type
+					if(l.item(i).getNodeName() == "type")
+					{
+						NodeList type = l.item(i).getChildNodes();
+						
+						try
+						{
+							switch(type.item(0).getNodeValue())
+							{
+								case "MUSHROOM":
+									this.map.add(new Obj(ObjectType.MUSHROOM));
+									break;
+								case "STAR":
+									this.map.add(new Obj(ObjectType.STAR));
+									break;
+							}
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+						}
+						break;
+					}
+				}
 	}
 	
 	//******************* Save **********************************
