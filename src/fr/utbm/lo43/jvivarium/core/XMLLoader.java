@@ -206,33 +206,34 @@ public class XMLLoader
 	private void parseObj(NodeList l)
 	{
 		int i;
+		
 		// Add objects to the list
-				for(i = 0 ; i < l.getLength() ; i++)
+		for(i = 0 ; i < l.getLength() ; i++)
+		{
+			// Get the type
+			if(l.item(i).getNodeName() == "type")
+			{
+				NodeList type = l.item(i).getChildNodes();
+					
+				try
 				{
-					// Get the type
-					if(l.item(i).getNodeName() == "type")
+					switch(type.item(0).getNodeValue())
 					{
-						NodeList type = l.item(i).getChildNodes();
-						
-						try
-						{
-							switch(type.item(0).getNodeValue())
-							{
-								case "MUSHROOM":
-									this.map.add(new Obj(ObjectType.MUSHROOM));
-									break;
-								case "STAR":
-									this.map.add(new Obj(ObjectType.STAR));
-									break;
-							}
-						}
-						catch(Exception e)
-						{
-							e.printStackTrace();
-						}
-						break;
+						case "MUSHROOM":
+							this.map.add(new Obj(ObjectType.MUSHROOM));
+							break;
+						case "STAR":
+							this.map.add(new Obj(ObjectType.STAR));
+							break;
 					}
 				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+
+			}
+		}
 	}
 	
 	//******************* Save **********************************
