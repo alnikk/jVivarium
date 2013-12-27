@@ -60,14 +60,14 @@ public class MapEditor extends JFrame
 		// Editor
 		this.editor = new EditorPanel();
 		this.add(this.editor);
-		this.editor.setBounds(50, 0, 400, 300);
+		this.editor.setBounds(MenuPanel.XPANEL, 0, 400, 300);
 		this.setFocusable(true);
 		this.addKeyListener(editor);
 		
 		// Menu
 		this.menu = new MenuPanel(this.editor);
 		this.add(menu);
-		this.menu.setBounds(0, 0, 50, 300);
+		this.menu.setBounds(0, 0, MenuPanel.XPANEL, MenuPanel.YPANEL);
 		
 		// Resize JFrame
 		int y= 0;
