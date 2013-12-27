@@ -220,7 +220,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 			this.etat = mState.CHUNK;
 			
 			// Fire
-			JButton fire = new JButton(new ImageIcon("./res/chunks/lava.png"));
+			JButton fire = new JButton(new ImageIcon(Chunk.FIRE));
 			fire.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
 			fire.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
 			fire.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
@@ -246,7 +246,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 			
 			
 			// Castle
-			JButton castle = new JButton(new ImageIcon("./res/chunks/castle.png"));
+			JButton castle = new JButton(new ImageIcon(Chunk.CASTLE));
 			castle.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
 			castle.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
 			castle.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
@@ -271,7 +271,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 			});
 			
 			// Brick
-			JButton brick = new JButton(new ImageIcon("./res/chunks/brick.png"));
+			JButton brick = new JButton(new ImageIcon(Chunk.BRICK));
 			brick.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
 			brick.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
 			brick.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
@@ -296,7 +296,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 			});
 			
 			// Pipe
-			JButton pipe = new JButton(new ImageIcon("./res/chunks/pipe.jpg"));
+			JButton pipe = new JButton(new ImageIcon(Chunk.PIPE));
 			pipe.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
 			pipe.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
 			pipe.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
@@ -321,7 +321,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 			});
 
 			// Pink Brick
-			JButton pink_brick = new JButton(new ImageIcon("./res/chunks/pink_brick.jpg"));
+			JButton pink_brick = new JButton(new ImageIcon(Chunk.PINK_BRICK));
 			pink_brick.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
 			pink_brick.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
 			pink_brick.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
