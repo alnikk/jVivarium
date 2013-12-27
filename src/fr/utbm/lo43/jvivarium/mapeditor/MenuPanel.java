@@ -1,14 +1,10 @@
 package fr.utbm.lo43.jvivarium.mapeditor;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,10 +12,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
@@ -28,9 +22,19 @@ import fr.utbm.lo43.jvivarium.core.Coordinates;
 import fr.utbm.lo43.jvivarium.core.FieldType;
 import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
 
-public class MenuPanel extends JPanel implements Runnable, MouseListener
+public class MenuPanel extends JPanel implements Runnable
 {
+	/**
+	 * Serialize number
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	//****************************** Constant ********************
+
+	/**
+	 * Display's FPS of the panel
+	 */
+	private static int FPS = 1;
 	
 	/**
 	 * The X size of the Panel
@@ -63,47 +67,32 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	private final int YSPACING = 3;
 	
 	/**
-	 * The X size of each Chunk
+	 * The default X size of each Chunk
 	 */
 	private final int XCHUNK = 20;
 	
 	/**
-	 * The Y size of each Chunk
+	 * The default Y size of each Chunk
 	 */
 	private final int YCHUNK = 20;
 	
 	//****************************** Variable ********************
 	
 	/**
-	 * Display's FPS of the panel
-	 */
-	private final int FPS = 35;
-	
-	/**
-	 * List of all various chunk (in the menu)
-	 */
-	private List<Chunk> lVChunk = new LinkedList<Chunk>();
-	
-	/**
-	 * Menu Listener for sending events
+	 * Menu Listener for sending events to the editor
 	 */
 	private MenuListener mListener;
+	
+	/**
+	 * List for stocking JButtons drew
+	 */
+	private List<Component> lButtons = new LinkedList<Component>();
 	
 	/**
 	 * Enumerate the state of the menu
 	 */
 	private enum mState {MENU, CHUNK, OBJECT, ENTITY};
 	private mState etat;
-	
-	/**
-	 * List for stocking Jbuttons drew
-	 */
-	private List<Component> lButtons = new LinkedList<Component>();
-	
-	/**
-	 * Layout manager of this panel
-	 */
-	private BoxLayout box = null;
 	
 	//*************************** Constructors *******************
 	
@@ -114,23 +103,20 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	public MenuPanel(MenuListener mListener)
 	{
 		this.mListener = mListener;
-		this.setBackground(new Color(100, 100, 100));
-		this.setSize(XPANEL, YPANEL);
 		
-		this.box = new BoxLayout(this, BoxLayout.PAGE_AXIS);
-		this.setLayout(this.box);
-		this.setBorder(BorderFactory.createEmptyBorder(XSPACING, YSPACING, XSPACING, YSPACING));
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.setBackground(new Color(100, 100, 100)); // Backgroud color
+		this.setBorder(BorderFactory.createEmptyBorder(XSPACING, YSPACING, XSPACING, YSPACING)); // Border of the panel
 		
 		this.drawMenu();
-		
-		// Handle mouse
-		this.addMouseListener(this);
 	}
 	
 	//************************ Menu methods *******************
 	
 	/**
-	 * Choice chunks, entity or objects
+	 * Main menu of the editor
+	 * Choice chunks, entity or objects.
+	 * Insert a save button too
 	 */
 	private void drawMenu()
 	{
@@ -163,7 +149,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					
+					MenuPanel.this.drawEntity();
 				}
 			});
 			
@@ -177,7 +163,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 				@Override
 				public void actionPerformed(ActionEvent arg0)
 				{
-					
+					MenuPanel.this.drawObjects();
 				}
 			});
 			
@@ -195,6 +181,8 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 				}
 			});
 			
+			
+			// Add all button to the view with space between each one
 			Component c;
 			this.add(bt_chunk); this.lButtons.add(bt_chunk);
 			c = Box.createRigidArea(new Dimension(1, YSPACING));
@@ -210,12 +198,14 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 	}
 	
 	/**
-	 * Menu Chunks
+	 * Menu Chunks.
+	 * List of all chunks icons in JButton.
 	 */
 	private void drawChunks()
 	{
 		if(this.etat != mState.CHUNK)
 		{
+			// Clean and set
 			this.cleanList();
 			this.etat = mState.CHUNK;
 			
@@ -359,6 +349,7 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 				}
 			});
 			
+			// Add all JButtons with spacing
 			Component c;
 			this.add(fire); this.lButtons.add(fire);
 			c = Box.createRigidArea(new Dimension(1, YSPACING));
@@ -379,6 +370,37 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 		}
 	}
 	
+	/**
+	 * Draw all the entity with their own icons =)
+	 */
+	private void drawEntity()
+	{
+		if(this.etat != mState.ENTITY)
+		{
+			this.etat = mState.CHUNK;
+			this.cleanList();
+			
+			// TODO Add button entity
+		}
+	}
+	/**
+	 * Draw the objects present in the game
+	 */
+	private void drawObjects()
+	{
+		if(this.etat != mState.OBJECT)
+		{
+			this.etat = mState.OBJECT;
+			this.cleanList();
+			
+			// TODO Add button objects
+		}
+	}
+	
+	/**
+	 * Used to clean component in the list.
+	 * First remove it from the view and create a new list
+	 */
 	private void cleanList()
 	{
 		Component bt;
@@ -389,31 +411,6 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 		}
 		
 		this.lButtons = new LinkedList<Component>();
-	}
-	
-	//************************ JPanel Override ****************
-	
-	@Override
-	public void paint(Graphics g)
-	{
-		super.paint(g);
-		
-		switch(this.etat)
-		{
-			case MENU:
-				break;
-			case CHUNK:
-				for (Iterator<Chunk> it = lVChunk.iterator(); it.hasNext();)
-				{
-					Chunk c = it.next();
-					c.paint(g);
-				}
-				break;
-			case ENTITY:
-				break;
-			case OBJECT:
-				break;
-		}
 	}
 
 	//******************* Runnable **********************
@@ -434,45 +431,5 @@ public class MenuPanel extends JPanel implements Runnable, MouseListener
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	//********************* MouseListener ********************
-	
-	@Override
-	public void mouseClicked(MouseEvent e)
-	{
-		for (Iterator<Chunk> it = this.lVChunk.iterator(); it.hasNext() && true;)
-		{
-			Chunk c = it.next();
-			
-			if(c.pointIn(new Coordinates(e.getX(), e.getY())))
-			{
-				this.mListener.addChunk(c.clone());
-			}
-		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e)
-	{
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e)
-	{
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-		
 	}
 }
