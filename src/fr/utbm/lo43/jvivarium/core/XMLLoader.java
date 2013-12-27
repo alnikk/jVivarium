@@ -205,33 +205,70 @@ public class XMLLoader
 	 */	
 	private void parseObj(NodeList l)
 	{
-		int i;
+		int i, j;
+		int x = 0, y = 0;
+		Coordinates sizeO = null, positionO = null;
 		
 		// Add objects to the list
 		for(i = 0 ; i < l.getLength() ; i++)
 		{
-			// Get the type
-			if(l.item(i).getNodeName() == "type")
+			// Get the size, position, and type
+			switch(l.item(i).getNodeName())
 			{
-				NodeList type = l.item(i).getChildNodes();
-					
-				try
-				{
-					switch(type.item(0).getNodeValue())
+				case "size":
+					NodeList size = l.item(i).getChildNodes();
+					for(j = 0 ; j < size.getLength() ; j++)
 					{
-						case "MUSHROOM":
-							this.map.add(new Obj(ObjectType.MUSHROOM));
-							break;
-						case "STAR":
-							this.map.add(new Obj(ObjectType.STAR));
-							break;
+						switch(size.item(j).getNodeName())
+						{
+							case "x":
+								x = Integer.parseInt(size.item(j).getChildNodes().item(0).getNodeValue());
+								break;
+							case "y":
+								y = Integer.parseInt(size.item(j).getChildNodes().item(0).getNodeValue());
+								break;
+						}
 					}
-				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-
+					sizeO = new Coordinates(x,y);
+					break;
+								
+					case "position":
+						NodeList position = l.item(i).getChildNodes();
+						for(j = 0 ; j < position.getLength() ; j++)
+						{
+							switch(position.item(j).getNodeName())
+							{
+								case "x":
+									x = Integer.parseInt(position.item(j).getChildNodes().item(0).getNodeValue());
+									break;
+								case "y":
+									y = Integer.parseInt(position.item(j).getChildNodes().item(0).getNodeValue());
+									break;
+							}
+						}
+						positionO = new Coordinates(x,y);
+						break;
+								
+					case "type":
+						NodeList type = l.item(i).getChildNodes();
+						
+						try
+						{			
+							switch(type.item(0).getNodeValue())
+							{
+									case "MUSHROOM":
+									this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.MUSHROOM));
+									break;
+								case "STAR":
+									this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.STAR));
+									break;
+							}
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+						}
+						break;
 			}
 		}
 	}
