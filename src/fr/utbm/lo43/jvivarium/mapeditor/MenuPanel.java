@@ -3,12 +3,17 @@ package fr.utbm.lo43.jvivarium.mapeditor;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -209,11 +214,23 @@ public class MenuPanel extends JPanel implements Runnable
 			this.cleanList();
 			this.etat = mState.CHUNK;
 			
+			BufferedImage img = null; // Used for load image
+			Image i; // Scaled image
+			
 			// Fire
-			JButton fire = new JButton(new ImageIcon(Chunk.FIRE));
-			fire.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
-			fire.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
-			fire.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
+			try
+			{
+				img = ImageIO.read(new File(Chunk.FIRE));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton fire = new JButton(new ImageIcon(i));
+			fire.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			fire.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			fire.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
 			fire.addActionListener(new ActionListener()
 			{
 				@Override
@@ -236,10 +253,19 @@ public class MenuPanel extends JPanel implements Runnable
 			
 			
 			// Castle
-			JButton castle = new JButton(new ImageIcon(Chunk.CASTLE));
-			castle.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
-			castle.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
-			castle.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
+			try
+			{
+				img = ImageIO.read(new File(Chunk.CASTLE));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton castle = new JButton(new ImageIcon(i));
+			castle.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			castle.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			castle.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
 			castle.addActionListener(new ActionListener()
 			{
 				@Override
@@ -261,10 +287,19 @@ public class MenuPanel extends JPanel implements Runnable
 			});
 			
 			// Brick
-			JButton brick = new JButton(new ImageIcon(Chunk.BRICK));
-			brick.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
-			brick.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
-			brick.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
+			try
+			{
+				img = ImageIO.read(new File(Chunk.BRICK));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton brick = new JButton(new ImageIcon(i));
+			brick.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			brick.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			brick.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
 			brick.addActionListener(new ActionListener()
 			{
 				@Override
@@ -286,10 +321,19 @@ public class MenuPanel extends JPanel implements Runnable
 			});
 			
 			// Pipe
-			JButton pipe = new JButton(new ImageIcon(Chunk.PIPE));
-			pipe.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
-			pipe.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
-			pipe.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
+			try
+			{
+				img = ImageIO.read(new File(Chunk.PIPE));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton pipe = new JButton(new ImageIcon(i));
+			pipe.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			pipe.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			pipe.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
 			pipe.addActionListener(new ActionListener()
 			{
 				@Override
@@ -300,7 +344,7 @@ public class MenuPanel extends JPanel implements Runnable
 						MenuPanel.this.mListener.addChunk(
 								new Chunk(new BoundingBox(
 										new Coordinates(0, 0), 
-										new Coordinates(XCHUNK, YCHUNK)), 
+										new Coordinates(XCHUNK, XBUTTON)), 
 										FieldType.PIPE));
 					}
 					catch (NegativeSizeException e)
@@ -311,10 +355,19 @@ public class MenuPanel extends JPanel implements Runnable
 			});
 
 			// Pink Brick
-			JButton pink_brick = new JButton(new ImageIcon(Chunk.PINK_BRICK));
-			pink_brick.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
-			pink_brick.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
-			pink_brick.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
+			try
+			{
+				img = ImageIO.read(new File(Chunk.PINK_BRICK));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton pink_brick = new JButton(new ImageIcon(i));
+			pink_brick.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			pink_brick.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			pink_brick.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
 			pink_brick.addActionListener(new ActionListener()
 			{
 				@Override
