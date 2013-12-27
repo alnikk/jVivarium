@@ -28,6 +28,11 @@ import fr.utbm.lo43.jvivarium.core.XMLLoader;
  */
 public class EditorPanel extends JPanel implements Runnable, MouseListener, MouseMotionListener, MenuListener, KeyListener
 {	
+	/**
+	 * Serialize number
+	 */
+	private static final long serialVersionUID = 1L;
+
 	//****************************** Variable **********************
 	/**
 	 * Display's FPS of the panel
@@ -66,7 +71,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		
 		int x=0,y=0;
 		
-		// Set the size of the panel
+		// Set the size of the panel in functions the most far chunk 
 		for (Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
@@ -105,7 +110,9 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	{
 		super.paint(g);
 		
-		for (Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
+		// Draw all chunks
+		List<Chunk> l = this.map.getChunks();
+		for (Iterator<Chunk> it = l.iterator(); it.hasNext();)
 		{
 			Chunk c = it.next();
 			c.paint(g);
@@ -205,6 +212,8 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			XMLLoader xml = new XMLLoader();
 			xml.saveChunks(this.map.getChunks());
+			// TODO Save Entity
+			// TODO Save Objects
 		}
 		
 		
@@ -215,17 +224,17 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			switch(arg0.getKeyCode())
 			{
-				case KeyEvent.VK_S:
+				case KeyEvent.VK_S: // Save map
 					saveMap();
 					break;
-				case KeyEvent.VK_ESCAPE:
+				case KeyEvent.VK_ESCAPE: // Cancel current move
 					if(this.drag != null)
 					{
 						this.drag.setArea(this.oldPosition);
 						this.drag = null;
 					}
 					break;
-				case KeyEvent.VK_DELETE:
+				case KeyEvent.VK_DELETE: // Delete chunk
 					if(this.drag != null)
 					{
 						this.map.remove(this.drag);

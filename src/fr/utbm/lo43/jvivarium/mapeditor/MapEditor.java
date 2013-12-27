@@ -3,19 +3,12 @@
  */
 package fr.utbm.lo43.jvivarium.mapeditor;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
-import fr.utbm.lo43.jvivarium.core.Chunk;
-import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
@@ -24,6 +17,11 @@ import fr.utbm.lo43.jvivarium.core.XMLLoader;
  */
 public class MapEditor extends JFrame
 {
+	/**
+	 * Serialize number
+	 */
+	private static final long serialVersionUID = 1L;
+
 	//*************************** Variable **********************/
 	/**
 	 * XML parser for read/write the map file
@@ -57,20 +55,20 @@ public class MapEditor extends JFrame
 		
 		//**** View ****
 		
-		// Editor
+			// Editor
 		this.editor = new EditorPanel();
 		this.add(this.editor);
-		this.editor.setBounds(50, 0, 400, 300);
+		this.editor.setBounds(MenuPanel.XPANEL, 0, 400, 300);
 		this.setFocusable(true);
 		this.addKeyListener(editor);
 		
-		// Menu
+			// Menu
 		this.menu = new MenuPanel(this.editor);
 		this.add(menu);
-		this.menu.setBounds(0, 0, 50, 300);
+		this.menu.setBounds(0, 0, MenuPanel.XPANEL, MenuPanel.YPANEL);
 		
-		// Resize JFrame
-		int y= 0;
+			// Resize JFrame
+		int y;
 		
 		if(this.menu.getSize().height > this.editor.getSize().height)
 			y = this.menu.getSize().height;
@@ -109,6 +107,7 @@ public class MapEditor extends JFrame
 				
 				// Set
 				editor.setSize(xEditor, yEditor);
+				menu.setSize(menu.getWidth(), yEditor);
 			}
 			
 			@Override

@@ -5,6 +5,12 @@ package fr.utbm.lo43.jvivarium.core;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -20,12 +26,44 @@ import org.w3c.dom.NodeList;
  */
 public class Chunk extends Element
 {
+	//*********************** Constants *****************************/
+	
+	/**
+	 * The fire sprite
+	 */
+	public final static String FIRE = "./res/chunks/fire.png"; 
+	
+	/**
+	 * The castle sprite
+	 */
+	public final static String CASTLE = "./res/chunks/castle.png";
+	
+	/**
+	 * The brick sprite
+	 */
+	public final static String BRICK = "./res/chunks/brick.png";
+	
+	/**
+	 * The pipe sprite
+	 */
+	public final static String PIPE = "./res/chunks/pipe.jpg";
+	
+	/**
+	 * The pink brick sprite
+	 */
+	public final static String PINK_BRICK = "./res/chunks/pink_brick.jpg";
+	
 	//*********************** Variables *****************************/
 	
 	/**
 	 * The enumerate field type of the chunk
 	 */
 	private FieldType type;
+	
+	/**
+	 * Image of this chunk
+	 */
+	private BufferedImage img;
 
 	//************************ Constructors *************************/
 	
@@ -39,6 +77,8 @@ public class Chunk extends Element
 	{
 		super(b);
 		this.type = type;
+		
+		this.initImg();
 	}
 	
 	/**
@@ -128,31 +168,74 @@ public class Chunk extends Element
 			}
 		}
 		this.setArea(new BoundingBox(positionC, sizeC));
+		this.initImg();
 	}
 	
 	public void paint(Graphics g)
 	{
-		g.setColor(new Color(0, 0, 0));
-		g.drawRect(this.getArea().getPosition().getX(), this.getArea().getPosition().getY(), this.getArea().getSize().getX(), this.getArea().getSize().getY());
-		switch(this.getFieldType())
+		g.drawImage(img, 
+				this.getArea().getPosition().getX(),
+				this.getArea().getPosition().getY(), 
+				this.getArea().getSize().getX(),
+				this.getArea().getSize().getY(),
+				null);
+	}
+	
+	private void initImg()
+	{
+		switch(this.type)
 		{
-			case FIRE:
-				g.setColor(new Color(255, 0, 0));
+			case BRICK:
+				try
+				{
+					this.img = ImageIO.read(new File(this.BRICK));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 				break;
 			case CASTLE:
-				g.setColor(new Color(125, 125, 125));
+				try
+				{
+					this.img = ImageIO.read(new File(CASTLE));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 				break;
-			case BRICK:
-				g.setColor(new Color(175, 175, 0));
-				break;
-			case PIPE:
-				g.setColor(new Color(0, 255, 0));
+			case FIRE:
+				try
+				{
+					this.img = ImageIO.read(new File(FIRE));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 				break;
 			case PINK_BRICK:
-				g.setColor(new Color(255, 0, 255));
+				try
+				{
+					this.img = ImageIO.read(new File(PINK_BRICK));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				break;
+			case PIPE:
+				try
+				{
+					this.img = ImageIO.read(new File(PIPE));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 				break;
 		}
-		g.fillRect(this.getArea().getPosition().getX() + 1, this.getArea().getPosition().getY() + 1, this.getArea().getSize().getX() - 1, this.getArea().getSize().getY() - 1);
 	}
 	
 	//*************************** Getters & Setters *************************/
