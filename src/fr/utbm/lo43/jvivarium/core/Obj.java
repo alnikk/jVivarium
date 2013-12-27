@@ -7,6 +7,17 @@ package fr.utbm.lo43.jvivarium.core;
 public final class Obj extends Element
 {
 	/**
+	 * The image file of a mushroom
+	 */
+	public final static String MUSHROOM = "./res/objects/mushroom1.png";
+	
+	/**
+	 * The image file of a star
+	 */
+	public final static String STAR = "./res/objects/star.png";
+	
+	
+	/**
 	 * Type of this object
 	 */
 	private ObjectType type;

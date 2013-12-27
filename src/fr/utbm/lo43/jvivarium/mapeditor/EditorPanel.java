@@ -21,6 +21,7 @@ import fr.utbm.lo43.jvivarium.core.Coordinates;
 import fr.utbm.lo43.jvivarium.core.Element;
 import fr.utbm.lo43.jvivarium.core.Entity;
 import fr.utbm.lo43.jvivarium.core.Map;
+import fr.utbm.lo43.jvivarium.core.Obj;
 import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
@@ -214,6 +215,13 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			this.drag = e;
 			this.map.add(e);
+		}
+		
+		@Override
+		public void addObject(Obj o)
+		{
+			this.drag = o;
+			this.map.add(o);
 		}
 		
 		@Override

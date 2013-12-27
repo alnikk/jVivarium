@@ -28,6 +28,8 @@ import fr.utbm.lo43.jvivarium.core.Coordinates;
 import fr.utbm.lo43.jvivarium.core.FieldType;
 import fr.utbm.lo43.jvivarium.core.Mario;
 import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
+import fr.utbm.lo43.jvivarium.core.Obj;
+import fr.utbm.lo43.jvivarium.core.ObjectType;
 import fr.utbm.lo43.jvivarium.core.Peach;
 
 public class MenuPanel extends JPanel implements Runnable
@@ -229,7 +231,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton fire = new JButton(new ImageIcon(i));
 			fire.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			fire.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -264,7 +266,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton castle = new JButton(new ImageIcon(i));
 			castle.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			castle.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -298,7 +300,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton brick = new JButton(new ImageIcon(i));
 			brick.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			brick.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -332,7 +334,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton pipe = new JButton(new ImageIcon(i));
 			pipe.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			pipe.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -366,7 +368,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton pink_brick = new JButton(new ImageIcon(i));
 			pink_brick.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			pink_brick.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -448,7 +450,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton mario = new JButton(new ImageIcon(i));
 			mario.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			mario.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -481,7 +483,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton peach = new JButton(new ImageIcon(i));
 			peach.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			peach.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -514,7 +516,7 @@ public class MenuPanel extends JPanel implements Runnable
 			{
 				e1.printStackTrace();
 			}
-			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
 			JButton bowser = new JButton(new ImageIcon(i));
 			bowser.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
 			bowser.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
@@ -578,7 +580,103 @@ public class MenuPanel extends JPanel implements Runnable
 			this.etat = mState.OBJECT;
 			this.cleanList();
 			
-			// TODO Add button objects
+			BufferedImage img = null; // Used for load image
+			Image i; // Scaled image
+			
+			// Mushroom
+			try
+			{
+				img = ImageIO.read(new File(Obj.MUSHROOM));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
+			JButton mush = new JButton(new ImageIcon(i));
+			mush.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			mush.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			mush.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
+			mush.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					try
+					{
+						MenuPanel.this.mListener.addObject(
+								new Obj(
+										new BoundingBox(
+												new Coordinates(0, 0), 
+												new Coordinates(XCHUNK, YCHUNK)),
+										ObjectType.MUSHROOM));
+					}
+					catch (NegativeSizeException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			// Star
+			try
+			{
+				img = ImageIO.read(new File(Obj.STAR));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_FAST);
+			JButton star = new JButton(new ImageIcon(i));
+			star.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			star.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			star.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
+			star.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					try
+					{
+						MenuPanel.this.mListener.addObject(
+								new Obj(
+										new BoundingBox(
+												new Coordinates(0, 0), 
+												new Coordinates(XCHUNK, YCHUNK)),
+										ObjectType.STAR));
+					}
+					catch (NegativeSizeException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			
+			// Back Button
+			JButton back = new JButton("Back");
+			back.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
+			back.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
+			back.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
+			back.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					MenuPanel.this.drawMenu();
+				}
+			});
+			
+			// Add all JButtons with spacing
+			Component c;
+			this.add(mush); this.lButtons.add(mush);
+			c = Box.createRigidArea(new Dimension(1, YSPACING));
+			this.add(c); this.lButtons.add(c);
+			this.add(star); this.lButtons.add(star);
+			c = Box.createRigidArea(new Dimension(1, YSPACING*10));
+			this.add(c); this.lButtons.add(c);
+			this.add(back); this.lButtons.add(back);	
 		}
 	}
 	

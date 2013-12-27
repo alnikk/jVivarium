@@ -5,6 +5,7 @@ package fr.utbm.lo43.jvivarium.mapeditor;
 
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Entity;
+import fr.utbm.lo43.jvivarium.core.Obj;
 
 /**
  * Listener for send event
@@ -24,6 +25,12 @@ public interface MenuListener
 	 * @param e The entity to add
 	 */
 	public void addEntity(Entity e);
+	
+	/**
+	 * Add an object to the editor view
+	 * @param o The object to add
+	 */
+	public void addObject(Obj o);
 	
 	/**
 	 * Save the map
