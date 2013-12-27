@@ -1,5 +1,6 @@
 package fr.utbm.lo43.jvivarium.core;
 
+
 public abstract class Entity extends Element
 {
 	/**

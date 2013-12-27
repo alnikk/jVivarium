@@ -2,7 +2,11 @@ package fr.utbm.lo43.jvivarium.core;
 
 public final class Peach extends Entity
 {
-
+	/**
+	 * The image file for Peach
+	 */
+	public final static String IMG = "./res/entity/peach1.png";
+	
 	public Peach(BoundingBox area)
 	{
 		super(area);

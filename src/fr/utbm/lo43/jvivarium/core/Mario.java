@@ -2,7 +2,11 @@ package fr.utbm.lo43.jvivarium.core;
 
 public final class Mario extends Entity
 {
-
+	/**
+	 * The image file for Mario
+	 */
+	public final static String IMG = "./res/entity/mario1.png";
+	
 	public Mario(BoundingBox area)
 	{
 		super(area);

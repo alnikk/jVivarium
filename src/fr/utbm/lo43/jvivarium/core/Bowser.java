@@ -3,6 +3,11 @@ package fr.utbm.lo43.jvivarium.core;
 public final class Bowser extends Entity
 {
 	/**
+	 * The image file for Bowser
+	 */
+	public final static String IMG = "./res/entity/bowser1.png";
+	
+	/**
 	 * If browser kidnap Peach
 	 */
 	private Peach kidnaped = null;

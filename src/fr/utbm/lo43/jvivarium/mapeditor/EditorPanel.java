@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
+import fr.utbm.lo43.jvivarium.core.Element;
+import fr.utbm.lo43.jvivarium.core.Entity;
 import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
@@ -49,7 +51,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	/**
 	 * If the user is moving chunk
 	 */
-	private Chunk drag = null;
+	private Element drag = null;
 	
 	/**
 	 * The old position of the chunk
@@ -205,6 +207,13 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			this.drag = c;
 			this.map.add(c);
+		}
+		
+		@Override
+		public void addEntity(Entity e)
+		{
+			this.drag = e;
+			this.map.add(e);
 		}
 		
 		@Override

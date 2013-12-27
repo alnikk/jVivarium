@@ -22,10 +22,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
+import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
 import fr.utbm.lo43.jvivarium.core.FieldType;
+import fr.utbm.lo43.jvivarium.core.Mario;
 import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
+import fr.utbm.lo43.jvivarium.core.Peach;
 
 public class MenuPanel extends JPanel implements Runnable
 {
@@ -433,7 +436,136 @@ public class MenuPanel extends JPanel implements Runnable
 			this.etat = mState.CHUNK;
 			this.cleanList();
 			
-			// TODO Add button entity
+			BufferedImage img = null; // Used for load image
+			Image i; // Scaled image
+			
+			// Mario
+			try
+			{
+				img = ImageIO.read(new File(Mario.IMG));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton mario = new JButton(new ImageIcon(i));
+			mario.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			mario.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			mario.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
+			mario.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					try
+					{
+						MenuPanel.this.mListener.addEntity(
+								new Mario(new BoundingBox(
+										new Coordinates(0, 0), 
+										new Coordinates(XCHUNK, YCHUNK))));
+					}
+					catch (NegativeSizeException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			// Peach
+			try
+			{
+				img = ImageIO.read(new File(Peach.IMG));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton peach = new JButton(new ImageIcon(i));
+			peach.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			peach.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			peach.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
+			peach.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					try
+					{
+						MenuPanel.this.mListener.addEntity(
+								new Peach(new BoundingBox(
+										new Coordinates(0, 0), 
+										new Coordinates(XCHUNK, YCHUNK))));
+					}
+					catch (NegativeSizeException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			// Bowser
+			try
+			{
+				img = ImageIO.read(new File(Bowser.IMG));
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+			i = img.getScaledInstance(XBUTTON, XBUTTON/2, Image.SCALE_SMOOTH);
+			JButton bowser = new JButton(new ImageIcon(i));
+			bowser.setPreferredSize(new Dimension(XBUTTON,XBUTTON/2));
+			bowser.setMaximumSize(new Dimension(XBUTTON,XBUTTON/2));
+			bowser.setMinimumSize(new Dimension(XBUTTON,XBUTTON/2));
+			bowser.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					try
+					{
+						MenuPanel.this.mListener.addEntity(
+								new Bowser(new BoundingBox(
+										new Coordinates(0, 0), 
+										new Coordinates(XCHUNK, YCHUNK))));
+					}
+					catch (NegativeSizeException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			
+			// Back Button
+			JButton back = new JButton("Back");
+			back.setPreferredSize(new Dimension(XBUTTON,YBUTTON));
+			back.setMaximumSize(new Dimension(XBUTTON,YBUTTON));
+			back.setMinimumSize(new Dimension(XBUTTON,YBUTTON));
+			back.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent arg0)
+				{
+					MenuPanel.this.drawMenu();
+				}
+			});
+			
+			
+			// Add all JButtons with spacing
+			Component c;
+			this.add(mario); this.lButtons.add(mario);
+			c = Box.createRigidArea(new Dimension(1, YSPACING));
+			this.add(c); this.lButtons.add(c);
+			this.add(peach); this.lButtons.add(peach);
+			c = Box.createRigidArea(new Dimension(1, YSPACING));
+			this.add(c); this.lButtons.add(c);
+			this.add(bowser); this.lButtons.add(bowser);
+			c = Box.createRigidArea(new Dimension(1, YSPACING*10));
+			this.add(c); this.lButtons.add(c);
+			this.add(back); this.lButtons.add(back);			
 		}
 	}
 	/**
