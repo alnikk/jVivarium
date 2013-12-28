@@ -38,7 +38,7 @@ import fr.utbm.lo43.jvivarium.core.Peach;
  * 
  * @author Alexandre Guyon
  */
-public class XMLLoader
+public class XMLLoader implements Runnable
 {
 	//******************* Constant ********************/
 	
@@ -80,6 +80,11 @@ public class XMLLoader
 		}
 	}
 	
+	@Override
+	public void run()
+	{
+		this.startParse();
+	}
 	
 	//********************* Parse *******************************************
 	
