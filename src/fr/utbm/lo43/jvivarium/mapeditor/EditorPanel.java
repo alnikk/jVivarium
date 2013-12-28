@@ -19,6 +19,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import fr.utbm.lo43.jvivarium.controller.XMLLoader;
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Chunk;
@@ -30,7 +31,6 @@ import fr.utbm.lo43.jvivarium.core.Mario;
 import fr.utbm.lo43.jvivarium.core.Obj;
 import fr.utbm.lo43.jvivarium.core.ObjectType;
 import fr.utbm.lo43.jvivarium.core.Peach;
-import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
  * Display the map in a JFrame

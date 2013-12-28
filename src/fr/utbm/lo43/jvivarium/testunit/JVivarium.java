@@ -6,6 +6,7 @@ package fr.utbm.lo43.jvivarium.testunit;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.utbm.lo43.jvivarium.controller.XMLLoader;
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
@@ -14,8 +15,6 @@ import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.Mario;
 import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
 import fr.utbm.lo43.jvivarium.core.Peach;
-import fr.utbm.lo43.jvivarium.core.XMLLoader;
-import fr.utbm.lo43.jvivarium.mapeditor.MapEditor;
 import fr.utbm.lo43.jvivarium.view.MainFrame;
 
 /**

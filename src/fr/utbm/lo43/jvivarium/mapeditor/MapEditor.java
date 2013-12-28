@@ -9,7 +9,7 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.JFrame;
 
-import fr.utbm.lo43.jvivarium.core.XMLLoader;
+import fr.utbm.lo43.jvivarium.controller.XMLLoader;
 
 /**
  * Master class of the map editor.

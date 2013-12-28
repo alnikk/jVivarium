@@ -6,9 +6,9 @@ package fr.utbm.lo43.jvivarium.core.testunit;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.utbm.lo43.jvivarium.controller.XMLLoader;
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Map;
-import fr.utbm.lo43.jvivarium.core.XMLLoader;
 
 /**
  * Class for testing the XML parser.

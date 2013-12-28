@@ -1,7 +1,7 @@
 /**
  * 
  */
-package fr.utbm.lo43.jvivarium.core;
+package fr.utbm.lo43.jvivarium.controller;
 
 import java.io.File;
 import java.util.Iterator;
@@ -19,6 +19,17 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import fr.utbm.lo43.jvivarium.core.BoundingBox;
+import fr.utbm.lo43.jvivarium.core.Bowser;
+import fr.utbm.lo43.jvivarium.core.Chunk;
+import fr.utbm.lo43.jvivarium.core.Coordinates;
+import fr.utbm.lo43.jvivarium.core.Map;
+import fr.utbm.lo43.jvivarium.core.Mario;
+import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
+import fr.utbm.lo43.jvivarium.core.Obj;
+import fr.utbm.lo43.jvivarium.core.ObjectType;
+import fr.utbm.lo43.jvivarium.core.Peach;
 
 /**
  * This class is used for load the map
