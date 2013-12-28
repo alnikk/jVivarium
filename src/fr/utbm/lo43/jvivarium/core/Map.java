@@ -1,5 +1,6 @@
 package fr.utbm.lo43.jvivarium.core;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,17 +35,17 @@ public class Map
 	/**
 	 * List of all chunk in the map
 	 */
-	private List<Chunk> lChunk = new LinkedList<Chunk>();
+	private static List<Chunk> lChunk = new LinkedList<Chunk>();
 	
 	/**
 	 * List of all entity in the map
 	 */
-	private List<Entity> lEntity = new LinkedList<Entity>();
+	private static List<Entity> lEntity = new LinkedList<Entity>();
 	
 	/**
 	 * List of all objects in the map
 	 */
-	private List<Obj> lObj = new LinkedList<Obj>();
+	private static List<Obj> lObj = new LinkedList<Obj>();
 	
 	/**
 	 * Add chunk,entity, or object in the map
@@ -53,11 +54,11 @@ public class Map
 	public void add(Object o)
 	{
 		if(o instanceof Chunk)
-			this.lChunk.add((Chunk) o);
+			lChunk.add((Chunk) o);
 		if(o instanceof Entity)
-			this.lEntity.add((Entity) o);
+			lEntity.add((Entity) o);
 		if(o instanceof Obj)
-			this.lObj.add((Obj) o);
+			lObj.add((Obj) o);
 		// TODO Exception
 	}
 	
@@ -68,11 +69,11 @@ public class Map
 	public void remove(Object o)
 	{
 		if(o instanceof Chunk)
-			this.lChunk.remove((Chunk) o);
+			lChunk.remove((Chunk) o);
 		if(o instanceof Entity)
-			this.lEntity.remove((Entity) o);
+			lEntity.remove((Entity) o);
 		if(o instanceof Obj)
-			this.lObj.remove((Obj) o);
+			lObj.remove((Obj) o);
 		// TODO Exception
 	}
 	
@@ -82,7 +83,7 @@ public class Map
 	 */
 	public void setChunks(List<Chunk> l)
 	{
-		this.lChunk = l;
+		lChunk = l;
 	}
 	
 	/**
@@ -91,7 +92,7 @@ public class Map
 	 */
 	public List<Chunk> getChunks()
 	{
-		return this.lChunk;
+		return lChunk;
 	}
 	
 	/**
@@ -100,7 +101,7 @@ public class Map
 	 */
 	public void setEntitys(List<Entity> l)
 	{
-		this.lEntity = l;
+		lEntity = l;
 	}
 	
 	/**
@@ -109,7 +110,7 @@ public class Map
 	 */
 	public List<Entity> getEntitys()
 	{
-		return this.lEntity;
+		return lEntity;
 	}
 	
 	/**
@@ -118,7 +119,7 @@ public class Map
 	 */
 	public void setObjects(List<Obj> l)
 	{
-		this.lObj = l;
+		lObj = l;
 	}
 	
 	/**
@@ -127,6 +128,51 @@ public class Map
 	 */
 	public List<Obj> getObjects()
 	{
-		return this.lObj;
+		return lObj;
+	}
+	
+	/**
+	 * Return the max coordinates of the map
+	 * @return (Coordinates) The max coordinates of the map
+	 */
+	public static Coordinates getMaxMap()
+	{
+		Chunk c;
+		int x=0,y=0;
+		
+		for(Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			if((c.getArea().getPosition().getX() + c.getArea().getSize().getX()) > x)
+				x = c.getArea().getPosition().getX() + c.getArea().getSize().getX();
+			if((c.getArea().getPosition().getY() + c.getArea().getSize().getY()) > y)
+				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
+		}
+		
+		return new Coordinates(x, y);
+	}
+	
+	/**
+	 * Return the chunk at the indicate coordinates
+	 * @param c The coordinates to get the chunk
+	 * @return The chunk
+	 */
+	public static Chunk getChunkAt(Coordinates p)
+	{
+		Chunk c;
+		int x=0,y=0;
+		
+		for(Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			if((c.getArea().getPosition().getX() + c.getArea().getSize().getX()) > p.getX()
+					&& c.getArea().getPosition().getX() < p.getX()
+					&& (c.getArea().getPosition().getY() + c.getArea().getSize().getY()) > p.getY()
+					&& c.getArea().getPosition().getY() < p.getY())
+				return c;
+		}
+		return null;
 	}
 }
