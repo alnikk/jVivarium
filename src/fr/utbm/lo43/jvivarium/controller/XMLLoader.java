@@ -413,7 +413,7 @@ public class XMLLoader implements Runnable
 					temp.appendChild(this.doc.createElement("entity"));
 					temp = temp.getLastChild();
 					
-					// Recherche de chunk
+					// Recherche d'entity
 					while(temp.getNodeName() != "entity")
 						temp = temp.getPreviousSibling();
 					
@@ -461,7 +461,7 @@ public class XMLLoader implements Runnable
 						}
 						else
 							System.out.println("pb saveXML in entity !");
-						// Type
+						// Espece
 						entity.appendChild(this.doc.createElement("espece"));
 						
 						while(temp.getNodeName() != "espece")
@@ -482,7 +482,7 @@ public class XMLLoader implements Runnable
 						}
 						else
 							System.out.println("pb saveXML in entity !");
-						
+						//Life Points
 						entity.appendChild(this.doc.createElement("life"));
 						
 						while(temp.getNodeName() != "life")
@@ -495,7 +495,7 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 					}
-					else // Si chunk pas trouvé
+					else // Si pas trouvé
 						System.out.println("pb saveXML in entity !");
 				}
 				}
@@ -515,6 +515,143 @@ public class XMLLoader implements Runnable
 		catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Save objects to XML
+	 */
+	public void saveObjects()
+	{
+		this.saveObjects(this.map.getObjects());
+	}
+	
+	/**
+	 * Save object to XML
+	 * @param lObj List of Obj to save
+	 */
+	public void saveObjects(List<Obj> lObj)
+	{		
+		NodeList list = doc.getDocumentElement().getChildNodes();
+		Obj o;
+		Node n, old;
+		int i;
+		
+		
+		for(i = 0 ; i < list.getLength() ; i++)
+		{
+			if(list.item(i).getNodeName() == "obj")
+			{
+				// Remove all chunks
+				n = list.item(i).getFirstChild();
+				while(n != null)
+				{
+					old = n;
+					n = n.getNextSibling();
+					
+					if(old != null && n != null)
+						n.getParentNode().removeChild(old);
+				}
+				
+				//Add new ones
+				for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
+				{
+					o = it.next();
+					Node objet, size, pos, type;
+					Node no;
+					Node temp=list.item(i);
+					String objType;
+					temp.appendChild(this.doc.createElement("obj"));
+					temp = temp.getLastChild();
+					
+					// Recherche objets
+					while(temp.getNodeName() != "obj")
+						temp = temp.getPreviousSibling();
+					
+					// Si trouvé
+					if(temp.getNodeName() == "obj")
+					{
+						objet = temp;
+						
+						// Size
+						objet.appendChild(this.doc.createElement("size"));
+						
+						temp = objet.getFirstChild();
+						while(temp.getNodeName() != "size")
+							temp = temp.getNextSibling();
+						if(temp.getNodeName() == "size")
+						{
+							size = temp;
+							
+							no = this.doc.createElement("x");
+							no.setTextContent(o.getArea().getSize().getX() + "");
+							size.appendChild(no);
+							
+							no = this.doc.createElement("y");
+							no.setTextContent(o.getArea().getSize().getY() + "");
+							size.appendChild(no);
+						}
+						else
+							System.out.println("pb saveXML in entity !");
+						// Position 
+						objet.appendChild(this.doc.createElement("position"));
+						
+						while(temp.getNodeName() != "position")
+							temp = temp.getNextSibling();
+						if(temp.getNodeName() == "position")
+						{
+							pos = temp;
+							
+							no = this.doc.createElement("x");
+							no.setTextContent(o.getArea().getPosition().getX() + "");
+							pos.appendChild(no);
+							
+							no = this.doc.createElement("y");
+							no.setTextContent(o.getArea().getPosition().getY() + "");
+							pos.appendChild(no);
+						}
+						else
+							System.out.println("pb saveXML in entity !");
+						// Type
+						objet.appendChild(this.doc.createElement("objType"));
+						
+						while(temp.getNodeName() != "objType")
+							temp = temp.getNextSibling();
+						if(temp.getNodeName() == "objType")
+						{
+							type = temp;
+							
+							if( temp.getNodeValue()=="STAR") {
+							    objType="STAR";
+							  }
+						
+							  else 
+								objType="MUSHROOM";
+							type.setTextContent( objType);
+						}
+						else
+							System.out.println("pb saveXML in entity !");
+						
+					
+					}
+				}
+			}
+		
+		// Save		
+		Transformer transformer;
+		try
+		{
+			transformer = TransformerFactory.newInstance().newTransformer();
+			Result output = new StreamResult(new File(FILENAME));
+			Source input = new DOMSource(this.doc);
+			
+			transformer.transform(input, output);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		}
 	}
 }
