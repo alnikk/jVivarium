@@ -1,7 +1,5 @@
 package fr.utbm.lo43.jvivarium.view;
 
-import java.awt.Dimension;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
@@ -17,6 +15,11 @@ public class MainFrame extends JFrame
 	 */
 	private GamePanel gameP;
 	
+	/**
+	 * Initialize the main window
+	 * and add the panel of the game
+	 * to it
+	 */
 	public MainFrame()
 	{
 		this.setResizable(false);
@@ -31,6 +34,11 @@ public class MainFrame extends JFrame
 		this.start();
 	}
 	
+	/**
+	 * Create panels thread
+	 * for the view and activate
+	 * the window
+	 */
 	private void start()
 	{
 		Thread game = new Thread(this.gameP);

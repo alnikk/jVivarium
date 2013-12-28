@@ -34,6 +34,11 @@ public class GamePanel extends JPanel implements Runnable
 	 */
 	private Map map = Map.getMap();
 
+	/**
+	 * Constructor of the class.
+	 * Initialize the view panel
+	 * of the game
+	 */
 	public GamePanel()
 	{
 		this.setBackground(new Color(0, 0, 0));
@@ -62,103 +67,103 @@ public class GamePanel extends JPanel implements Runnable
 		super.paint(g);
 		
 	// Draw all chunks
-			List<Chunk> lc = this.map.getChunks();
-			for(Iterator<Chunk> it = lc.iterator(); it.hasNext();)
-			{
-				Chunk c = it.next();
-				c.paint(g);
-			}
+		List<Chunk> lc = this.map.getChunks();
+		for(Iterator<Chunk> it = lc.iterator(); it.hasNext();)
+		{
+			Chunk c = it.next();
+			c.paint(g);
+		}
+		
+		// Draw all entity
+		List<Entity> le = this.map.getEntitys();
+		for(Iterator<Entity> it = le.iterator(); it.hasNext();)
+		{
+			Entity e = it.next();
 			
-			// Draw all entity
-			List<Entity> le = this.map.getEntitys();
-			for(Iterator<Entity> it = le.iterator(); it.hasNext();)
+			BufferedImage img = null;
+			if(e instanceof Mario)
 			{
-				Entity e = it.next();
-				
-				BufferedImage img = null;
-				if(e instanceof Mario)
+				try
 				{
-					try
-					{
-						img = ImageIO.read(new File(Mario.IMG));
-					}
-					catch (IOException e1)
-					{
-						e1.printStackTrace();
-					}
+					img = ImageIO.read(new File(Mario.IMG));
 				}
-				if(e instanceof Peach)
+				catch (IOException e1)
 				{
-					try
-					{
-						img = ImageIO.read(new File(Peach.IMG));
-						System.out.println(((Element) e).toString());
-					}
-					catch (IOException e1)
-					{
-						e1.printStackTrace();
-					}
-				}
-				if(e instanceof Bowser)
-				{
-					try
-					{
-						img = ImageIO.read(new File(Bowser.IMG));
-					}
-					catch (IOException e1)
-					{
-						e1.printStackTrace();
-					}
-				}
-				if(img != null)
-				{
-					g.drawImage(img, 
-							e.getArea().getPosition().getX(), 
-							e.getArea().getPosition().getY(), 
-							e.getArea().getSize().getX(), 
-							e.getArea().getSize().getY(), null);
+					e1.printStackTrace();
 				}
 			}
+			if(e instanceof Peach)
+			{
+				try
+				{
+					img = ImageIO.read(new File(Peach.IMG));
+					System.out.println(((Element) e).toString());
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+			if(e instanceof Bowser)
+			{
+				try
+				{
+					img = ImageIO.read(new File(Bowser.IMG));
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+			if(img != null)
+			{
+				g.drawImage(img, 
+						e.getArea().getPosition().getX(), 
+						e.getArea().getPosition().getY(), 
+						e.getArea().getSize().getX(), 
+						e.getArea().getSize().getY(), null);
+			}
+		}
+		
+		// Draw all objects
+		List<Obj> lo = this.map.getObjects();
+		for(Iterator<Obj> it = lo.iterator(); it.hasNext();)
+		{
+			Obj o = it.next();
 			
-			// Draw all objects
-			List<Obj> lo = this.map.getObjects();
-			for(Iterator<Obj> it = lo.iterator(); it.hasNext();)
+			BufferedImage img = null;
+			
+			if(o.getType() == ObjectType.MUSHROOM)
 			{
-				Obj o = it.next();
-				
-				BufferedImage img = null;
-				
-				if(o.getType() == ObjectType.MUSHROOM)
+				try
 				{
-					try
-					{
-						img = ImageIO.read(new File(Obj.MUSHROOM));
-					}
-					catch (IOException e1)
-					{
-						e1.printStackTrace();
-					}
+					img = ImageIO.read(new File(Obj.MUSHROOM));
 				}
-				if(o.getType() == ObjectType.STAR)
+				catch (IOException e1)
 				{
-					try
-					{
-						img = ImageIO.read(new File(Obj.STAR));
-					}
-					catch (IOException e1)
-					{
-						e1.printStackTrace();
-					}
-				}
-				if(img != null)
-				{
-					g.drawImage(img, 
-							o.getArea().getPosition().getX(), 
-							o.getArea().getPosition().getY(), 
-							o.getArea().getSize().getX(), 
-							o.getArea().getSize().getY(), null);
+					e1.printStackTrace();
 				}
 			}
+			if(o.getType() == ObjectType.STAR)
+			{
+				try
+				{
+					img = ImageIO.read(new File(Obj.STAR));
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+			if(img != null)
+			{
+				g.drawImage(img, 
+						o.getArea().getPosition().getX(), 
+						o.getArea().getPosition().getY(), 
+						o.getArea().getSize().getX(), 
+						o.getArea().getSize().getY(), null);
+			}
+		}
 	}
 
 	@Override
