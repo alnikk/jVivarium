@@ -3,12 +3,10 @@
  */
 package fr.utbm.lo43.jvivarium.core;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 
