@@ -24,6 +24,7 @@ import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
+import fr.utbm.lo43.jvivarium.core.Entity;
 import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.Mario;
 import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
@@ -143,7 +144,7 @@ public class XMLLoader implements Runnable
 	 */
 	private void parseEntity(NodeList l)
 	{
-		int i, j;
+		int i, j, life = 0, lifeE=0;
 		int x = 0, y = 0;
 		Coordinates sizeE = null, positionE = null;
 		
@@ -187,7 +188,7 @@ public class XMLLoader implements Runnable
 					positionE = new Coordinates(x,y);
 					break;
 					
-				case "type":
+				case "espece":
 					NodeList type = l.item(i).getChildNodes();
 					
 					try
@@ -209,6 +210,19 @@ public class XMLLoader implements Runnable
 					{
 						e.printStackTrace();
 					}
+					break;
+				case "life":
+					NodeList getLife = l.item(i).getChildNodes();
+					for(j = 0 ; j < getLife.getLength() ; j++)
+					{
+						switch(getLife.item(j).getNodeName())
+						{
+							case "life":
+								life = Integer.parseInt(getLife.item(j).getChildNodes().item(0).getNodeValue());
+								break;
+						}
+					}
+					lifeE=life;
 					break;
 			}
 		}
@@ -334,6 +348,159 @@ public class XMLLoader implements Runnable
 				}
 			}
 		}
+		
+		// Save		
+		Transformer transformer;
+		try
+		{
+			transformer = TransformerFactory.newInstance().newTransformer();
+			Result output = new StreamResult(new File(FILENAME));
+			Source input = new DOMSource(this.doc);
+			
+			transformer.transform(input, output);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	/**
+	 * Save entities to XML
+	 */
+	public void saveEntitys()
+	{
+		this.saveEntitys(this.map.getEntitys());
+	}
+	
+	/**
+	 * Save entities to XML
+	 * @param lEntity List of entities to save
+	 */
+	public void saveEntitys(List<Entity> lEntity)
+	{		
+		NodeList list = doc.getDocumentElement().getChildNodes();
+		Entity el;
+		Node n, old;
+		int i;
+		
+		
+		for(i = 0 ; i < list.getLength() ; i++)
+		{
+			if(list.item(i).getNodeName() == "map")
+			{
+				// Remove all entities
+				n = list.item(i).getFirstChild();
+				while(n != null)
+				{
+					old = n;
+					n = n.getNextSibling();
+					
+					if(old != null && n != null)
+						n.getParentNode().removeChild(old);
+				}
+				
+				//Add new ones
+				for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
+				{
+					el = it.next();
+					Node entity, size, pos, type;
+					Node no;
+					Node temp=list.item(i);
+					String espece;
+					temp.appendChild(this.doc.createElement("entity"));
+					temp = temp.getLastChild();
+					
+					// Recherche de chunk
+					while(temp.getNodeName() != "entity")
+						temp = temp.getPreviousSibling();
+					
+					// Si trouvé
+					if(temp.getNodeName() == "entity")
+					{
+						entity = temp;
+						
+						// Size
+						entity.appendChild(this.doc.createElement("size"));
+						
+						temp = entity.getFirstChild();
+						while(temp.getNodeName() != "size")
+							temp = temp.getNextSibling();
+						if(temp.getNodeName() == "size")
+						{
+							size = temp;
+							
+							no = this.doc.createElement("x");
+							no.setTextContent(el.getArea().getSize().getX() + "");
+							size.appendChild(no);
+							
+							no = this.doc.createElement("y");
+							no.setTextContent(el.getArea().getSize().getY() + "");
+							size.appendChild(no);
+						}
+						else
+							System.out.println("pb saveXML in entity !");
+						// Position 
+						entity.appendChild(this.doc.createElement("position"));
+						
+						while(temp.getNodeName() != "position")
+							temp = temp.getNextSibling();
+						if(temp.getNodeName() == "position")
+						{
+							pos = temp;
+							
+							no = this.doc.createElement("x");
+							no.setTextContent(el.getArea().getPosition().getX() + "");
+							pos.appendChild(no);
+							
+							no = this.doc.createElement("y");
+							no.setTextContent(el.getArea().getPosition().getY() + "");
+							pos.appendChild(no);
+						}
+						else
+							System.out.println("pb saveXML in entity !");
+						// Type
+						entity.appendChild(this.doc.createElement("espece"));
+						
+						while(temp.getNodeName() != "espece")
+							temp = temp.getNextSibling();
+						if(temp.getNodeName() == "espece")
+						{
+							type = temp;
+							
+							if( el instanceof Mario) {
+							    espece="Mario";
+							  }
+							  else if( el instanceof Peach) {
+							    espece="Peach";
+							  }
+							  else 
+								  espece="Bowser";
+							type.setTextContent( espece);
+						}
+						else
+							System.out.println("pb saveXML in entity !");
+						
+						entity.appendChild(this.doc.createElement("life"));
+						
+						while(temp.getNodeName() != "life")
+							temp = temp.getNextSibling();
+						if(temp.getNodeName() == "life")
+						{
+							type = temp;
+							type.setTextContent(el.getLife());
+						}
+						else
+							System.out.println("pb saveXML in entity !");
+					}
+					else // Si chunk pas trouvé
+						System.out.println("pb saveXML in entity !");
+				}
+				}
+			}
+		
 		
 		// Save		
 		Transformer transformer;

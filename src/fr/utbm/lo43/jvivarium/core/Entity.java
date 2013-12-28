@@ -27,4 +27,9 @@ public abstract class Entity extends Element
 	 * This method is the IA  of the entity
 	 */
 	public abstract void life();
-}
+
+	public String getLife(){
+		return Integer.toString(lifePoints);	
+	}
+		
+	}
