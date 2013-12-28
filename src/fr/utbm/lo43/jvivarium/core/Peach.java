@@ -22,7 +22,6 @@ public final class Peach extends Entity
 	{
 		int x = (int) Math.round(Math.random()*100);
 		int y = (int) Math.round(Math.random()*100);
-		System.out.println(x +":"+ y);
 		
 		if(x < 0)
 			x=-x;
@@ -35,7 +34,6 @@ public final class Peach extends Entity
 		}
 		catch (NegativeSizeException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

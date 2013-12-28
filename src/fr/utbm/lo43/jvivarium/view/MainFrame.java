@@ -2,6 +2,7 @@ package fr.utbm.lo43.jvivarium.view;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class MainFrame extends JFrame
 {
@@ -13,7 +14,12 @@ public class MainFrame extends JFrame
 	/**
 	 * The Game Panel
 	 */
-	private GamePanel gameP;
+	private GamePanel gameP = new GamePanel();
+	
+	/**
+	 * The loading JLabel
+	 */
+	private JLabel load = new JLabel("Loading");
 	
 	/**
 	 * Initialize the main window
@@ -26,12 +32,7 @@ public class MainFrame extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 		
-		this.gameP = new GamePanel();
-		this.add(this.gameP);
-		
-		this.setSize(this.gameP.getSize());
-		
-		this.start();
+		this.setVisible(true);
 	}
 	
 	/**
@@ -39,12 +40,24 @@ public class MainFrame extends JFrame
 	 * for the view and activate
 	 * the window
 	 */
-	private void start()
+	public void start()
 	{
+		this.remove(load);
+		
+		this.add(this.gameP);
+		this.setSize(this.gameP.getSize());
+		
 		Thread game = new Thread(this.gameP);
 		game.start();
-		
-		this.setVisible(true);
+	}
+	
+	/**
+	 * Loading view
+	 */
+	public void loading()
+	{		
+		this.setSize(100,50);
+		this.add(load);
 	}
 
 }

@@ -23,18 +23,34 @@ public final class JVivarium
 	/**
 	 * Main frame of the game
 	 */
-	MainFrame mFrame = new MainFrame();
+	private MainFrame mFrame;
 	
 	/**
 	 * Instance of the map
 	 */
-	Map map = Map.getMap();
+	private Map map = Map.getMap();
 	
 	
 	public JVivarium()
 	{
 		XMLLoader xml = new XMLLoader();
-		xml.startParse();
+		Thread xmlT = new Thread(xml);
+		xmlT.start();
+		
+		// View
+		this.mFrame = new MainFrame();
+		this.mFrame.loading();
+		
+		try
+		{
+			xmlT.join();
+		}
+		catch (InterruptedException e1)
+		{
+			e1.printStackTrace();
+		}
+		
+		this.mFrame.start();
 		
 		// Create entity
 		try

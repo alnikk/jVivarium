@@ -120,14 +120,11 @@ public class XMLLoader implements Runnable
 	private void parseMap(NodeList l)
 	{
 		int i;		
-		int j =0;
 		// Add chunks to the list
 		for(i = 0 ; i < l.getLength() ; i++)
 		{
 			if(l.item(i).getNodeName() == "chunk")
 			{
-				System.out.println("Chunk : " + j);
-				j++;
 				try
 				{
 					this.map.add(new Chunk(l.item(i).getChildNodes()));

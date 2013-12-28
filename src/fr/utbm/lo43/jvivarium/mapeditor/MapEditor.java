@@ -23,11 +23,6 @@ public class MapEditor extends JFrame
 	private static final long serialVersionUID = 1L;
 
 	//*************************** Variable **********************/
-	/**
-	 * XML parser for read/write the map file
-	 */
-	private XMLLoader xml = new XMLLoader();
-	
 			//************* [View] ******************/
 	
 	/**
@@ -51,7 +46,9 @@ public class MapEditor extends JFrame
 		this.setLayout(null);
 		
 		//**** XML ****
-		xml.startParse();
+		XMLLoader xml = new XMLLoader();
+		Thread xmlT = new Thread(xml);
+		xmlT.start();
 		
 		//**** View ****
 		

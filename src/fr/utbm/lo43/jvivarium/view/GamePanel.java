@@ -97,7 +97,6 @@ public class GamePanel extends JPanel implements Runnable
 				try
 				{
 					img = ImageIO.read(new File(Peach.IMG));
-					System.out.println(((Element) e).toString());
 				}
 				catch (IOException e1)
 				{
