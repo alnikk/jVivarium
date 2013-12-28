@@ -21,6 +21,11 @@ import fr.utbm.lo43.jvivarium.view.MainFrame;
 public final class JVivarium
 {
 	/**
+	 * Time between each loop of the controller
+	 */
+	private final static int TIME_SLEEP = 100;
+	
+	/**
 	 * Main frame of the game
 	 */
 	private MainFrame mFrame;
@@ -66,26 +71,34 @@ public final class JVivarium
 	}
 	
 	public void start()
-	{
-		List<Entity> l = this.map.getEntitys();
-		Entity e;
-		
+	{		
 		while(true)
 		{
-			for(Iterator<Entity> it = l.iterator(); it.hasNext();)
-			{
-				e = it.next();
-				e.life();
-			}
+			this.callEntity();
 			
 			try
 			{
-				Thread.sleep(1000);
+				Thread.sleep(TIME_SLEEP);
 			}
 			catch (InterruptedException e1)
 			{
 				e1.printStackTrace();
 			}
+		}
+	}
+	
+	/**
+	 * Call life on each entity
+	 */
+	private void callEntity()
+	{
+		List<Entity> l = this.map.getEntitys();
+		Entity e;
+		
+		for(Iterator<Entity> it = l.iterator(); it.hasNext();)
+		{
+			e = it.next();
+			e.life();
 		}
 	}
 }
