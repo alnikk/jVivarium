@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Chunk;
+import fr.utbm.lo43.jvivarium.core.Coordinates;
 import fr.utbm.lo43.jvivarium.core.Element;
 import fr.utbm.lo43.jvivarium.core.Entity;
 import fr.utbm.lo43.jvivarium.core.Map;
@@ -43,22 +44,12 @@ public class GamePanel extends JPanel implements Runnable
 	{
 		this.setBackground(new Color(0, 0, 0));
 		
-		int x=0,y=0;
+		Coordinates c = Map.getMaxMap();
 		
-		// Set the size of the panel in functions the most far chunk 
-		for (Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
-		{
-			Chunk c = it.next();
-			
-			if(c.getArea().getPosition().getX() + c.getArea().getSize().getX() > x)
-				x = c.getArea().getPosition().getX() + c.getArea().getSize().getX();
-			if(c.getArea().getPosition().getY() + c.getArea().getSize().getY() > y)
-				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
-		}
-		this.setSize(x, y);
-		this.setPreferredSize(new Dimension(x, y));
-		this.setMaximumSize(new Dimension(x, y));
-		this.setMinimumSize(new Dimension(x, y));
+		this.setSize(c.getX(), c.getY());
+		this.setPreferredSize(new Dimension(c.getX(), c.getY()));
+		this.setMaximumSize(new Dimension(c.getX(), c.getY()));
+		this.setMinimumSize(new Dimension(c.getX(), c.getY()));
 	}
 
 	@Override
