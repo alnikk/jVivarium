@@ -120,13 +120,21 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		
+		Chunk c;
 		// Draw all chunks
 		List<Chunk> lc = this.map.getChunks();
 		for(Iterator<Chunk> it = lc.iterator(); it.hasNext();)
 		{
-			Chunk c = it.next();
-			c.paint(g);
+			try
+			{
+				c = it.next();
+				c.paint(g);
+			}
+			catch(Exception e)
+			{
+				// TODO Better display
+				break;
+			}
 		}
 		
 		// Draw all entity
