@@ -1,8 +1,8 @@
-package fr.utbm.lo43.jvivarium.mapeditor.testunit;
+package fr.utbm.lo43.jvivarium.testunit;
 
 import fr.utbm.lo43.jvivarium.mapeditor.MapEditor;
 
-public class TestMapEditor
+public class MapEditorMain
 {
 	
 	public static void main(String[] args)
