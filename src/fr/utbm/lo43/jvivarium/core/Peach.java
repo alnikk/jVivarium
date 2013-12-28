@@ -20,22 +20,38 @@ public final class Peach extends Entity
 	
 	private void runAway()
 	{
-		int x = (int) Math.round(Math.random()*100);
-		int y = (int) Math.round(Math.random()*100);
+		Coordinates max = Map.getMaxMap();
+		BoundingBox b = this.getArea();
+		int x,y;
 		
-		if(x < 0)
-			x=-x;
-		if(y> 0)
-			y=-y;
+		// Check valid coordinates
+		do
+		{
+			// Choice of coordinates
+			x = (int) Math.round(Math.random()*20);
+			if(Math.random() < 0.5)
+				x = -x;
+			
+			y = (int) Math.round(Math.random()*20);
+			if(Math.random() < 0.5)
+				y = -y;
+			
+			// test
+			try
+			{
+				b = this.getArea().translate(new Coordinates(x, y));
+			}
+			catch (NegativeSizeException e)
+			{
+				e.printStackTrace();
+			}
+		}while((b.getPosition().getX() < 0 
+				|| b.getPosition().getX() + b.getSize().getX() > max.getX())
+				|| (b.getPosition().getY() < 0
+				|| b.getPosition().getY() + b.getSize().getY() > max.getY()));
 		
-		try
-		{
-			this.setArea(this.getArea().translate(new Coordinates(x, y)));
-		}
-		catch (NegativeSizeException e)
-		{
-			e.printStackTrace();
-		}
+		// Set new position
+		this.setArea(b);
 	}
 	
 	private void eat()

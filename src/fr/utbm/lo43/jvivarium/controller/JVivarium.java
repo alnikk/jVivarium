@@ -57,6 +57,7 @@ public final class JVivarium
 		
 		this.mFrame.start();
 		
+		// TODO Entity will be loaded with the map
 		// Create entity
 		try
 		{
