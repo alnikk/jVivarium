@@ -51,7 +51,7 @@ public class Map
 	 * Add chunk,entity, or object in the map
 	 * @param o (Chunk,Entity,Obj) The Object to add in the map
 	 */
-	public void add(Object o)
+	public static void add(Object o)
 	{
 		if(o instanceof Chunk)
 			lChunk.add((Chunk) o);
@@ -66,7 +66,7 @@ public class Map
 	 * Remove chunk,entity, or object of the map
 	 * @param o (Chunk,Entity,Obj) The Object to remove of the map
 	 */
-	public void remove(Object o)
+	public static void remove(Object o)
 	{
 		if(o instanceof Chunk)
 			lChunk.remove((Chunk) o);
@@ -81,7 +81,7 @@ public class Map
 	 * Set the list of chunks
 	 * @param l The list of chunks
 	 */
-	public void setChunks(List<Chunk> l)
+	public static void setChunks(List<Chunk> l)
 	{
 		lChunk = l;
 	}
@@ -90,7 +90,7 @@ public class Map
 	 * Get the list of chunks
 	 * @return The list of Chunks
 	 */
-	public List<Chunk> getChunks()
+	public static List<Chunk> getChunks()
 	{
 		return lChunk;
 	}
@@ -99,7 +99,7 @@ public class Map
 	 * Set the list of entity
 	 * @param l The list of entity
 	 */
-	public void setEntitys(List<Entity> l)
+	public static void setEntitys(List<Entity> l)
 	{
 		lEntity = l;
 	}
@@ -108,7 +108,7 @@ public class Map
 	 * Get the list of entity
 	 * @return The list of entity
 	 */
-	public List<Entity> getEntitys()
+	public static List<Entity> getEntitys()
 	{
 		return lEntity;
 	}
@@ -117,7 +117,7 @@ public class Map
 	 * Set the list of objects
 	 * @param l The list of objects
 	 */
-	public void setObjects(List<Obj> l)
+	public static void setObjects(List<Obj> l)
 	{
 		lObj = l;
 	}
@@ -126,7 +126,7 @@ public class Map
 	 * Get the list of objects
 	 * @return The list of objects
 	 */
-	public List<Obj> getObjects()
+	public static List<Obj> getObjects()
 	{
 		return lObj;
 	}
