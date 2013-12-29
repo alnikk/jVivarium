@@ -1,5 +1,7 @@
 package fr.utbm.lo43.jvivarium.core;
 
+import java.util.Random;
+
 public final class Mario extends Entity
 {
 	/**
@@ -83,13 +85,17 @@ public final class Mario extends Entity
 	 */
 	private void reproduce()
 	{
+		Random r = new Random();
 		//will the baby be a Mario or a Peach ?
 		try
 		{
-			if(Math.round(Math.random()) == 1)
-				Map.getMap().add(new Mario(this.getArea()));
-			else
-				Map.getMap().add(new Peach(this.getArea()));
+			if(r.nextInt(8) == 3)
+			{
+				if(Math.round(Math.random()) == 1)
+					Map.getMap().add(new Mario(this.getArea()));
+				else
+					Map.getMap().add(new Peach(this.getArea()));
+			}
 		}
 		catch(Exception e)
 		{
