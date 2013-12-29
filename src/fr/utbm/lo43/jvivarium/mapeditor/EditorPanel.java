@@ -93,6 +93,31 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	 */
 	private BufferedImage iCPinkBrick;
 	
+	/**
+	 * Image Mario
+	 */
+	private BufferedImage iMario;
+	
+	/**
+	 * Image Peach
+	 */
+	private BufferedImage iPeach;
+	
+	/**
+	 * Image Bowser
+	 */
+	private BufferedImage iBowser;
+	
+	/**
+	 * Image Mushroom
+	 */
+	private BufferedImage iMushroom;
+	
+	/**
+	 * Image Star
+	 */
+	private BufferedImage iStar;
+	
 	//****************************** Constructors *******************
 	
 	/**
@@ -118,6 +143,13 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 			this.iCPinkBrick = ImageIO.read(new File(Chunk.PINK_BRICK));
 			this.iCPipe = ImageIO.read(new File(Chunk.PIPE));
 			this.iCBrick = ImageIO.read(new File(Chunk.BRICK));
+			
+			this.iMario = ImageIO.read(new File(Mario.IMG));
+			this.iPeach = ImageIO.read(new File(Peach.IMG));
+			this.iBowser = ImageIO.read(new File(Bowser.IMG));
+			
+			this.iMushroom = ImageIO.read(new File(Obj.MUSHROOM));
+			this.iStar = ImageIO.read(new File(Obj.STAR));
 		}
 		catch (IOException e)
 		{
@@ -153,6 +185,8 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		
 		BufferedImage img = null;
 		Chunk c;
+		Obj o;
+		Entity entity;
 		
 		// Draw all chunks
 		for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
@@ -193,83 +227,38 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		}
 		
 		// Draw all entity
-		List<Entity> le = this.map.getEntitys();
-		for(Iterator<Entity> it = le.iterator(); it.hasNext();)
+		for(Iterator<Entity> it = this.map.getEntitys().iterator(); it.hasNext();)
 		{
-			Entity e = it.next();
+			entity = it.next();
 			
-			if(e instanceof Mario)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Mario.IMG));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-			if(e instanceof Peach)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Peach.IMG));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-			if(e instanceof Bowser)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Bowser.IMG));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
+			if(entity instanceof Mario)
+				img = this.iMario;
+			if(entity instanceof Peach)
+				img = this.iPeach;
+			if(entity instanceof Bowser)
+				img = this.iBowser;
+			
 			if(img != null)
 			{
 				g.drawImage(img, 
-						e.getArea().getPosition().getX(), 
-						e.getArea().getPosition().getY(), 
-						e.getArea().getSize().getX(), 
-						e.getArea().getSize().getY(), null);
+						entity.getArea().getPosition().getX(), 
+						entity.getArea().getPosition().getY(), 
+						entity.getArea().getSize().getX(), 
+						entity.getArea().getSize().getY(), null);
 			}
 		}
 		
 		// Draw all objects
-		List<Obj> lo = this.map.getObjects();
-		for(Iterator<Obj> it = lo.iterator(); it.hasNext();)
+		for(Iterator<Obj> ito = this.map.getObjects().iterator(); ito.hasNext();)
 		{
-			Obj o = it.next();
+			o = ito.next();
 			
 			
 			if(o.getType() == ObjectType.MUSHROOM)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Obj.MUSHROOM));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
+				img = this.iMushroom;
 			if(o.getType() == ObjectType.STAR)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Obj.STAR));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
+				img = this.iStar;
+			
 			if(img != null)
 			{
 				g.drawImage(img, 

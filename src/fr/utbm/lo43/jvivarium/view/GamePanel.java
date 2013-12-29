@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -30,10 +29,11 @@ public class GamePanel extends JPanel implements Runnable
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Map of the game
+	 * Map singleton
 	 */
 	private Map map = Map.getMap();
 	
+		//******* Image ********
 	/**
 	 * Image Chunk Fire
 	 */
@@ -58,6 +58,31 @@ public class GamePanel extends JPanel implements Runnable
 	 * Image Chunk Pink Brick
 	 */
 	private BufferedImage iCPinkBrick;
+	
+	/**
+	 * Image Mario
+	 */
+	private BufferedImage iMario;
+	
+	/**
+	 * Image Peach
+	 */
+	private BufferedImage iPeach;
+	
+	/**
+	 * Image Bowser
+	 */
+	private BufferedImage iBowser;
+	
+	/**
+	 * Image Mushroom
+	 */
+	private BufferedImage iMushroom;
+	
+	/**
+	 * Image Star
+	 */
+	private BufferedImage iStar;
 
 	/**
 	 * Constructor of the class.
@@ -83,6 +108,13 @@ public class GamePanel extends JPanel implements Runnable
 			this.iCPinkBrick = ImageIO.read(new File(Chunk.PINK_BRICK));
 			this.iCPipe = ImageIO.read(new File(Chunk.PIPE));
 			this.iCBrick = ImageIO.read(new File(Chunk.BRICK));
+			
+			this.iMario = ImageIO.read(new File(Mario.IMG));
+			this.iPeach = ImageIO.read(new File(Peach.IMG));
+			this.iBowser = ImageIO.read(new File(Bowser.IMG));
+			
+			this.iMushroom = ImageIO.read(new File(Obj.MUSHROOM));
+			this.iStar = ImageIO.read(new File(Obj.STAR));
 		}
 		catch (IOException e)
 		{
@@ -92,14 +124,13 @@ public class GamePanel extends JPanel implements Runnable
 
 	@Override
 	public void paint(Graphics g)
-	{
-		Entity e;
-		
+	{		
 		super.paint(g);
 		
-		// Draw all chunks
 		BufferedImage img = null;
 		Chunk c;
+		Obj o;
+		Entity entity;
 		
 		// Draw all chunks
 		for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
@@ -132,7 +163,7 @@ public class GamePanel extends JPanel implements Runnable
 						c.getArea().getSize().getX(), 
 						c.getArea().getSize().getY(), null);
 			}
-			catch(Exception ec)
+			catch(Exception e)
 			{
 				// TODO Better display
 				break;
@@ -140,84 +171,38 @@ public class GamePanel extends JPanel implements Runnable
 		}
 		
 		// Draw all entity
-		for(Iterator<Entity> ite = this.map.getEntitys().iterator(); ite.hasNext();)
+		for(Iterator<Entity> it = this.map.getEntitys().iterator(); it.hasNext();)
 		{
-			try{
-			e = ite.next();
-			}catch(Exception exc)
-			{
-				break;
-			}
-			if(e instanceof Mario)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Mario.IMG));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-			if(e instanceof Peach)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Peach.IMG));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-			if(e instanceof Bowser)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Bowser.IMG));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
+			entity = it.next();
+			
+			if(entity instanceof Mario)
+				img = this.iMario;
+			if(entity instanceof Peach)
+				img = this.iPeach;
+			if(entity instanceof Bowser)
+				img = this.iBowser;
+			
 			if(img != null)
 			{
 				g.drawImage(img, 
-						e.getArea().getPosition().getX(), 
-						e.getArea().getPosition().getY(), 
-						e.getArea().getSize().getX(), 
-						e.getArea().getSize().getY(), null);
+						entity.getArea().getPosition().getX(), 
+						entity.getArea().getPosition().getY(), 
+						entity.getArea().getSize().getX(), 
+						entity.getArea().getSize().getY(), null);
 			}
 		}
 		
 		// Draw all objects
 		for(Iterator<Obj> ito = this.map.getObjects().iterator(); ito.hasNext();)
 		{
-			Obj o = ito.next();
+			o = ito.next();
+			
 			
 			if(o.getType() == ObjectType.MUSHROOM)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Obj.MUSHROOM));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
+				img = this.iMushroom;
 			if(o.getType() == ObjectType.STAR)
-			{
-				try
-				{
-					img = ImageIO.read(new File(Obj.STAR));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
+				img = this.iStar;
+			
 			if(img != null)
 			{
 				g.drawImage(img, 
