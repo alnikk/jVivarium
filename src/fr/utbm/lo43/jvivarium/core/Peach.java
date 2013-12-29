@@ -12,7 +12,7 @@ public final class Peach extends Entity
 	/**
 	 * Probability of having a baby, ex: 8 mean 1 chance out of 8
 	 */
-	public final int proBaby = 10;
+	public final int proBaby = 8;
 	
 	public Peach(BoundingBox area)
 	{

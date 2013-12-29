@@ -21,6 +21,10 @@ public final class Bowser extends Entity
 	public void life()
 	{
 		this.move();
+		
+		//if Bowser and Peach are at the same place, he will kidnap her
+		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null && Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Peach)
+			this.kidnap();
 	}
 	
 	private void move()
@@ -66,7 +70,11 @@ public final class Bowser extends Entity
 	
 	private void kidnap()
 	{
+		// this Peach has been kidnapped and stocked in memory
+		kidnaped = (Peach) Map.getMap().getEntityAt(this.getArea().getPosition());
 		
+		// we remove her of the map
+		Map.getMap().remove(Map.getMap().getEntityAt(this.getArea().getPosition()));
 	}
 	
 
