@@ -70,6 +70,10 @@ public final class Mario extends Entity
 	 */
 	private void eat()
 	{
+		// if the object is a MUSHROOM, we regenerate the life points of Mario
+		if(Map.getMap().getObjAt(this.getArea().getPosition()).getType() == ObjectType.MUSHROOM)
+			this.setLife(getMaxLife());
+		
 		//Mario eat this object, so we can remove it from the map
 		Map.getMap().remove(Map.getMap().getObjAt(this.getArea().getPosition()));
 	}
