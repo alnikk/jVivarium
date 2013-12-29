@@ -178,7 +178,6 @@ public class Map
 	public synchronized Entity getEntityAt(Coordinates p)
 	{
 		Entity e;
-		int x=0,y=0;
 		
 		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
 		{
@@ -196,7 +195,6 @@ public class Map
 	public synchronized Obj getObjAt(Coordinates p)
 	{
 		Obj o;
-		int x=0,y=0;
 		
 		for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
 		{
