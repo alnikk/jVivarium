@@ -10,7 +10,9 @@ import fr.utbm.lo43.jvivarium.core.Entity;
 import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.Mario;
 import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
+import fr.utbm.lo43.jvivarium.core.ObjectType;
 import fr.utbm.lo43.jvivarium.core.Peach;
+import fr.utbm.lo43.jvivarium.core.Obj;
 import fr.utbm.lo43.jvivarium.view.MainFrame;
 
 /**
@@ -61,6 +63,7 @@ public final class JVivarium
 		// Create entity
 		try
 		{
+			map.add(new Obj(new BoundingBox(new Coordinates(20, 300), new Coordinates(20, 20)), ObjectType.MUSHROOM));
 			map.add(new Mario(new BoundingBox(new Coordinates(60, 200), new Coordinates(20, 20))));
 			map.add(new Peach(new BoundingBox(new Coordinates(20, 300), new Coordinates(20, 20))));
 			map.add(new Bowser(new BoundingBox(new Coordinates(40, 0), new Coordinates(20, 20))));

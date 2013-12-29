@@ -21,6 +21,10 @@ public final class Bowser extends Entity
 	public void life()
 	{
 		this.move();
+		
+		// if Bowser is on an Obj, he will eat it
+		if(Map.getObjAt(this.getArea().getPosition()) != null)
+			this.eat();
 	}
 	
 	private void move()
@@ -61,7 +65,8 @@ public final class Bowser extends Entity
 	
 	private void eat()
 	{
-		
+		//Bowser eat this object, so we can remove it from the map
+		Map.remove(Map.getObjAt(this.getArea().getPosition()));
 	}
 	
 	private void attack()

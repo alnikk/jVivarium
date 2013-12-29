@@ -16,6 +16,14 @@ public final class Mario extends Entity
 	public void life()
 	{
 		this.move();
+		
+		// if Mario is on an Obj, he will eat it
+		if(Map.getObjAt(this.getArea().getPosition()) != null)
+			this.eat();
+		
+		// if Mario and a Peach are at the same place, they will reproduce
+		if(Map.getEntityAt(this.getArea().getPosition()) != null && Map.getEntityAt(this.getArea().getPosition()) instanceof Peach)
+			this.reproduce();
 	}
 	
 	/**
@@ -62,7 +70,8 @@ public final class Mario extends Entity
 	 */
 	private void eat()
 	{
-		
+		//Mario eat this object, so we can remove it from the map
+		Map.remove(Map.getObjAt(this.getArea().getPosition()));
 	}
 	
 	/**
@@ -70,7 +79,18 @@ public final class Mario extends Entity
 	 */
 	private void reproduce()
 	{
-		
+		//will the baby be a Mario or a Peach ?
+		try
+		{
+			if(Math.round(Math.random()) == 1)
+				Map.add(new Mario(this.getArea()));
+			else
+				Map.add(new Peach(this.getArea()));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
