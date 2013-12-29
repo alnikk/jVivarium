@@ -161,7 +161,6 @@ public class Map
 	public static Chunk getChunkAt(Coordinates p)
 	{
 		Chunk c;
-		int x=0,y=0;
 		
 		for(Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
 		{
@@ -178,13 +177,13 @@ public class Map
 	
 	/**
 	 * Return a list of chunks in the radius distance
-	 * @param e Around which element look up 
+	 * @param e Around which entity look up 
 	 * @param radius The distance to look
 	 * @return A list of chunks in the radius
 	 */
-	public static List<Chunk> scanChunk(Element e, int radius)
+	public static List<Chunk> scanChunk(Entity e, int radius)
 	{
-		List<Chunk> res = null;
+		List<Chunk> res = new LinkedList<Chunk>();
 		Chunk c;
 		
 		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
@@ -195,8 +194,58 @@ public class Map
 		{
 			c = it.next();
 			
-			xc = c.getArea().getPosition().getX() - e.getArea().getPosition().getX();
-			yc = c.getArea().getPosition().getY() - e.getArea().getPosition().getY();
+			xc = c.getArea().getPosition().getX() - xe;
+			yc = c.getArea().getPosition().getY() - ye;
+			
+			module = Math.sqrt(Math.pow(xc, 2)+Math.pow(yc, 2));
+			
+			if(module < radius)
+				res.add(c);
+		}
+		
+		return res;
+	}
+	// TODO Add generics
+	public static List<Entity> scanEntity(Entity e, int radius)
+	{
+		List<Entity> res = new LinkedList<Entity>();
+		Entity c;
+		
+		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
+		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
+		double xc,yc, module; 
+		
+		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			xc = c.getArea().getPosition().getX() - xe;
+			yc = c.getArea().getPosition().getY() - ye;
+			
+			module = Math.sqrt(Math.pow(xc, 2)+Math.pow(yc, 2));
+			
+			if(module < radius)
+				res.add(c);
+		}
+		
+		return res;
+	}
+	
+	public static List<Obj> scanObject(Entity e, int radius)
+	{
+		List<Obj> res = new LinkedList<Obj>();
+		Obj c;
+		
+		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
+		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
+		double xc,yc, module; 
+		
+		for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			xc = c.getArea().getPosition().getX() - xe;
+			yc = c.getArea().getPosition().getY() - ye;
 			
 			module = Math.sqrt(Math.pow(xc, 2)+Math.pow(yc, 2));
 			
