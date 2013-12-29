@@ -57,11 +57,6 @@ public class Chunk extends Element
 	 * The enumerate field type of the chunk
 	 */
 	private FieldType type;
-	
-	/**
-	 * Image of this chunk
-	 */
-	private BufferedImage img;
 
 	//************************ Constructors *************************/
 	
@@ -75,8 +70,6 @@ public class Chunk extends Element
 	{
 		super(b);
 		this.type = type;
-		
-		this.initImg();
 	}
 	
 	/**
@@ -166,74 +159,6 @@ public class Chunk extends Element
 			}
 		}
 		this.setArea(new BoundingBox(positionC, sizeC));
-		this.initImg();
-	}
-	
-	public void paint(Graphics g)
-	{
-		g.drawImage(img, 
-				this.getArea().getPosition().getX(),
-				this.getArea().getPosition().getY(), 
-				this.getArea().getSize().getX(),
-				this.getArea().getSize().getY(),
-				null);
-	}
-	
-	private void initImg()
-	{
-		switch(this.type)
-		{
-			case BRICK:
-				try
-				{
-					this.img = ImageIO.read(new File(BRICK));
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			case CASTLE:
-				try
-				{
-					this.img = ImageIO.read(new File(CASTLE));
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			case FIRE:
-				try
-				{
-					this.img = ImageIO.read(new File(FIRE));
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			case PINK_BRICK:
-				try
-				{
-					this.img = ImageIO.read(new File(PINK_BRICK));
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-			case PIPE:
-				try
-				{
-					this.img = ImageIO.read(new File(PIPE));
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				break;
-		}
 	}
 	
 	//*************************** Getters & Setters *************************/
