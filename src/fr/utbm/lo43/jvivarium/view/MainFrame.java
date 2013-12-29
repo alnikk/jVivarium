@@ -1,5 +1,7 @@
 package fr.utbm.lo43.jvivarium.view;
 
+import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,7 +47,9 @@ public class MainFrame extends JFrame
 		this.remove(load);
 		
 		this.add(this.gameP);
-		this.setSize(this.gameP.getSize());
+		this.setSize(
+				new Dimension((int) this.gameP.getSize().getWidth(),
+						(int)(this.gameP.getSize().getHeight() + this.getInsets().top)));
 		
 		Thread game = new Thread(this.gameP);
 		game.start();
@@ -56,7 +60,7 @@ public class MainFrame extends JFrame
 	 */
 	public void loading()
 	{		
-		this.setSize(100,50);
+		this.setSize(100,70);
 		this.add(load);
 	}
 
