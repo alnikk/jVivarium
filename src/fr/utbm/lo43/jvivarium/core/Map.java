@@ -175,4 +175,40 @@ public class Map
 		}
 		return null;
 	}
+	
+	public static Entity getEntityAt(Coordinates p)
+	{
+		Entity e;
+		int x=0,y=0;
+		
+		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
+		{
+			e = it.next();
+			
+			if((e.getArea().getPosition().getX() + e.getArea().getSize().getX()) > p.getX()
+					&& e.getArea().getPosition().getX() < p.getX()
+					&& (e.getArea().getPosition().getY() + e.getArea().getSize().getY()) > p.getY()
+					&& e.getArea().getPosition().getY() < p.getY())
+				return e;
+		}
+		return null;
+	}
+	
+	public static Obj getObjAt(Coordinates p)
+	{
+		Obj o;
+		int x=0,y=0;
+		
+		for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
+		{
+			o = it.next();
+			
+			if((o.getArea().getPosition().getX() + o.getArea().getSize().getX()) > p.getX()
+					&& o.getArea().getPosition().getX() < p.getX()
+					&& (o.getArea().getPosition().getY() + o.getArea().getSize().getY()) > p.getY()
+					&& o.getArea().getPosition().getY() < p.getY())
+				return o;
+		}
+		return null;
+	}
 }
