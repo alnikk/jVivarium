@@ -377,8 +377,9 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			XMLLoader xml = new XMLLoader();
 			xml.saveChunks(this.map.getChunks());
-			// TODO Save Entity
-			// TODO Save Objects
+			xml.saveEntitys(this.map.getEntitys());
+			xml.saveObjects(this.map.getObjects());
+
 		}
 		
 		

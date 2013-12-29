@@ -392,12 +392,12 @@ public class XMLLoader implements Runnable
 		NodeList list = doc.getDocumentElement().getChildNodes();
 		Entity el;
 		Node n, old;
-		int i;
+		int i,life;
 		
 		
 		for(i = 0 ; i < list.getLength() ; i++)
 		{
-			if(list.item(i).getNodeName() == "map")
+			if(list.item(i).getNodeName() == "entity")
 			{
 				// Remove all entities
 				n = list.item(i).getFirstChild();
@@ -414,32 +414,18 @@ public class XMLLoader implements Runnable
 				for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
 				{
 					el = it.next();
-					Node entity, size, pos, type;
 					Node no;
 					Node temp=list.item(i);
+					Node size,pos,lifeNode,type;
 					String espece;
-					temp.appendChild(this.doc.createElement("entity"));
-					temp = temp.getLastChild();
-					
-					// Recherche d'entity
-					while(temp.getNodeName() != "map")
-						temp = temp.getPreviousSibling();
-					
-					// Si trouvé
-					if(temp.getNodeName() == "entity")
-					{
-						entity = temp;
-						
-						// Size
-						entity.appendChild(this.doc.createElement("size"));
-						
-						temp = entity.getFirstChild();
+			
+						temp.appendChild(this.doc.createElement("size"));
+						temp = temp.getLastChild();
 						while(temp.getNodeName() != "size")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "size")
-						{
-							size = temp;
-							
+						{	
+							size=temp;
 							no = this.doc.createElement("x");
 							no.setTextContent(el.getArea().getSize().getX() + "");
 							size.appendChild(no);
@@ -451,14 +437,13 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 						// Position 
-						entity.appendChild(this.doc.createElement("position"));
+						temp.appendChild(this.doc.createElement("position"));
 						
 						while(temp.getNodeName() != "position")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "position")
 						{
-							pos = temp;
-							
+							pos=temp;
 							no = this.doc.createElement("x");
 							no.setTextContent(el.getArea().getPosition().getX() + "");
 							pos.appendChild(no);
@@ -470,13 +455,12 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 						// Espece
-						entity.appendChild(this.doc.createElement("espece"));
-						
+						temp.appendChild(this.doc.createElement("espece"));
 						while(temp.getNodeName() != "espece")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "espece")
 						{
-							type = temp;
+							type=temp;
 							
 							if( el instanceof Mario) {
 							    espece="Mario";
@@ -486,30 +470,26 @@ public class XMLLoader implements Runnable
 							  }
 							  else 
 								  espece="Bowser";
-							type.setTextContent(espece+"");
+							
+							type.setTextContent(espece);
 						}
 						else
 							System.out.println("pb saveXML in entity !");
 						//Life Points
-						entity.appendChild(this.doc.createElement("life"));
-						
+						temp.appendChild(this.doc.createElement("life"));
 						while(temp.getNodeName() != "life")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "life")
 						{
-							type = temp;
-							type.setTextContent(Integer.toString(el.getLife()));
+							lifeNode=temp;
+							life= el.getLife();
+							lifeNode.setTextContent(Integer.toString(life));
 						}
 						else
 							System.out.println("pb saveXML in entity !");
 					}
-					else // Si pas trouvé
-						System.out.println("pb saveXML in entity !");
-				}
 				}
 			}
-		
-		
 		// Save		
 		Transformer transformer;
 		try
@@ -543,16 +523,18 @@ public class XMLLoader implements Runnable
 	{		
 		NodeList list = doc.getDocumentElement().getChildNodes();
 		Obj o;
-		Node n, old;
+		Node n, old,size,pos,obj,type;
 		int i;
 		
 		
 		for(i = 0 ; i < list.getLength() ; i++)
 		{
-			if(list.item(i).getNodeName() == "map")
+			if(list.item(i).getNodeName() == "obj")
 			{
+				
 				// Remove all chunks
 				n = list.item(i).getFirstChild();
+				obj=n;
 				while(n != null)
 				{
 					old = n;
@@ -566,32 +548,17 @@ public class XMLLoader implements Runnable
 				for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
 				{
 					o = it.next();
-					Node objet, size, pos, type;
 					Node no;
 					Node temp=list.item(i);
-					String objType;
-					temp.appendChild(this.doc.createElement("obj"));
-					temp = temp.getLastChild();
-					
-					// Recherche objets
-					while(temp.getNodeName() != "map")
-						temp = temp.getPreviousSibling();
-					
-					// Si trouvé
-					if(temp.getNodeName() == "obj")
-					{
-						objet = temp;
+					String objType;	
+						obj.appendChild(this.doc.createElement("size"));
 						
-						// Size
-						objet.appendChild(this.doc.createElement("size"));
-						
-						temp = objet.getFirstChild();
+						temp = temp.getLastChild();
 						while(temp.getNodeName() != "size")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "size")
-						{
-							size = temp;
-							
+						{		
+							size=n;
 							no = this.doc.createElement("x");
 							no.setTextContent(o.getArea().getSize().getX() + "");
 							size.appendChild(no);
@@ -603,13 +570,12 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 						// Position 
-						objet.appendChild(this.doc.createElement("position"));
-						
+						obj.appendChild(this.doc.createElement("position"));
 						while(temp.getNodeName() != "position")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "position")
 						{
-							pos = temp;
+							pos=temp;
 							
 							no = this.doc.createElement("x");
 							no.setTextContent(o.getArea().getPosition().getX() + "");
@@ -622,29 +588,24 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 						// Type
-						objet.appendChild(this.doc.createElement("objType"));
 						
+						obj.appendChild(this.doc.createElement("objType"));
 						while(temp.getNodeName() != "objType")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "objType")
-						{
-							type = temp;
-							
+						{		
+							type=temp;
 							if( temp.getNodeValue()=="STAR") {
 							    objType="STAR";
 							  }
-						
-							  else 
+							else 
 								objType="MUSHROOM";
-							type.setTextContent( objType+"");
+							type.setTextContent(objType);
 						}
-						else
-							System.out.println("pb saveXML in entity !");
-						
-					
 					}
 				}
 			}
+			
 		
 		// Save		
 		Transformer transformer;
@@ -660,6 +621,6 @@ public class XMLLoader implements Runnable
 		{
 			e.printStackTrace();
 		}
-		}
 	}
 }
+
