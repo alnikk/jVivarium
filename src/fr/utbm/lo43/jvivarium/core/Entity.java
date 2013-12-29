@@ -32,4 +32,9 @@ public abstract class Entity extends Element
 		return Integer.toString(lifePoints);	
 	}
 		
+	
+	public void setLife(int lp){
+		lifePoints=lp;
+	}
+
 	}

@@ -144,7 +144,7 @@ public class XMLLoader implements Runnable
 	 */
 	private void parseEntity(NodeList l)
 	{
-		int i, j, life = 0, lifeE=0;
+		int i, j, life = 0, lifeE=100;
 		int x = 0, y = 0;
 		Coordinates sizeE = null, positionE = null;
 		
@@ -187,30 +187,6 @@ public class XMLLoader implements Runnable
 					}
 					positionE = new Coordinates(x,y);
 					break;
-					
-				case "espece":
-					NodeList type = l.item(i).getChildNodes();
-					
-					try
-					{
-						switch(type.item(0).getNodeValue())
-						{
-							case "MARIO":
-								this.map.add(new Mario(new BoundingBox(positionE, sizeE)));
-								break;
-							case "PEACH":
-								this.map.add(new Peach(new BoundingBox(positionE, sizeE)));
-								break;
-							case "BOWSER":
-								this.map.add(new Bowser(new BoundingBox(positionE, sizeE)));
-								break;
-						}
-					}
-					catch(Exception e)
-					{
-						e.printStackTrace();
-					}
-					break;
 				case "life":
 					NodeList getLife = l.item(i).getChildNodes();
 					for(j = 0 ; j < getLife.getLength() ; j++)
@@ -224,6 +200,38 @@ public class XMLLoader implements Runnable
 					}
 					lifeE=life;
 					break;
+					
+				case "espece":
+					NodeList type = l.item(i).getChildNodes();
+					
+					try
+					{
+						switch(type.item(0).getNodeValue())
+						{
+							case "MARIO":
+								Mario m = new Mario(new BoundingBox(positionE, sizeE));
+								m.setLife(lifeE);
+								this.map.add(m);
+								break;
+							case "PEACH":
+								Peach p = new Peach(new BoundingBox(positionE, sizeE));
+								p.setLife(lifeE);
+								
+								this.map.add(p);
+								break;
+							case "BOWSER":
+								Bowser b = new Bowser(new BoundingBox(positionE, sizeE));
+								b.setLife(lifeE);
+								this.map.add(b);
+								break;
+						}
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					break;
+				
 			}
 		}
 	}
@@ -414,7 +422,7 @@ public class XMLLoader implements Runnable
 					temp = temp.getLastChild();
 					
 					// Recherche d'entity
-					while(temp.getNodeName() != "entity")
+					while(temp.getNodeName() != "map")
 						temp = temp.getPreviousSibling();
 					
 					// Si trouvé
@@ -478,7 +486,7 @@ public class XMLLoader implements Runnable
 							  }
 							  else 
 								  espece="Bowser";
-							type.setTextContent( espece);
+							type.setTextContent(espece+"");
 						}
 						else
 							System.out.println("pb saveXML in entity !");
@@ -541,7 +549,7 @@ public class XMLLoader implements Runnable
 		
 		for(i = 0 ; i < list.getLength() ; i++)
 		{
-			if(list.item(i).getNodeName() == "obj")
+			if(list.item(i).getNodeName() == "map")
 			{
 				// Remove all chunks
 				n = list.item(i).getFirstChild();
@@ -566,7 +574,7 @@ public class XMLLoader implements Runnable
 					temp = temp.getLastChild();
 					
 					// Recherche objets
-					while(temp.getNodeName() != "obj")
+					while(temp.getNodeName() != "map")
 						temp = temp.getPreviousSibling();
 					
 					// Si trouvé
@@ -628,7 +636,7 @@ public class XMLLoader implements Runnable
 						
 							  else 
 								objType="MUSHROOM";
-							type.setTextContent( objType);
+							type.setTextContent( objType+"");
 						}
 						else
 							System.out.println("pb saveXML in entity !");
