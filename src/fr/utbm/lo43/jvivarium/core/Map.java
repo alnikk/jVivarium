@@ -188,18 +188,26 @@ public class Map
 		
 		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
 		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
-		double xc,yc, module; 
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4; 
 		
 		for(Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
 		{
 			c = it.next();
 			
-			xc = c.getArea().getPosition().getX() - xe;
-			yc = c.getArea().getPosition().getY() - ye;
+			xc1 = c.getArea().getPosition().getX() - xe;
+			yc1 = c.getArea().getPosition().getY() - ye;
+			xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+			yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
 			
-			module = Math.sqrt(Math.pow(xc, 2)+Math.pow(yc, 2));
+			module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+			module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+			module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+			module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
 			
-			if(module < radius)
+			if(module1 < radius
+					|| module2 < radius
+					|| module3 < radius
+					|| module4 < radius)
 				res.add(c);
 		}
 		
@@ -213,18 +221,26 @@ public class Map
 		
 		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
 		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
-		double xc,yc, module; 
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4; 
 		
 		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
 		{
 			c = it.next();
 			
-			xc = c.getArea().getPosition().getX() - xe;
-			yc = c.getArea().getPosition().getY() - ye;
+			xc1 = c.getArea().getPosition().getX() - xe;
+			yc1 = c.getArea().getPosition().getY() - ye;
+			xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+			yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
 			
-			module = Math.sqrt(Math.pow(xc, 2)+Math.pow(yc, 2));
+			module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+			module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+			module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+			module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
 			
-			if(module < radius)
+			if(module1 < radius
+					|| module2 < radius
+					|| module3 < radius
+					|| module4 < radius)
 				res.add(c);
 		}
 		
@@ -238,18 +254,26 @@ public class Map
 		
 		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
 		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
-		double xc,yc, module; 
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4; 
 		
 		for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
 		{
 			c = it.next();
 			
-			xc = c.getArea().getPosition().getX() - xe;
-			yc = c.getArea().getPosition().getY() - ye;
+			xc1 = c.getArea().getPosition().getX() - xe;
+			yc1 = c.getArea().getPosition().getY() - ye;
+			xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+			yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
 			
-			module = Math.sqrt(Math.pow(xc, 2)+Math.pow(yc, 2));
+			module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+			module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+			module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+			module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
 			
-			if(module < radius)
+			if(module1 < radius
+					|| module2 < radius
+					|| module3 < radius
+					|| module4 < radius)
 				res.add(c);
 		}
 		
