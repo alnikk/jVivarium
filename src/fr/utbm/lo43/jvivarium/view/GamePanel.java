@@ -33,6 +33,31 @@ public class GamePanel extends JPanel implements Runnable
 	 * Map of the game
 	 */
 	private Map map = Map.getMap();
+	
+	/**
+	 * Image Chunk Fire
+	 */
+	private BufferedImage iCFire;
+	
+	/**
+	 * Image Chunk Castle
+	 */
+	private BufferedImage iCCastle;
+	
+	/**
+	 * Image Chunk Brick
+	 */
+	private BufferedImage iCBrick;
+	
+	/**
+	 * Image Chunk Pipe
+	 */
+	private BufferedImage iCPipe;
+	
+	/**
+	 * Image Chunk Pink Brick
+	 */
+	private BufferedImage iCPinkBrick;
 
 	/**
 	 * Constructor of the class.
@@ -49,6 +74,20 @@ public class GamePanel extends JPanel implements Runnable
 		this.setPreferredSize(new Dimension(c.getX(), c.getY()));
 		this.setMaximumSize(new Dimension(c.getX(), c.getY()));
 		this.setMinimumSize(new Dimension(c.getX(), c.getY()));
+		
+		// Initialize Images
+		try
+		{
+			this.iCCastle = ImageIO.read(new File(Chunk.CASTLE));
+			this.iCFire = ImageIO.read(new File(Chunk.FIRE));
+			this.iCPinkBrick = ImageIO.read(new File(Chunk.PINK_BRICK));
+			this.iCPipe = ImageIO.read(new File(Chunk.PIPE));
+			this.iCBrick = ImageIO.read(new File(Chunk.BRICK));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -58,25 +97,57 @@ public class GamePanel extends JPanel implements Runnable
 		
 		super.paint(g);
 		
-	// Draw all chunks
-		List<Chunk> lc = this.map.getChunks();
-		for(Iterator<Chunk> it = lc.iterator(); it.hasNext();)
+		// Draw all chunks
+		BufferedImage img = null;
+		Chunk c;
+		
+		// Draw all chunks
+		for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
 		{
-			Chunk c = it.next();
-			c.paint(g);
+			try
+			{
+				c = it.next();
+				
+				switch (c.getFieldType())
+				{
+					case BRICK:
+						img = iCBrick;
+						break;
+					case CASTLE:
+						img = iCCastle;
+						break;
+					case FIRE:
+						img = iCFire;
+						break;
+					case PINK_BRICK:
+						img = iCPinkBrick;
+						break;
+					case PIPE:
+						img = iCPipe;
+						break;
+				}
+				
+				g.drawImage(img, c.getArea().getPosition().getX(),
+						c.getArea().getPosition().getY(), 
+						c.getArea().getSize().getX(), 
+						c.getArea().getSize().getY(), null);
+			}
+			catch(Exception ec)
+			{
+				// TODO Better display
+				break;
+			}
 		}
 		
 		// Draw all entity
-		List<Entity> le = this.map.getEntitys();
-		for(Iterator<Entity> it = le.iterator(); it.hasNext();)
+		for(Iterator<Entity> ite = this.map.getEntitys().iterator(); ite.hasNext();)
 		{
 			try{
-			e = it.next();
+			e = ite.next();
 			}catch(Exception exc)
 			{
 				break;
 			}
-			BufferedImage img = null;
 			if(e instanceof Mario)
 			{
 				try
@@ -121,12 +192,9 @@ public class GamePanel extends JPanel implements Runnable
 		}
 		
 		// Draw all objects
-		List<Obj> lo = this.map.getObjects();
-		for(Iterator<Obj> it = lo.iterator(); it.hasNext();)
+		for(Iterator<Obj> ito = this.map.getObjects().iterator(); ito.hasNext();)
 		{
-			Obj o = it.next();
-			
-			BufferedImage img = null;
+			Obj o = ito.next();
 			
 			if(o.getType() == ObjectType.MUSHROOM)
 			{

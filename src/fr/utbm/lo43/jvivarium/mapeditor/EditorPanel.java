@@ -67,6 +67,32 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	 */
 	private BoundingBox oldPosition = null;
 	
+		//******* Image ********
+	/**
+	 * Image Chunk Fire
+	 */
+	private BufferedImage iCFire;
+	
+	/**
+	 * Image Chunk Castle
+	 */
+	private BufferedImage iCCastle;
+	
+	/**
+	 * Image Chunk Brick
+	 */
+	private BufferedImage iCBrick;
+	
+	/**
+	 * Image Chunk Pipe
+	 */
+	private BufferedImage iCPipe;
+	
+	/**
+	 * Image Chunk Pink Brick
+	 */
+	private BufferedImage iCPinkBrick;
+	
 	//****************************** Constructors *******************
 	
 	/**
@@ -80,19 +106,23 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		this.addMouseMotionListener(this);
 		this.setBackground(new Color(0, 0, 0));
 		
-		int x=0,y=0;
-		
 		// Set the size of the panel in functions the most far chunk 
-		for (Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
+		Coordinates max = map.getMaxMap();
+		this.setSize(max.getX(), max.getY());
+		
+		// Initialize Images
+		try
 		{
-			Chunk c = it.next();
-			
-			if(c.getArea().getPosition().getX() + c.getArea().getSize().getX() > x)
-				x = c.getArea().getPosition().getX() + c.getArea().getSize().getX();
-			if(c.getArea().getPosition().getY() + c.getArea().getSize().getY() > y)
-				y = c.getArea().getPosition().getY() + c.getArea().getSize().getY();
+			this.iCCastle = ImageIO.read(new File(Chunk.CASTLE));
+			this.iCFire = ImageIO.read(new File(Chunk.FIRE));
+			this.iCPinkBrick = ImageIO.read(new File(Chunk.PINK_BRICK));
+			this.iCPipe = ImageIO.read(new File(Chunk.PIPE));
+			this.iCBrick = ImageIO.read(new File(Chunk.BRICK));
 		}
-		this.setSize(x, y);
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}		
 	}
 	
 	//******************************** run ***************************/
@@ -120,15 +150,40 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	public void paint(Graphics g)
 	{
 		super.paint(g);
+		
+		BufferedImage img = null;
 		Chunk c;
+		
 		// Draw all chunks
-		List<Chunk> lc = this.map.getChunks();
-		for(Iterator<Chunk> it = lc.iterator(); it.hasNext();)
+		for(Iterator<Chunk> it = this.map.getChunks().iterator(); it.hasNext();)
 		{
 			try
 			{
 				c = it.next();
-				c.paint(g);
+				
+				switch (c.getFieldType())
+				{
+					case BRICK:
+						img = iCBrick;
+						break;
+					case CASTLE:
+						img = iCCastle;
+						break;
+					case FIRE:
+						img = iCFire;
+						break;
+					case PINK_BRICK:
+						img = iCPinkBrick;
+						break;
+					case PIPE:
+						img = iCPipe;
+						break;
+				}
+				
+				g.drawImage(img, c.getArea().getPosition().getX(),
+						c.getArea().getPosition().getY(), 
+						c.getArea().getSize().getX(), 
+						c.getArea().getSize().getY(), null);
 			}
 			catch(Exception e)
 			{
@@ -143,7 +198,6 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			Entity e = it.next();
 			
-			BufferedImage img = null;
 			if(e instanceof Mario)
 			{
 				try
@@ -193,7 +247,6 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 		{
 			Obj o = it.next();
 			
-			BufferedImage img = null;
 			
 			if(o.getType() == ObjectType.MUSHROOM)
 			{
