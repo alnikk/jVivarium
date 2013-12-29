@@ -175,4 +175,35 @@ public class Map
 		}
 		return null;
 	}
+	
+	/**
+	 * Return a list of chunks in the radius distance
+	 * @param e Around which element look up 
+	 * @param radius The distance to look
+	 * @return A list of chunks in the radius
+	 */
+	public static List<Chunk> scanChunk(Element e, int radius)
+	{
+		List<Chunk> res = null;
+		Chunk c;
+		
+		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
+		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
+		double xc,yc, module; 
+		
+		for(Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			xc = c.getArea().getPosition().getX() - e.getArea().getPosition().getX();
+			yc = c.getArea().getPosition().getY() - e.getArea().getPosition().getY();
+			
+			module = Math.sqrt(Math.pow(xc, 2)+Math.pow(yc, 2));
+			
+			if(module < radius)
+				res.add(c);
+		}
+		
+		return res;
+	}
 }
