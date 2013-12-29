@@ -54,6 +54,8 @@ public class GamePanel extends JPanel implements Runnable
 	@Override
 	public void paint(Graphics g)
 	{
+		Entity e;
+		
 		super.paint(g);
 		
 	// Draw all chunks
@@ -68,8 +70,12 @@ public class GamePanel extends JPanel implements Runnable
 		List<Entity> le = this.map.getEntitys();
 		for(Iterator<Entity> it = le.iterator(); it.hasNext();)
 		{
-			Entity e = it.next();
-			
+			try{
+			e = it.next();
+			}catch(Exception exc)
+			{
+				break;
+			}
 			BufferedImage img = null;
 			if(e instanceof Mario)
 			{

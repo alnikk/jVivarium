@@ -96,13 +96,13 @@ public final class JVivarium
 	 */
 	private void callEntity()
 	{
-		List<Entity> l = this.map.getEntitys();
+		int i;
+		Object[] l = this.map.getEntitys().toArray();
 		Entity e;
 		
-		for(Iterator<Entity> it = l.iterator(); it.hasNext();)
+		for(i=0;i < l.length ; i++)
 		{
-			e = it.next();
-			e.life();
+			((Entity)l[i]).life();
 		}
 	}
 }
