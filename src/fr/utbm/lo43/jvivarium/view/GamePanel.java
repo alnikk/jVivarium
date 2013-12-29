@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable
 	{
 		this.setBackground(new Color(0, 0, 0));
 		
-		Coordinates c = Map.getMaxMap();
+		Coordinates c = map.getMaxMap();
 		
 		this.setSize(c.getX(), c.getY());
 		this.setPreferredSize(new Dimension(c.getX(), c.getY()));

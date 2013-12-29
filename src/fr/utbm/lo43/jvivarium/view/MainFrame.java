@@ -28,7 +28,7 @@ public class MainFrame extends JFrame
 	 */
 	public MainFrame()
 	{
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 		

@@ -35,23 +35,23 @@ public class Map
 	/**
 	 * List of all chunk in the map
 	 */
-	private static List<Chunk> lChunk = new LinkedList<Chunk>();
+	private List<Chunk> lChunk = new LinkedList<Chunk>();
 	
 	/**
 	 * List of all entity in the map
 	 */
-	private static List<Entity> lEntity = new LinkedList<Entity>();
+	private List<Entity> lEntity = new LinkedList<Entity>();
 	
 	/**
 	 * List of all objects in the map
 	 */
-	private static List<Obj> lObj = new LinkedList<Obj>();
+	private List<Obj> lObj = new LinkedList<Obj>();
 	
 	/**
 	 * Add chunk,entity, or object in the map
 	 * @param o (Chunk,Entity,Obj) The Object to add in the map
 	 */
-	public static void add(Object o)
+	public synchronized void add(Object o)
 	{
 		if(o instanceof Chunk)
 			lChunk.add((Chunk) o);
@@ -66,7 +66,7 @@ public class Map
 	 * Remove chunk,entity, or object of the map
 	 * @param o (Chunk,Entity,Obj) The Object to remove of the map
 	 */
-	public static void remove(Object o)
+	public synchronized void remove(Object o)
 	{
 		if(o instanceof Chunk)
 			lChunk.remove((Chunk) o);
@@ -81,7 +81,7 @@ public class Map
 	 * Set the list of chunks
 	 * @param l The list of chunks
 	 */
-	public static void setChunks(List<Chunk> l)
+	public synchronized void setChunks(List<Chunk> l)
 	{
 		lChunk = l;
 	}
@@ -90,7 +90,7 @@ public class Map
 	 * Get the list of chunks
 	 * @return The list of Chunks
 	 */
-	public static List<Chunk> getChunks()
+	public List<Chunk> getChunks()
 	{
 		return lChunk;
 	}
@@ -99,7 +99,7 @@ public class Map
 	 * Set the list of entity
 	 * @param l The list of entity
 	 */
-	public static void setEntitys(List<Entity> l)
+	public synchronized void setEntitys(List<Entity> l)
 	{
 		lEntity = l;
 	}
@@ -108,7 +108,7 @@ public class Map
 	 * Get the list of entity
 	 * @return The list of entity
 	 */
-	public static List<Entity> getEntitys()
+	public List<Entity> getEntitys()
 	{
 		return lEntity;
 	}
@@ -117,7 +117,7 @@ public class Map
 	 * Set the list of objects
 	 * @param l The list of objects
 	 */
-	public static void setObjects(List<Obj> l)
+	public synchronized void setObjects(List<Obj> l)
 	{
 		lObj = l;
 	}
@@ -126,7 +126,7 @@ public class Map
 	 * Get the list of objects
 	 * @return The list of objects
 	 */
-	public static List<Obj> getObjects()
+	public List<Obj> getObjects()
 	{
 		return lObj;
 	}
@@ -135,7 +135,7 @@ public class Map
 	 * Return the max coordinates of the map
 	 * @return (Coordinates) The max coordinates of the map
 	 */
-	public static Coordinates getMaxMap()
+	public synchronized Coordinates getMaxMap()
 	{
 		Chunk c;
 		int x=0,y=0;
@@ -158,7 +158,7 @@ public class Map
 	 * @param c The coordinates to get the chunk
 	 * @return The chunk
 	 */
-	public static Chunk getChunkAt(Coordinates p)
+	public synchronized Chunk getChunkAt(Coordinates p)
 	{
 		Chunk c;
 		
@@ -175,7 +175,7 @@ public class Map
 		return null;
 	}
 	
-	public static Entity getEntityAt(Coordinates p)
+	public synchronized Entity getEntityAt(Coordinates p)
 	{
 		Entity e;
 		int x=0,y=0;
@@ -193,7 +193,7 @@ public class Map
 		return null;
 	}
 	
-	public static Obj getObjAt(Coordinates p)
+	public synchronized Obj getObjAt(Coordinates p)
 	{
 		Obj o;
 		int x=0,y=0;
@@ -217,7 +217,7 @@ public class Map
 	 * @param radius The distance to look
 	 * @return A list of chunks in the radius
 	 */
-	public static List<Chunk> scanChunk(Entity e, int radius)
+	public synchronized List<Chunk> scanChunk(Entity e, int radius)
 	{
 		List<Chunk> res = new LinkedList<Chunk>();
 		Chunk c;
@@ -250,7 +250,7 @@ public class Map
 		return res;
 	}
 	// TODO Add generics
-	public static List<Entity> scanEntity(Entity e, int radius)
+	public synchronized List<Entity> scanEntity(Entity e, int radius)
 	{
 		List<Entity> res = new LinkedList<Entity>();
 		Entity c;
@@ -283,7 +283,7 @@ public class Map
 		return res;
 	}
 	
-	public static List<Obj> scanObject(Entity e, int radius)
+	public synchronized List<Obj> scanObject(Entity e, int radius)
 	{
 		List<Obj> res = new LinkedList<Obj>();
 		Obj c;

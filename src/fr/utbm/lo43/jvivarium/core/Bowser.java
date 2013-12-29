@@ -23,13 +23,13 @@ public final class Bowser extends Entity
 		this.move();
 		
 		// if Bowser is on an Obj, he will eat it
-		if(Map.getObjAt(this.getArea().getPosition()) != null)
+		if(Map.getMap().getObjAt(this.getArea().getPosition()) != null)
 			this.eat();
 	}
 	
 	private void move()
 	{
-		Coordinates max = Map.getMaxMap();
+		Coordinates max = Map.getMap().getMaxMap();
 		BoundingBox b = this.getArea();
 		int x,y;
 		
@@ -66,7 +66,7 @@ public final class Bowser extends Entity
 	private void eat()
 	{
 		//Bowser eat this object, so we can remove it from the map
-		Map.remove(Map.getObjAt(this.getArea().getPosition()));
+		Map.getMap().remove(Map.getMap().getObjAt(this.getArea().getPosition()));
 	}
 	
 	private void attack()
