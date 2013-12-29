@@ -16,6 +16,10 @@ public final class Peach extends Entity
 	public void life()
 	{
 		this.runAway();
+		
+		// if Peach is on an Obj, he will eat it
+		if(Map.getObjAt(this.getArea().getPosition()) != null)
+			this.eat();
 	}
 	
 	private void runAway()
@@ -56,7 +60,8 @@ public final class Peach extends Entity
 	
 	private void eat()
 	{
-		
+		//Peach eat this object, so we can remove it from the map
+		Map.remove(Map.getObjAt(this.getArea().getPosition()));
 	}
 	
 	private void reproduce()
