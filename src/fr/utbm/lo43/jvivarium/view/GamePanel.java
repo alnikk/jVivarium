@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Chunk;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
-import fr.utbm.lo43.jvivarium.core.Element;
 import fr.utbm.lo43.jvivarium.core.Entity;
 import fr.utbm.lo43.jvivarium.core.Map;
 import fr.utbm.lo43.jvivarium.core.Mario;
