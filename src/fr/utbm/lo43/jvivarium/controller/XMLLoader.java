@@ -498,7 +498,7 @@ public class XMLLoader implements Runnable
 						if(temp.getNodeName() == "life")
 						{
 							type = temp;
-							type.setTextContent(el.getLife());
+							type.setTextContent(Integer.toString(el.getLife()));
 						}
 						else
 							System.out.println("pb saveXML in entity !");

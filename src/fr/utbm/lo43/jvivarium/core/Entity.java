@@ -14,6 +14,10 @@ public abstract class Entity extends Element
 	private int lifePoints = 100;
 	
 	/**
+	 * Number of life points lose per attack
+	 */
+	private int attPoints = 5;
+	/**
 	 * Constructors of the class.
 	 * @param area (BoundingBox) Set the position and the size of this entity
 	 */
@@ -28,13 +32,24 @@ public abstract class Entity extends Element
 	 */
 	public abstract void life();
 
-	public String getLife(){
-		return Integer.toString(lifePoints);	
+	public synchronized int getLife(){
+		return lifePoints;	
 	}
 		
 	
-	public void setLife(int lp){
+	public synchronized void setLife(int lp){
 		lifePoints=lp;
 	}
-
+	
+	public synchronized int getAttPoints(){
+		return attPoints;
+	}
+	
+	public synchronized void setAttPoints(int ap){
+		attPoints = ap;
+	}
+	
+	public synchronized int getMaxLife(){
+		return MAX_LIFE;
+	}
 	}
