@@ -1,8 +1,5 @@
 package fr.utbm.lo43.jvivarium.controller;
 
-import java.util.Iterator;
-import java.util.List;
-
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
@@ -17,16 +14,20 @@ import fr.utbm.lo43.jvivarium.view.MainFrame;
 
 /**
  * Main class of the project.
- * Used to controlle entity and verify them
+ * Used to control entity and verify them.
+ * Run first the main frame, and begin to parse XML.
+ * Next it run the model (core)
  * @author Alexandre Guyon
  */
 public final class JVivarium
 {
+	//**************************** Constants *******************
 	/**
 	 * Time between each loop of the controller
 	 */
 	private final static int TIME_SLEEP = 100;
 	
+	//*************************** Attributes *******************
 	/**
 	 * Main frame of the game
 	 */
@@ -37,27 +38,28 @@ public final class JVivarium
 	 */
 	private Map map = Map.getMap();
 	
-	
+	//************************** Constructor ****************
 	public JVivarium()
 	{
+		// XML Thread
 		XMLLoader xml = new XMLLoader();
 		Thread xmlT = new Thread(xml);
 		xmlT.start();
 		
-		// View
+		// Run view
 		this.mFrame = new MainFrame();
 		this.mFrame.loading();
 		
 		try
 		{
+			// Wait for end XML parsing to start the view
 			xmlT.join();
+			this.mFrame.start();
 		}
 		catch (InterruptedException e1)
 		{
 			e1.printStackTrace();
 		}
-		
-		this.mFrame.start();
 		
 		// TODO Entity will be loaded with the map
 		// Create entity
@@ -76,10 +78,13 @@ public final class JVivarium
 	
 	public void start()
 	{		
+		// Main of the game
 		while(true)
 		{
+			// Call the life method on each entity
 			this.callEntity();
 			
+			// Wait for slow the model
 			try
 			{
 				Thread.sleep(TIME_SLEEP);
@@ -92,13 +97,17 @@ public final class JVivarium
 	}
 	
 	/**
-	 * Call life on each entity
+	 * Call life method on each entity.
+	 * It will make entity act.
 	 */
 	private void callEntity()
 	{
-		int i;
+		/* Get an array of entity for take a snapshot of the model
+		 * and not being distract by adding or removing entity of
+		 * this list.
+		 */
 		Object[] l = this.map.getEntitys().toArray();
-		Entity e;
+		int i;
 		
 		for(i=0;i < l.length ; i++)
 		{

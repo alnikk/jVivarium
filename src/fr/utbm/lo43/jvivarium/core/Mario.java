@@ -1,5 +1,7 @@
 package fr.utbm.lo43.jvivarium.core;
 
+import java.util.Random;
+
 public final class Mario extends Entity
 {
 	/**
@@ -21,9 +23,9 @@ public final class Mario extends Entity
 		if(Map.getMap().getObjAt(this.getArea().getPosition()) != null)
 			this.eat();
 		
-		// if Mario and a Peach are at the same place, they will reproduce
-		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null && Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Peach)
-			this.reproduce();
+		//if Mario and Bowser are at the same they will attack themself
+		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null && Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Bowser)
+			this.attack();
 	}
 	
 	/**
@@ -70,35 +72,30 @@ public final class Mario extends Entity
 	 */
 	private void eat()
 	{
+		// if the object is a MUSHROOM, we regenerate the life points of Mario
+		if(Map.getMap().getObjAt(this.getArea().getPosition()).getType() == ObjectType.MUSHROOM)
+			this.setLife(getMaxLife());
+		
 		//Mario eat this object, so we can remove it from the map
 		Map.getMap().remove(Map.getMap().getObjAt(this.getArea().getPosition()));
 	}
 	
-	/**
-	 * Mario will reproduce himself with Peach
-	 */
-	private void reproduce()
-	{
-		//will the baby be a Mario or a Peach ?
-		try
-		{
-			if(Math.round(Math.random()) == 1)
-				Map.getMap().add(new Mario(this.getArea()));
-			else
-				Map.getMap().add(new Peach(this.getArea()));
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+
 	
 	/**
 	 * Mario will attack Bowser
 	 */
 	private void attack()
 	{
+		// Bowser lose life points, he lose more life points than Mario
+		Bowser b = (Bowser) Map.getMap().getEntityAt(this.getArea().getPosition());
+		b.setLife(getLife() - getLife());
 		
+		// And so do Mario
+		this.setLife(getLife() - this.getAttPoints());
+		
+		if(b.getLife() == 0)
+			Map.getMap().remove(b);
 	}
 
 }

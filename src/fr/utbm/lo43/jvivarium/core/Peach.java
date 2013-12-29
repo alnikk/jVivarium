@@ -1,11 +1,18 @@
 package fr.utbm.lo43.jvivarium.core;
 
+import java.util.Random;
+
 public final class Peach extends Entity
 {
 	/**
 	 * The image file for Peach
 	 */
 	public final static String IMG = "./res/entity/peach1.png";
+	
+	/**
+	 * Probability of having a baby, ex: 8 mean 1 chance out of 8
+	 */
+	public final int proBaby = 8;
 	
 	public Peach(BoundingBox area)
 	{
@@ -17,9 +24,9 @@ public final class Peach extends Entity
 	{
 		this.runAway();
 		
-		// if Peach is on an Obj, he will eat it
-		if(Map.getMap().getObjAt(this.getArea().getPosition()) != null)
-			this.eat();
+		// if Mario and a Peach are at the same place, they will reproduce
+		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null && Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Peach)
+			this.reproduce();
 	}
 	
 	private void runAway()
@@ -58,15 +65,27 @@ public final class Peach extends Entity
 		this.setArea(b);
 	}
 	
-	private void eat()
-	{
-		//Peach eat this object, so we can remove it from the map
-		Map.getMap().remove(Map.getMap().getObjAt(this.getArea().getPosition()));
-	}
-	
+	/**
+	 * Peach will reproduce herself with Mario
+	 */
 	private void reproduce()
 	{
-		
+		Random r = new Random();
+		//will the baby be a Mario or a Peach ?
+		try
+		{
+			if(r.nextInt(proBaby) == 3)
+			{
+				if(Math.round(Math.random()) == 1)
+					Map.getMap().add(new Mario(this.getArea()));
+				else
+					Map.getMap().add(new Peach(this.getArea()));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }

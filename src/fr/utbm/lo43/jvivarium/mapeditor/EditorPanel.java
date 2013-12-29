@@ -4,7 +4,9 @@
 package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.border.StrokeBorder;
 
 import fr.utbm.lo43.jvivarium.controller.XMLLoader;
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
@@ -39,11 +42,17 @@ import fr.utbm.lo43.jvivarium.core.Peach;
  */
 public class EditorPanel extends JPanel implements Runnable, MouseListener, MouseMotionListener, MenuListener, KeyListener
 {	
+	//******************************* Constants *************************
 	/**
 	 * Serialize number
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 
+	 */
+	private static final int SIZE_SELECTED = 1;
+	
 	//****************************** Variable **********************
 	/**
 	 * Display's FPS of the panel
@@ -267,6 +276,59 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 						o.getArea().getSize().getX(), 
 						o.getArea().getSize().getY(), null);
 			}
+		}
+		
+		//***** Draw in last the dragging chunk
+		if(this.drag != null)
+		{
+				// Get the good picture
+			if(this.drag instanceof Chunk)
+			{
+				switch (((Chunk) this.drag).getFieldType())
+				{
+					case BRICK:
+						img = iCBrick;
+						break;
+					case CASTLE:
+						img = iCCastle;
+						break;
+					case FIRE:
+						img = iCFire;
+						break;
+					case PINK_BRICK:
+						img = iCPinkBrick;
+						break;
+					case PIPE:
+						img = iCPipe;
+						break;
+				}
+			}
+			if(this.drag instanceof Mario)
+				img = this.iMario;
+			if(this.drag instanceof Peach)
+				img = this.iPeach;
+			if(this.drag instanceof Bowser)
+				img = this.iBowser;
+			if(this.drag instanceof Obj)
+			{
+				if(((Obj)this.drag).getType() == ObjectType.MUSHROOM)
+					img = this.iMushroom;
+				if(((Obj)this.drag).getType() == ObjectType.STAR)
+					img = this.iStar;
+			}
+			// Add a rectangle around it
+			g.setColor(new Color(255,255,255));
+			g.fillRect(this.drag.getArea().getPosition().getX() - SIZE_SELECTED, 
+					this.drag.getArea().getPosition().getY() - SIZE_SELECTED,
+					this.drag.getArea().getSize().getX() + (SIZE_SELECTED*2),
+					this.drag.getArea().getSize().getY() + (SIZE_SELECTED*2));
+			
+			// Draw it
+			g.drawImage(img, 
+					this.drag.getArea().getPosition().getX(), 
+					this.drag.getArea().getPosition().getY(), 
+					this.drag.getArea().getSize().getX(), 
+					this.drag.getArea().getSize().getY(), null);
 		}
 	}
 	

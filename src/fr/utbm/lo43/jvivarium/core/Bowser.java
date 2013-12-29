@@ -17,14 +17,19 @@ public final class Bowser extends Entity
 		super(area);
 	}
 
+	public void finalize()
+	{
+		if(kidnaped != null)
+			Map.getMap().add(kidnaped);
+	}
 	@Override
 	public void life()
 	{
 		this.move();
 		
-		// if Bowser is on an Obj, he will eat it
-		if(Map.getMap().getObjAt(this.getArea().getPosition()) != null)
-			this.eat();
+		//if Bowser and Peach are at the same place, he will kidnap her
+		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null && Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Peach)
+			this.kidnap();
 	}
 	
 	private void move()
@@ -63,12 +68,6 @@ public final class Bowser extends Entity
 		this.setArea(b);	
 	}
 	
-	private void eat()
-	{
-		//Bowser eat this object, so we can remove it from the map
-		Map.getMap().remove(Map.getMap().getObjAt(this.getArea().getPosition()));
-	}
-	
 	private void attack()
 	{
 		
@@ -76,7 +75,15 @@ public final class Bowser extends Entity
 	
 	private void kidnap()
 	{
+		// if Bowser has not already kidnaped Peach
+		if(kidnaped == null)
+		{
+			// this Peach has been kidnaped and stocked in memory
+			kidnaped = (Peach) Map.getMap().getEntityAt(this.getArea().getPosition());
 		
+			// we remove her of the map
+			Map.getMap().remove(Map.getMap().getEntityAt(this.getArea().getPosition()));
+		}
 	}
 	
 
