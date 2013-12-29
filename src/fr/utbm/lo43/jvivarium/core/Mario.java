@@ -22,6 +22,10 @@ public final class Mario extends Entity
 		// if Mario is on an Obj, he will eat it
 		if(Map.getMap().getObjAt(this.getArea().getPosition()) != null)
 			this.eat();
+		
+		//if Mario and Bowser are at the same they will attack themself
+		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null && Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Bowser)
+			this.attack();
 	}
 	
 	/**
@@ -83,7 +87,15 @@ public final class Mario extends Entity
 	 */
 	private void attack()
 	{
+		// Bowser lose life points, he lose more life points than Mario
+		Bowser b = (Bowser) Map.getMap().getEntityAt(this.getArea().getPosition());
+		b.setLife(getLife() - getLife());
 		
+		// And so do Mario
+		this.setLife(getLife() - this.getAttPoints());
+		
+		if(b.getLife() == 0)
+			Map.getMap().remove(b);
 	}
 
 }

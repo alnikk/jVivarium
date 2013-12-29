@@ -17,6 +17,11 @@ public final class Bowser extends Entity
 		super(area);
 	}
 
+	public void finalize()
+	{
+		if(kidnaped != null)
+			Map.getMap().add(kidnaped);
+	}
 	@Override
 	public void life()
 	{
@@ -70,11 +75,15 @@ public final class Bowser extends Entity
 	
 	private void kidnap()
 	{
-		// this Peach has been kidnapped and stocked in memory
-		kidnaped = (Peach) Map.getMap().getEntityAt(this.getArea().getPosition());
+		// if Bowser has not already kidnaped Peach
+		if(kidnaped == null)
+		{
+			// this Peach has been kidnaped and stocked in memory
+			kidnaped = (Peach) Map.getMap().getEntityAt(this.getArea().getPosition());
 		
-		// we remove her of the map
-		Map.getMap().remove(Map.getMap().getEntityAt(this.getArea().getPosition()));
+			// we remove her of the map
+			Map.getMap().remove(Map.getMap().getEntityAt(this.getArea().getPosition()));
+		}
 	}
 	
 
