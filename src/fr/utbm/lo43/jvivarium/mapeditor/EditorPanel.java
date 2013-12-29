@@ -4,9 +4,7 @@
 package fr.utbm.lo43.jvivarium.mapeditor;
 
 import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -16,11 +14,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.border.StrokeBorder;
 
 import fr.utbm.lo43.jvivarium.controller.XMLLoader;
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
@@ -49,7 +45,7 @@ public class EditorPanel extends JPanel implements Runnable, MouseListener, Mous
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * Size of the blank around the dragging element
 	 */
 	private static final int SIZE_SELECTED = 1;
 	
