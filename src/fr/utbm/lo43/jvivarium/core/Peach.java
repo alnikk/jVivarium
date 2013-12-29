@@ -22,10 +22,13 @@ public final class Peach extends Entity
 	@Override
 	public void life()
 	{
+		// TODO Make choice
+		
 		this.runAway();
 		
 		// if Mario and a Peach are at the same place, they will reproduce
-		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null && Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Peach)
+		if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null 
+				&& Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Peach)
 			this.reproduce();
 	}
 	
@@ -76,7 +79,7 @@ public final class Peach extends Entity
 		{
 			if(r.nextInt(proBaby) == 3)
 			{
-				if(Math.round(Math.random()) == 1)
+				if(Math.round(Math.random()) < 0.5)
 					Map.getMap().add(new Mario(this.getArea()));
 				else
 					Map.getMap().add(new Peach(this.getArea()));
