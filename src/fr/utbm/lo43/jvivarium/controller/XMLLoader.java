@@ -416,13 +416,16 @@ public class XMLLoader implements Runnable
 					el = it.next();
 					Node no;
 					Node temp=list.item(i);
-					Node size,pos,lifeNode,type;
+					Node size,pos,lifeNode,type,entity;
 					String espece;
-			
-						temp.appendChild(this.doc.createElement("size"));
+					entity=temp;
+						entity.appendChild(this.doc.createElement("size"));
 						temp = temp.getLastChild();
+						
 						while(temp.getNodeName() != "size")
 							temp = temp.getNextSibling();
+						
+						//si trouvé
 						if(temp.getNodeName() == "size")
 						{	
 							size=temp;
@@ -437,7 +440,7 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 						// Position 
-						temp.appendChild(this.doc.createElement("position"));
+						entity.appendChild(this.doc.createElement("position"));
 						
 						while(temp.getNodeName() != "position")
 							temp = temp.getNextSibling();
@@ -455,7 +458,8 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 						// Espece
-						temp.appendChild(this.doc.createElement("espece"));
+						entity.appendChild(this.doc.createElement("espece"));
+						
 						while(temp.getNodeName() != "espece")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "espece")
@@ -476,14 +480,15 @@ public class XMLLoader implements Runnable
 						else
 							System.out.println("pb saveXML in entity !");
 						//Life Points
-						temp.appendChild(this.doc.createElement("life"));
+						entity.appendChild(this.doc.createElement("life"));
+						
 						while(temp.getNodeName() != "life")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "life")
 						{
 							lifeNode=temp;
 							life= el.getLife();
-							lifeNode.setTextContent(Integer.toString(life));
+							temp.setTextContent(Integer.toString(life));
 						}
 						else
 							System.out.println("pb saveXML in entity !");
@@ -551,14 +556,16 @@ public class XMLLoader implements Runnable
 					Node no;
 					Node temp=list.item(i);
 					String objType;	
+					obj=temp;
 						obj.appendChild(this.doc.createElement("size"));
+
 						
 						temp = temp.getLastChild();
 						while(temp.getNodeName() != "size")
 							temp = temp.getNextSibling();
 						if(temp.getNodeName() == "size")
 						{		
-							size=n;
+							size=temp;
 							no = this.doc.createElement("x");
 							no.setTextContent(o.getArea().getSize().getX() + "");
 							size.appendChild(no);
@@ -595,7 +602,7 @@ public class XMLLoader implements Runnable
 						if(temp.getNodeName() == "objType")
 						{		
 							type=temp;
-							if( temp.getNodeValue()=="STAR") {
+							if( o.getType().equals("STAR")) {
 							    objType="STAR";
 							  }
 							else 
