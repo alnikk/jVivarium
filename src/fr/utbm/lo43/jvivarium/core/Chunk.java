@@ -186,7 +186,7 @@ public class Chunk extends Element
 			case BRICK:
 				try
 				{
-					this.img = ImageIO.read(new File(this.BRICK));
+					this.img = ImageIO.read(new File(BRICK));
 				}
 				catch (IOException e)
 				{
