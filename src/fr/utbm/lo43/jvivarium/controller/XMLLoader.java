@@ -154,6 +154,22 @@ public class XMLLoader implements Runnable
 			// Get the size, position, and type
 			switch(l.item(i).getNodeName())
 			{
+			
+			case "life":
+				NodeList getLife = l.item(i).getChildNodes();
+				for(j = 0 ; j < getLife.getLength() ; j++)
+				{
+					switch(getLife.item(j).getNodeName())
+					{
+						case "life":
+							life = Integer.parseInt(getLife.item(j).getChildNodes().item(0).getNodeValue());
+							break;
+					}
+				}
+				lifeE=life;
+				break;
+				
+				
 				case "size":
 					NodeList size = l.item(i).getChildNodes();
 					for(j = 0 ; j < size.getLength() ; j++)
@@ -187,19 +203,7 @@ public class XMLLoader implements Runnable
 					}
 					positionE = new Coordinates(x,y);
 					break;
-				case "life":
-					NodeList getLife = l.item(i).getChildNodes();
-					for(j = 0 ; j < getLife.getLength() ; j++)
-					{
-						switch(getLife.item(j).getNodeName())
-						{
-							case "life":
-								life = Integer.parseInt(getLife.item(j).getChildNodes().item(0).getNodeValue());
-								break;
-						}
-					}
-					lifeE=life;
-					break;
+				
 					
 				case "espece":
 					NodeList type = l.item(i).getChildNodes();
@@ -252,6 +256,28 @@ public class XMLLoader implements Runnable
 			// Get the size, position, and type
 			switch(l.item(i).getNodeName())
 			{
+			
+			
+			case "objType":
+				NodeList type = l.item(i).getChildNodes();
+				
+				try
+				{			
+					switch(type.item(0).getNodeValue())
+					{
+							case "MUSHROOM":
+							this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.MUSHROOM));
+							break;
+						case "STAR":
+							this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.STAR));
+							break;
+					}
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+				break;
 				case "size":
 					NodeList size = l.item(i).getChildNodes();
 					for(j = 0 ; j < size.getLength() ; j++)
@@ -286,26 +312,7 @@ public class XMLLoader implements Runnable
 						positionO = new Coordinates(x,y);
 						break;
 								
-					case "type":
-						NodeList type = l.item(i).getChildNodes();
-						
-						try
-						{			
-							switch(type.item(0).getNodeValue())
-							{
-									case "MUSHROOM":
-									this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.MUSHROOM));
-									break;
-								case "STAR":
-									this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.STAR));
-									break;
-							}
-						}
-						catch(Exception e)
-						{
-							e.printStackTrace();
-						}
-						break;
+					
 			}
 		}
 	}
