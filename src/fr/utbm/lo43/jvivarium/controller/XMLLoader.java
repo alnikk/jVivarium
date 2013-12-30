@@ -144,7 +144,7 @@ public class XMLLoader implements Runnable
 	 */
 	private void parseEntity(NodeList l)
 	{
-		int i, j, life = 0, lifeE=100;
+		int i, j, life = 0;
 		int x = 0, y = 0;
 		Coordinates sizeE = null, positionE = null;
 		
@@ -166,7 +166,6 @@ public class XMLLoader implements Runnable
 							break;
 					}
 				}
-				lifeE=life;
 				break;
 				
 				
@@ -212,20 +211,20 @@ public class XMLLoader implements Runnable
 					{
 						switch(type.item(0).getNodeValue())
 						{
-							case "MARIO":
+							case "Mario":
 								Mario m = new Mario(new BoundingBox(positionE, sizeE));
-								m.setLife(lifeE);
+								m.setLife(life);
 								this.map.add(m);
 								break;
-							case "PEACH":
+							case "Peach":
 								Peach p = new Peach(new BoundingBox(positionE, sizeE));
-								p.setLife(lifeE);
+								p.setLife(life);
 								
 								this.map.add(p);
 								break;
-							case "BOWSER":
+							case "Bowser":
 								Bowser b = new Bowser(new BoundingBox(positionE, sizeE));
-								b.setLife(lifeE);
+								b.setLife(life);
 								this.map.add(b);
 								break;
 						}
@@ -249,6 +248,7 @@ public class XMLLoader implements Runnable
 		int i, j;
 		int x = 0, y = 0;
 		Coordinates sizeO = null, positionO = null;
+		String objt="";
 		
 		// Add objects to the list
 		for(i = 0 ; i < l.getLength() ; i++)
@@ -258,26 +258,7 @@ public class XMLLoader implements Runnable
 			{
 			
 			
-			case "objType":
-				NodeList type = l.item(i).getChildNodes();
-				
-				try
-				{			
-					switch(type.item(0).getNodeValue())
-					{
-							case "MUSHROOM":
-							this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.MUSHROOM));
-							break;
-						case "STAR":
-							this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.STAR));
-							break;
-					}
-				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
-				}
-				break;
+			
 				case "size":
 					NodeList size = l.item(i).getChildNodes();
 					for(j = 0 ; j < size.getLength() ; j++)
@@ -307,14 +288,42 @@ public class XMLLoader implements Runnable
 								case "y":
 									y = Integer.parseInt(position.item(j).getChildNodes().item(0).getNodeValue());
 									break;
+									
+									
 							}
 						}
 						positionO = new Coordinates(x,y);
+						
+						break;
+					case "objType":
+						NodeList type = l.item(i).getChildNodes();
+						
+						try
+						{			
+							switch(type.item(0).getNodeValue())
+							{
+								case "MUSHROOM":
+									this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.MUSHROOM));								
+									break;
+								case "STAR":
+									objt="STAR";
+									this.map.add(new Obj(new BoundingBox(positionO, sizeO), ObjectType.STAR));
+									break;
+							}
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+						}
 						break;
 								
 					
 			}
-		}
+			
+			
+			}
+
+		
 	}
 	
 	//******************* Save **********************************
@@ -609,7 +618,7 @@ public class XMLLoader implements Runnable
 						if(temp.getNodeName() == "objType")
 						{		
 							type=temp;
-							if( o.getType().equals("STAR")) {
+							if( o.getType().toString().equals("STAR")) {
 							    objType="STAR";
 							  }
 							else 
