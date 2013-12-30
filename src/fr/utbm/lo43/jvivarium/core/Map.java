@@ -313,4 +313,88 @@ public class Map
 		
 		return res;
 	}
+	public synchronized Obj searchNearest(Obj e, int radius)
+	{
+		Obj c;
+		Obj total=e;
+		double distance=1000;
+		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
+		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4; 
+		
+		for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			xc1 = c.getArea().getPosition().getX() - xe;
+			yc1 = c.getArea().getPosition().getY() - ye;
+			xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+			yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
+			
+			module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+			module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+			module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+			module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
+			
+			if(module1 < radius
+					|| module2 < radius
+					|| module3 < radius
+					|| module4 < radius){
+				
+					if(module1<distance)
+						distance=module1;
+					if(module2<distance)
+						distance=module2;				
+					if(module3<distance)
+						distance=module3;
+					if(module3<distance)
+						distance=module4;
+				total=c;
+			}
+		}
+		
+		return total;
+	}
+	public synchronized Entity searchNearest(Entity e, int radius)
+	{
+		Entity c;
+		Entity total=e;
+		double distance=1000;
+		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
+		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4; 
+		
+		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			xc1 = c.getArea().getPosition().getX() - xe;
+			yc1 = c.getArea().getPosition().getY() - ye;
+			xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+			yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
+			
+			module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+			module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+			module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+			module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
+			
+			if(module1 < radius
+					|| module2 < radius
+					|| module3 < radius
+					|| module4 < radius){
+				
+					if(module1<distance)
+						distance=module1;
+					if(module2<distance)
+						distance=module2;				
+					if(module3<distance)
+						distance=module3;
+					if(module3<distance)
+						distance=module4;
+				total=c;
+			}
+		}
+		
+		return total;
+	}
 }
