@@ -16,7 +16,7 @@ public final class Peach extends Entity
 	/**
 	 * Probability of having a baby, ex: 8 mean 1 chance out of 8
 	 */
-	private final static int PRO_BABY = 8;
+	private final static int PRO_BABY = 1;
 	
 	/**
 	 * Vision of Peach (in pixel)
@@ -66,11 +66,23 @@ public final class Peach extends Entity
 		// if Mario and a Peach are at the same place, they will reproduce
 		if(!act)
 		{
-			if(Map.getMap().getEntityAt(this.getArea().getPosition()) != null 
-					&& Map.getMap().getEntityAt(this.getArea().getPosition()) instanceof Peach)
+			Entity eMario;
+
+			for(Iterator<Entity> it = Map.getMap().getEntitys().iterator(); it.hasNext();)
 			{
-				this.reproduce();
-				act = true;
+				eMario = it.next();
+				
+				// Search Mario
+				if(eMario instanceof Mario)
+				{
+					// If Mario touch Peach
+					if(eMario.overlapping(this) != null)
+					{
+						this.reproduce();
+						act = true;
+						break;
+					}
+				}
 			}
 		}
 		
@@ -278,13 +290,12 @@ public final class Peach extends Entity
 	 */
 	private void reproduce()
 	{
-		Random r = new Random();
 		//will the baby be a Mario or a Peach ?
 		try
 		{
-			if(r.nextInt(PRO_BABY) == 3)
+			if(Math.random() < 0.1)
 			{
-				if(Math.round(Math.random()) < 0.5)
+				if(Math.random() < 0.5)
 					Map.getMap().add(new Mario(this.getArea()));
 				else
 					Map.getMap().add(new Peach(this.getArea()));
