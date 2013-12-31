@@ -6,17 +6,17 @@ public abstract class Entity extends Element
 	/**
 	 * The maximum life of an entity
 	 */
-	private final int MAX_LIFE = 100;
+	protected final int MAX_LIFE = 100;
 	
 	/**
 	 * The life points of the entity. When 0 the entity is dead
 	 */
-	private int lifePoints = 100;
+	protected int lifePoints = 100;
 	
 	/**
 	 * Number of life points lose per attack
 	 */
-	private int attPoints = 5;
+	protected int attPoints;
 	/**
 	 * Constructors of the class.
 	 * @param area (BoundingBox) Set the position and the size of this entity
@@ -24,6 +24,7 @@ public abstract class Entity extends Element
 	public Entity(BoundingBox area)
 	{
 		super(area);
+		this.lifePoints = MAX_LIFE;
 	}
 	
 	/**
@@ -31,45 +32,47 @@ public abstract class Entity extends Element
 	 * This method is the IA  of the entity
 	 */
 	public abstract void life();
+	
+	/**
+	 * Get the life points of the entity
+	 * @return The life point of the entity
+	 */
+	public synchronized int getLifePoints()
+	{
+		return lifePoints;
+	}
 
-	public synchronized int getLife(){
-		return lifePoints;	
+	/**
+	 * Set the life points of the entity
+	 * @param lifePoints The life points to set
+	 */
+	protected synchronized void setLifePoints(int lifePoints)
+	{
+		this.lifePoints = lifePoints;
 	}
-		
-	
-	public synchronized void setLife(int lp){
-		lifePoints=lp;
-	}
-	
-	public synchronized int getAttPoints(){
-		return attPoints;
-	}
-	
-	public synchronized void setAttPoints(int ap){
-		attPoints = ap;
-	}
-	
-	public synchronized int getMaxLife(){
-		return MAX_LIFE;
-	}
-	public void goNearTo(Entity ent)
+
+	/**
+	 * Go near to an element
+	 * @param e The element to approach
+	 * @param move The distance to move
+	 */
+	protected void goNearTo(Element e, int move)
 	{
 		Coordinates max = Map.getMap().getMaxMap();
 		BoundingBox b = this.getArea();
 		int x,y;
-		int move=2;
 		
 		// Avoid Bowser
-		if(ent.getArea().getPosition().getX() < this.getArea().getPosition().getX())
+		if(e.getArea().getPosition().getX() < this.getArea().getPosition().getX())
 			x = -move;
-		else if(ent.getArea().getPosition().getX() == this.getArea().getPosition().getX())
+		else if(e.getArea().getPosition().getX() == this.getArea().getPosition().getX())
 			x = 0;
 		else
 			x = move;
 		
-		if(ent.getArea().getPosition().getY() < this.getArea().getPosition().getY())
+		if(e.getArea().getPosition().getY() < this.getArea().getPosition().getY())
 			y =move;
-		else if(ent.getArea().getPosition().getY() == this.getArea().getPosition().getY())
+		else if(e.getArea().getPosition().getY() == this.getArea().getPosition().getY())
 			y = 0;
 		else
 			y = -move;
@@ -87,31 +90,37 @@ public abstract class Entity extends Element
 					&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
 				this.setArea(b);
 		}
-		catch (NegativeSizeException e)
+		catch (NegativeSizeException e1)
 		{
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	}
-	public void goNearTo(Obj o)
+	
+	/**
+	 * Run axay from an element
+	 * @param e The element to avoid
+	 * @param move The move to do
+	 */
+	protected void runAwayFrom(Element e, int move)
 	{
-		int MOVE=2;
 		Coordinates max = Map.getMap().getMaxMap();
 		BoundingBox b = this.getArea();
 		int x,y;
 		
-		if(o.getArea().getPosition().getX() < this.getArea().getPosition().getX())
-			x = -MOVE;
-		else if(o.getArea().getPosition().getX() == this.getArea().getPosition().getX())
+		// Avoid Bowser
+		if(e.getArea().getPosition().getX() < this.getArea().getPosition().getX())
+			x = move;
+		else if(e.getArea().getPosition().getX() == this.getArea().getPosition().getX())
 			x = 0;
 		else
-			x = MOVE;
+			x = -move;
 		
-		if(o.getArea().getPosition().getY() < this.getArea().getPosition().getY())
-			y =MOVE;
-		else if(o.getArea().getPosition().getY() == this.getArea().getPosition().getY())
+		if(e.getArea().getPosition().getY() < this.getArea().getPosition().getY())
+			y = move;
+		else if(e.getArea().getPosition().getY() == this.getArea().getPosition().getY())
 			y = 0;
 		else
-			y = -MOVE;
+			y = -move;
 			
 		
 		// test
@@ -126,48 +135,9 @@ public abstract class Entity extends Element
 					&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
 				this.setArea(b);
 		}
-		catch (NegativeSizeException e)
+		catch (NegativeSizeException e1)
 		{
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	}
-	public void runAway(Entity ent)
-	{
-		Coordinates max = Map.getMap().getMaxMap();
-		BoundingBox b = this.getArea();
-		int x,y;
-		int MOVE=2;
-		
-		if(ent.getArea().getPosition().getX() < this.getArea().getPosition().getX())
-			x = MOVE;
-		else if(ent.getArea().getPosition().getX() == this.getArea().getPosition().getX())
-			x = 0;
-		else
-			x = -MOVE;
-		
-		if(ent.getArea().getPosition().getY() < this.getArea().getPosition().getY())
-			y = -MOVE;
-		else if(ent.getArea().getPosition().getY() == this.getArea().getPosition().getY())
-			y = 0;
-		else
-			y = MOVE;
-			
-		
-		// test
-		try
-		{
-			b = this.getArea().translate(new Coordinates(x, y));
-			
-			// Set new position if valid coordinates
-			if((b.getPosition().getX() > 0 
-					&& b.getPosition().getX() + b.getSize().getX() < max.getX())
-					&& (b.getPosition().getY() > 0
-					&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
-				this.setArea(b);
-		}
-		catch (NegativeSizeException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	}
+}
