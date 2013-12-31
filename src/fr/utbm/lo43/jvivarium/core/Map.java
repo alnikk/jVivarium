@@ -154,6 +154,27 @@ public class Map
 	}
 	
 	/**
+	 * Return the list of all entity of a type
+	 * @param o The class to search in entity list
+	 * @return The list of entity of a type
+	 */
+	public List<Entity> searchEntity(Class o)
+	{
+		List<Entity> l = new LinkedList<Entity>();
+		Entity e;	
+		
+		for(Iterator<Entity> it = this.lEntity.iterator(); it.hasNext();)
+		{
+			e = it.next();
+			
+			if (o.isInstance(e))
+				l.add(e);
+		}
+		
+		return l;
+	}
+	
+	/**
 	 * Return the chunk at the indicate coordinates
 	 * @param c The coordinates to get the chunk
 	 * @return The chunk
@@ -174,7 +195,6 @@ public class Map
 		}
 		return null;
 	}
-	
 	public synchronized Entity getEntityAt(Coordinates p)
 	{
 		Entity e;
@@ -191,7 +211,6 @@ public class Map
 		}
 		return null;
 	}
-	
 	public synchronized Obj getObjAt(Coordinates p)
 	{
 		Obj o;
@@ -209,13 +228,14 @@ public class Map
 		return null;
 	}
 	
+	// TODO Add generics
 	/**
 	 * Return a list of chunks in the radius distance
 	 * @param e Around which entity look up 
 	 * @param radius The distance to look
 	 * @return A list of chunks in the radius
 	 */
-	public synchronized List<Chunk> scanChunk(Entity e, int radius)
+	public synchronized List<Chunk> scan(Entity e, int radius)
 	{
 		List<Chunk> res = new LinkedList<Chunk>();
 		Chunk c;
@@ -247,7 +267,6 @@ public class Map
 		
 		return res;
 	}
-	// TODO Add generics
 	public synchronized List<Entity> scanEntity(Entity e, int radius)
 	{
 		List<Entity> res = new LinkedList<Entity>();
@@ -280,7 +299,6 @@ public class Map
 		
 		return res;
 	}
-	
 	public synchronized List<Obj> scanObject(Entity e, int radius)
 	{
 		List<Obj> res = new LinkedList<Obj>();
@@ -313,88 +331,163 @@ public class Map
 		
 		return res;
 	}
-	public synchronized Obj searchNearest(Obj e, int radius)
+	
+	/**
+	 * Search the nearest object of an element
+	 * @param e The element
+	 * @param t The object's type to search
+	 * @return The nearest object
+	 */
+	public synchronized Obj searchNearest(Element e, ObjectType t)
 	{
 		Obj c;
-		Obj total=e;
-		double distance=1000;
+		Obj res = null;
+		
+		double distance=Math.max(this.getMaxMap().getX(), this.getMaxMap().getY());
 		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
 		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
-		double xc1,yc1, xc2, yc2, module1, module2, module3, module4; 
+		
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4, mod; 
 		
 		for(Iterator<Obj> it = lObj.iterator(); it.hasNext();)
 		{
 			c = it.next();
 			
-			xc1 = c.getArea().getPosition().getX() - xe;
-			yc1 = c.getArea().getPosition().getY() - ye;
-			xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
-			yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
-			
-			module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
-			module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
-			module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
-			module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
-			
-			if(module1 < radius
-					|| module2 < radius
-					|| module3 < radius
-					|| module4 < radius){
+			if(c.getType() == t)
+			{
+				xc1 = c.getArea().getPosition().getX() - xe;
+				yc1 = c.getArea().getPosition().getY() - ye;
+				xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+				yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
 				
-					if(module1<distance)
-						distance=module1;
-					if(module2<distance)
-						distance=module2;				
-					if(module3<distance)
-						distance=module3;
-					if(module3<distance)
-						distance=module4;
-				total=c;
+				module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+				module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+				module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+				module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
+				
+					
+				if(res != null)
+				{
+					mod = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+					if(distance > mod)
+					{
+						distance = mod;
+						res = c;
+						break;
+					}
+				}
+				else
+				{
+					res = c;
+					distance = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+				}
 			}
 		}
 		
-		return total;
+		return res;
 	}
-	public synchronized Entity searchNearest(Entity e, int radius)
+	
+	/**
+	 * Search the nearest entity from the element
+	 * @param e The element
+	 * @param t Class to search int entity List
+	 * @return The nearest entity of class t
+	 */
+	public synchronized Entity searchNearest(Element e, Class<?> t)
 	{
 		Entity c;
-		Entity total=e;
-		double distance=1000;
+		Entity res = null;
+		
+		double distance=Math.max(this.getMaxMap().getX(), this.getMaxMap().getY());
 		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
 		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
-		double xc1,yc1, xc2, yc2, module1, module2, module3, module4; 
+		
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4, mod; 
 		
 		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
 		{
 			c = it.next();
 			
-			xc1 = c.getArea().getPosition().getX() - xe;
-			yc1 = c.getArea().getPosition().getY() - ye;
-			xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
-			yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
-			
-			module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
-			module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
-			module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
-			module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
-			
-			if(module1 < radius
-					|| module2 < radius
-					|| module3 < radius
-					|| module4 < radius){
+			if(t.isInstance(c))
+			{
+				xc1 = c.getArea().getPosition().getX() - xe;
+				yc1 = c.getArea().getPosition().getY() - ye;
+				xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+				yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
 				
-					if(module1<distance)
-						distance=module1;
-					if(module2<distance)
-						distance=module2;				
-					if(module3<distance)
-						distance=module3;
-					if(module3<distance)
-						distance=module4;
-				total=c;
+				module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+				module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+				module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+				module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
+				
+					
+				if(res != null)
+				{
+					mod = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+					if(distance > mod)
+					{
+						distance = mod;
+						res = c;
+						break;
+					}
+				}
+				else
+				{
+					res = c;
+					distance = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+				}
 			}
 		}
 		
-		return total;
+		return res;
+	}
+	
+	public synchronized Chunk searchNearest(Element e, FieldType t)
+	{
+		Chunk c;
+		Chunk res = null;
+		
+		double distance=Math.max(this.getMaxMap().getX(), this.getMaxMap().getY());
+		double xe = e.getArea().getPosition().getX() + (e.getArea().getSize().getX() / 2);
+		double ye = e.getArea().getPosition().getY() + (e.getArea().getSize().getY() / 2);
+		
+		double xc1,yc1, xc2, yc2, module1, module2, module3, module4, mod; 
+		
+		for(Iterator<Chunk> it = lChunk.iterator(); it.hasNext();)
+		{
+			c = it.next();
+			
+			if(c.getFieldType() == t)
+			{
+				xc1 = c.getArea().getPosition().getX() - xe;
+				yc1 = c.getArea().getPosition().getY() - ye;
+				xc2 = (c.getArea().getPosition().getX() + c.getArea().getSize().getX()) - xe;
+				yc2 = (c.getArea().getPosition().getY() + c.getArea().getSize().getX()) - ye;
+				
+				module1 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc1, 2));
+				module2 = Math.sqrt(Math.pow(xc1, 2)+Math.pow(yc2, 2));
+				module3 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc1, 2));
+				module4 = Math.sqrt(Math.pow(xc2, 2)+Math.pow(yc2, 2));
+				
+					
+				if(res != null)
+				{
+					mod = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+					if(distance > mod)
+					{
+						distance = mod;
+						res = c;
+						break;
+					}
+				}
+				else
+				{
+					res = c;
+					distance = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+				}
+			}
+		}
+		
+		return res;
 	}
 }
