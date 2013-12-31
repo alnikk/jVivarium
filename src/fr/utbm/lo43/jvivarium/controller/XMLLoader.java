@@ -213,18 +213,15 @@ public class XMLLoader implements Runnable
 						{
 							case "Mario":
 								Mario m = new Mario(new BoundingBox(positionE, sizeE));
-								m.setLife(life);
 								this.map.add(m);
 								break;
 							case "Peach":
 								Peach p = new Peach(new BoundingBox(positionE, sizeE));
-								p.setLife(life);
 								
 								this.map.add(p);
 								break;
 							case "Bowser":
 								Bowser b = new Bowser(new BoundingBox(positionE, sizeE));
-								b.setLife(life);
 								this.map.add(b);
 								break;
 						}
@@ -441,7 +438,7 @@ public class XMLLoader implements Runnable
 						while(temp.getNodeName() != "size")
 							temp = temp.getNextSibling();
 						
-						//si trouvé
+						//si trouvï¿½
 						if(temp.getNodeName() == "size")
 						{	
 							size=temp;
@@ -503,7 +500,7 @@ public class XMLLoader implements Runnable
 						if(temp.getNodeName() == "life")
 						{
 							lifeNode=temp;
-							life= el.getLife();
+							life= el.getLifePoints();
 							temp.setTextContent(Integer.toString(life));
 						}
 						else
