@@ -62,7 +62,6 @@ public abstract class Entity extends Element
 		BoundingBox b = this.getArea();
 		int x,y;
 		
-		// Avoid Bowser
 		if(e.getArea().getPosition().getX() < this.getArea().getPosition().getX())
 			x = -move;
 		else if(e.getArea().getPosition().getX() == this.getArea().getPosition().getX())
@@ -71,11 +70,11 @@ public abstract class Entity extends Element
 			x = move;
 		
 		if(e.getArea().getPosition().getY() < this.getArea().getPosition().getY())
-			y =move;
+			y = -move;
 		else if(e.getArea().getPosition().getY() == this.getArea().getPosition().getY())
 			y = 0;
 		else
-			y = -move;
+			y = move;
 			
 		
 		// test
@@ -107,7 +106,7 @@ public abstract class Entity extends Element
 		BoundingBox b = this.getArea();
 		int x,y;
 		
-		// Avoid Bowser
+		// Avoid Element
 		if(e.getArea().getPosition().getX() < this.getArea().getPosition().getX())
 			x = move;
 		else if(e.getArea().getPosition().getX() == this.getArea().getPosition().getX())

@@ -15,7 +15,7 @@ public final class Peach extends Entity
 	/**
 	 * Probability of having a baby (0 <= p <= 1)
 	 */
-	private final static int PRO_BABY = 1;
+	private final static double PRO_BABY = 0.01;
 	
 	/**
 	 * Probability of having Mario (< 0.5) or Peach (> 0.5) (0 <= p <= 1)
@@ -30,7 +30,7 @@ public final class Peach extends Entity
 	/**
 	 * Vision of Peach (in pixel)
 	 */
-	private final static int VISION = 100;
+	private final static int VISION = 40;
 	
 	/**
 	 * Max moving peach
@@ -126,133 +126,11 @@ public final class Peach extends Entity
 		if(findChunk)
 		{
 			//	Find and approach Mario
-			Entity e;
-			int x,y;
-			BoundingBox b = null;
-			Coordinates max = Map.getMap().getMaxMap();
-			
-			for(Iterator<Entity> it = Map.getMap().getEntitys().iterator();it.hasNext();)
-			{
-				e = it.next();
-				
-				if(e instanceof Mario)
-				{
-					if(e.getArea().getPosition().getX() < this.getArea().getPosition().getX())
-						x = -MOVE;
-					else if(e.getArea().getPosition().getX() == this.getArea().getPosition().getX())
-						x = 0;
-					else
-						x = MOVE;
-					
-					if(e.getArea().getPosition().getY() < this.getArea().getPosition().getY())
-						y = -MOVE;
-					else if(e.getArea().getPosition().getY() == this.getArea().getPosition().getY())
-						y = 0;
-					else
-						y = MOVE;
-					
-					// test
-					try
-					{
-						b = this.getArea().translate(new Coordinates(x, y));
-						
-						// Set new position if valid coordinates
-						if((b.getPosition().getX() > 0 
-								&& b.getPosition().getX() + b.getSize().getX() < max.getX())
-								&& (b.getPosition().getY() > 0
-								&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
-							this.setArea(b);
-					}
-					catch (NegativeSizeException e1)
-					{
-						e1.printStackTrace();
-					}					
-					break;
-				}
-			}
+			this.goNearTo(Map.getMap().searchNearest(this, Mario.class),MOVE);
+			System.out.println((Mario) Map.getMap().searchNearest(this, Mario.class));
 		}
 		else
-		{
-			// Try to go on the more near pink chunk
-			Chunk n, cRes = null;
-			List<Chunk> res = new LinkedList<Chunk>();
-			double module1 = VISION*2,module2 = VISION*2,module3 = VISION*2,module4 = VISION*2; // Mooooochhheee
-			double moduleRes = VISION*2, mod;
-			int x1,x2,y1,y2,x,y;
-			BoundingBox b = null;
-			Coordinates max = Map.getMap().getMaxMap();
-			
-			int xe = this.getArea().getPosition().getX() + (this.getArea().getSize().getX()/2);
-			int ye = this.getArea().getPosition().getY() + (this.getArea().getSize().getY()/2);
-			
-			// Search of all pink chunk
-			for(Iterator<Chunk> it = Map.getMap().getChunks().iterator(); it.hasNext();)
-			{
-				n = it.next();
-				
-				if(n.getFieldType() == FieldType.PINK_BRICK)
-					res.add(n);
-			}
-			
-			// Search more near pink chunk
-			for(Iterator<Chunk> i = res.iterator();i.hasNext();)
-			{
-				n = i.next();
-				
-				x1 = n.getArea().getPosition().getX() - xe;
-				x2 = n.getArea().getPosition().getX() + n.getArea().getSize().getX() - xe;
-				y1 = n.getArea().getPosition().getY() - ye;
-				y2 = n.getArea().getPosition().getY() + n.getArea().getSize().getY() - ye;
-				
-				module1 = Math.sqrt(Math.pow(x1, 2)+Math.pow(y1, 2));
-				module2 = Math.sqrt(Math.pow(x1, 2)+Math.pow(y2, 2));
-				module3 = Math.sqrt(Math.pow(x2, 2)+Math.pow(y1, 2));
-				module4 = Math.sqrt(Math.pow(x2, 2)+Math.pow(y2, 2));
-				
-				if(cRes != null)
-				{
-					mod = Math.min(Math.min(module1, module2), Math.min(module3, module4));
-					if(moduleRes > mod)
-						moduleRes = mod;
-				}
-				else
-				{
-					cRes = n;
-					moduleRes = Math.min(Math.min(module1, module2), Math.min(module3, module4));
-				}
-			}
-			
-			if(cRes.getArea().getPosition().getX() < this.getArea().getPosition().getX())
-				x = -MOVE;
-			else if(cRes.getArea().getPosition().getX() == this.getArea().getPosition().getX())
-				x = 0;
-			else
-				x = MOVE;
-			
-			if(cRes.getArea().getPosition().getY() < this.getArea().getPosition().getY())
-				y = -MOVE;
-			else if(cRes.getArea().getPosition().getY() == this.getArea().getPosition().getY())
-				y = 0;
-			else
-				y = MOVE;
-			
-			// test
-			try
-			{
-				b = this.getArea().translate(new Coordinates(x, y));
-				
-				// Set new position if valid coordinates
-				if((b.getPosition().getX() > 0 
-						&& b.getPosition().getX() + b.getSize().getX() < max.getX())
-						&& (b.getPosition().getY() > 0
-						&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
-					this.setArea(b);
-			}
-			catch (NegativeSizeException e1)
-			{
-				e1.printStackTrace();
-			}
-		}
+			this.goNearTo(Map.getMap().searchNearest(this, FieldType.PINK_BRICK),MOVE);
 	}
 	
 	/**
