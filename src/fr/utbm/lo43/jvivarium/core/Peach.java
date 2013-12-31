@@ -3,7 +3,6 @@ package fr.utbm.lo43.jvivarium.core;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public final class Peach extends Entity
 {
@@ -14,9 +13,19 @@ public final class Peach extends Entity
 	public final static String IMG = "./res/entity/peach1.png";
 	
 	/**
-	 * Probability of having a baby, ex: 8 mean 1 chance out of 8
+	 * Probability of having a baby (0 <= p <= 1)
 	 */
 	private final static int PRO_BABY = 1;
+	
+	/**
+	 * Probability of having Mario (< 0.5) or Peach (> 0.5) (0 <= p <= 1)
+	 */
+	private final static double PRO_MarioPeach = 0.5;
+	
+	/**
+	 * The amount of damage that Peach do when she attacks
+	 */
+	private final static int ATT_POINTS = 0;
 	
 	/**
 	 * Vision of Peach (in pixel)
@@ -35,6 +44,7 @@ public final class Peach extends Entity
 	public Peach(BoundingBox area)
 	{
 		super(area);
+		this.attPoints = ATT_POINTS;
 	}
 
 	//****************************** Methods ************************
@@ -57,7 +67,7 @@ public final class Peach extends Entity
 				
 				if(e instanceof Bowser)
 				{
-					this.runAway((Bowser) e);
+					this.runAwayFrom((Element) e, MOVE);
 					act = true;
 				}
 			}
@@ -91,46 +101,6 @@ public final class Peach extends Entity
 			this.move();
 	}
 	
-	private void runAway(Bowser bowser)
-	{
-		Coordinates max = Map.getMap().getMaxMap();
-		BoundingBox b = this.getArea();
-		int x,y;
-		
-		// Avoid Bowser
-		if(bowser.getArea().getPosition().getX() < this.getArea().getPosition().getX())
-			x = MOVE;
-		else if(bowser.getArea().getPosition().getX() == this.getArea().getPosition().getX())
-			x = 0;
-		else
-			x = -MOVE;
-		
-		if(bowser.getArea().getPosition().getY() < this.getArea().getPosition().getY())
-			y = -MOVE;
-		else if(bowser.getArea().getPosition().getY() == this.getArea().getPosition().getY())
-			y = 0;
-		else
-			y = MOVE;
-			
-		
-		// test
-		try
-		{
-			b = this.getArea().translate(new Coordinates(x, y));
-			
-			// Set new position if valid coordinates
-			if((b.getPosition().getX() > 0 
-					&& b.getPosition().getX() + b.getSize().getX() < max.getX())
-					&& (b.getPosition().getY() > 0
-					&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
-				this.setArea(b);
-		}
-		catch (NegativeSizeException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
 	/**
 	 * Move Peach on its chunk
 	 * or try to go on Mario
@@ -141,7 +111,7 @@ public final class Peach extends Entity
 		boolean findChunk = false;
 		
 		// Search its Chunks
-		for(Iterator<Chunk> it = Map.getMap().scanChunk(this, VISION).iterator(); it.hasNext();)
+		for(Iterator<Chunk> it = Map.getMap().scan(this, VISION).iterator(); it.hasNext();)
 		{
 			c = it.next();
 			
@@ -293,9 +263,9 @@ public final class Peach extends Entity
 		//will the baby be a Mario or a Peach ?
 		try
 		{
-			if(Math.random() < 0.1)
+			if(Math.random() < PRO_BABY)
 			{
-				if(Math.random() < 0.5)
+				if(Math.random() < PRO_MarioPeach)
 					Map.getMap().add(new Mario(this.getArea()));
 				else
 					Map.getMap().add(new Peach(this.getArea()));
