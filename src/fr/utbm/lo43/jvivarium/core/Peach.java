@@ -1,7 +1,6 @@
 package fr.utbm.lo43.jvivarium.core;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 public final class Peach extends Entity
@@ -30,7 +29,7 @@ public final class Peach extends Entity
 	/**
 	 * Vision of Peach (in pixel)
 	 */
-	private final static int VISION = 40;
+	private final static int VISION = 400;
 	
 	/**
 	 * Max moving peach
@@ -39,12 +38,12 @@ public final class Peach extends Entity
 	
 	//********************************* Attributes ********************
 	
-	
 	//******************************* Constructor ******************
 	public Peach(BoundingBox area)
 	{
 		super(area);
 		this.attPoints = ATT_POINTS;
+		this.vision = VISION;
 	}
 
 	//****************************** Methods ************************
@@ -58,7 +57,7 @@ public final class Peach extends Entity
 		if(!act)
 		{
 			// If bowser is next to peach, run away
-			List<Entity> le = Map.getMap().scanEntity(this, VISION);
+			List<Entity> le = Map.getMap().scanEntity(this, this.vision);
 			Entity e;
 			
 			for(Iterator<Entity> it = le.iterator(); it.hasNext();)
@@ -67,6 +66,7 @@ public final class Peach extends Entity
 				
 				if(e instanceof Bowser)
 				{
+					System.out.println("run away");
 					this.runAwayFrom((Element) e, MOVE);
 					act = true;
 				}
@@ -88,6 +88,7 @@ public final class Peach extends Entity
 					// If Mario touch Peach
 					if(eMario.overlapping(this) != null)
 					{
+						System.out.println("reproduce");
 						this.reproduce();
 						act = true;
 						break;
@@ -98,7 +99,10 @@ public final class Peach extends Entity
 		
 		// If no action, move on preferred chunk
 		if(!act)
+		{
 			this.move();
+			System.out.println("move");
+		}
 	}
 	
 	/**
@@ -111,7 +115,7 @@ public final class Peach extends Entity
 		boolean findChunk = false;
 		
 		// Search its Chunks
-		for(Iterator<Chunk> it = Map.getMap().scan(this, VISION).iterator(); it.hasNext();)
+		for(Iterator<Chunk> it = Map.getMap().scan(this, this.vision).iterator(); it.hasNext();)
 		{
 			c = it.next();
 			
@@ -143,6 +147,7 @@ public final class Peach extends Entity
 		{
 			if(Math.random() < PRO_BABY)
 			{
+				// TODO Create new entity on another place than the existing peach
 				if(Math.random() < PRO_MarioPeach)
 					Map.getMap().add(new Mario(this.getArea()));
 				else

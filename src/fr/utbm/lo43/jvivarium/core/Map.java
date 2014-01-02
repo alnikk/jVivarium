@@ -158,7 +158,7 @@ public class Map
 	 * @param o The class to search in entity list
 	 * @return The list of entity of a type
 	 */
-	public List<Entity> searchEntity(Class o)
+	public List<Entity> searchEntity(Class<?> o)
 	{
 		List<Entity> l = new LinkedList<Entity>();
 		Entity e;	
@@ -407,7 +407,7 @@ public class Map
 		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
 		{
 			c = it.next();
-			
+			System.out.println(c);
 			if(t.isInstance(c))
 			{
 				xc1 = c.getArea().getPosition().getX() - xe;

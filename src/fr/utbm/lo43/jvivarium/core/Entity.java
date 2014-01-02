@@ -3,11 +3,13 @@ package fr.utbm.lo43.jvivarium.core;
 
 public abstract class Entity extends Element
 {
+	//************************ Constants **********************
 	/**
 	 * The maximum life of an entity
 	 */
 	protected final int MAX_LIFE = 100;
 	
+	//*************************** Attributes ********************
 	/**
 	 * The life points of the entity. When 0 the entity is dead
 	 */
@@ -17,6 +19,13 @@ public abstract class Entity extends Element
 	 * Number of life points lose per attack
 	 */
 	protected int attPoints;
+	
+	/**
+	 * The vision of the entity
+	 */
+	protected int vision;
+	
+	//********************************* Construtor ****************
 	/**
 	 * Constructors of the class.
 	 * @param area (BoundingBox) Set the position and the size of this entity
@@ -26,6 +35,9 @@ public abstract class Entity extends Element
 		super(area);
 		this.lifePoints = MAX_LIFE;
 	}
+	
+	
+	//******************************* Methods *************************
 	
 	/**
 	 * The life method is called by the main of the game.
@@ -87,7 +99,10 @@ public abstract class Entity extends Element
 					&& b.getPosition().getX() + b.getSize().getX() < max.getX())
 					&& (b.getPosition().getY() > 0
 					&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
+			{
 				this.setArea(b);
+				System.out.println(b);
+			}
 		}
 		catch (NegativeSizeException e1)
 		{
