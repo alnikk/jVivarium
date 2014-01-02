@@ -3,6 +3,9 @@ package fr.utbm.lo43.jvivarium.core;
 import java.util.Iterator;
 import java.util.List;
 
+// TODO Add time between reproduce
+
+
 public final class Peach extends Entity
 {
 	//******************************** Constant ********************
@@ -44,6 +47,7 @@ public final class Peach extends Entity
 		super(area);
 		this.attPoints = ATT_POINTS;
 		this.vision = VISION;
+		this.move = MOVE;
 	}
 
 	//****************************** Methods ************************
@@ -66,8 +70,7 @@ public final class Peach extends Entity
 				
 				if(e instanceof Bowser)
 				{
-					System.out.println("run away");
-					this.runAwayFrom((Element) e, MOVE);
+					this.runAwayFrom((Element) e, this.move);
 					act = true;
 				}
 			}
@@ -88,7 +91,6 @@ public final class Peach extends Entity
 					// If Mario touch Peach
 					if(eMario.overlapping(this) != null)
 					{
-						System.out.println("reproduce");
 						this.reproduce();
 						act = true;
 						break;
@@ -99,10 +101,7 @@ public final class Peach extends Entity
 		
 		// If no action, move on preferred chunk
 		if(!act)
-		{
 			this.move();
-			System.out.println("move");
-		}
 	}
 	
 	/**
@@ -130,11 +129,10 @@ public final class Peach extends Entity
 		if(findChunk)
 		{
 			//	Find and approach Mario
-			this.goNearTo(Map.getMap().searchNearest(this, Mario.class),MOVE);
-			System.out.println((Mario) Map.getMap().searchNearest(this, Mario.class));
+			this.goNearTo(Map.getMap().searchNearest(this, Mario.class),this.move);
 		}
 		else
-			this.goNearTo(Map.getMap().searchNearest(this, FieldType.PINK_BRICK),MOVE);
+			this.goNearTo(Map.getMap().searchNearest(this, FieldType.PINK_BRICK),this.move);
 	}
 	
 	/**
