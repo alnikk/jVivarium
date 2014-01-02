@@ -407,7 +407,7 @@ public class Map
 		for(Iterator<Entity> it = lEntity.iterator(); it.hasNext();)
 		{
 			c = it.next();
-			System.out.println(c);
+			
 			if(t.isInstance(c))
 			{
 				xc1 = c.getArea().getPosition().getX() - xe;
@@ -490,4 +490,58 @@ public class Map
 		
 		return res;
 	}
+	
+	/**
+	 * Return the nearest element (between two) of an other element
+	 * @param comp The element (Base, middle)
+	 * @param e1 The first element to compare
+	 * @param e2 The second element to compare
+	 * @return The nearest element (null when equals)
+	 */
+	public static Element compNear(Element comp, Element e1, Element e2)
+	{
+		Element res = null;
+		double xe = comp.getArea().getPosition().getX() + (comp.getArea().getSize().getX() / 2);
+		double ye = comp.getArea().getPosition().getY() + (comp.getArea().getSize().getY() / 2);
+		double x1,y1, x2, y2, module1, module2, module3, module4, distance1, distance2; 
+			
+		
+		// Calc e1
+		x1 = e1.getArea().getPosition().getX() - xe;
+		y1 = e1.getArea().getPosition().getY() - ye;
+		x2 = (e1.getArea().getPosition().getX() + e1.getArea().getSize().getX()) - xe;
+		y2 = (e1.getArea().getPosition().getY() + e1.getArea().getSize().getX()) - ye;
+		
+		module1 = Math.sqrt(Math.pow(x1, 2)+Math.pow(y1, 2));
+		module2 = Math.sqrt(Math.pow(x1, 2)+Math.pow(y2, 2));
+		module3 = Math.sqrt(Math.pow(x2, 2)+Math.pow(y1, 2));
+		module4 = Math.sqrt(Math.pow(x2, 2)+Math.pow(y2, 2));
+
+		distance1 = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+		
+		// Calc e2
+		
+		x1 = e2.getArea().getPosition().getX() - xe;
+		y1 = e2.getArea().getPosition().getY() - ye;
+		x2 = (e2.getArea().getPosition().getX() + e2.getArea().getSize().getX()) - xe;
+		y2 = (e2.getArea().getPosition().getY() + e2.getArea().getSize().getX()) - ye;
+		
+		module1 = Math.sqrt(Math.pow(x1, 2)+Math.pow(y1, 2));
+		module2 = Math.sqrt(Math.pow(x1, 2)+Math.pow(y2, 2));
+		module3 = Math.sqrt(Math.pow(x2, 2)+Math.pow(y1, 2));
+		module4 = Math.sqrt(Math.pow(x2, 2)+Math.pow(y2, 2));
+		
+		distance2 = Math.min(Math.min(module1, module2), Math.min(module3, module4));
+		
+		
+		// Comp
+		if(distance1 < distance2)
+			res = e1;
+		if(distance1 > distance2)
+			res = e2;
+			
+		return res;
+	}
+	
+	// TODO Class for calculates module of elements
 }
