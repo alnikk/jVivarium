@@ -25,6 +25,11 @@ public abstract class Entity extends Element
 	 */
 	protected int vision;
 	
+	/**
+	 * The max move in one action
+	 */
+	protected int move;
+	
 	//********************************* Construtor ****************
 	/**
 	 * Constructors of the class.
@@ -99,10 +104,7 @@ public abstract class Entity extends Element
 					&& b.getPosition().getX() + b.getSize().getX() < max.getX())
 					&& (b.getPosition().getY() > 0
 					&& b.getPosition().getY() + b.getSize().getY() < max.getY()))
-			{
 				this.setArea(b);
-				System.out.println(b);
-			}
 		}
 		catch (NegativeSizeException e1)
 		{
