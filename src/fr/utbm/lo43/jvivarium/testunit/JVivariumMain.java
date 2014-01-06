@@ -17,6 +17,7 @@ public class JVivariumMain
 		// Main instance
 		JVivarium j = new JVivarium();
 		j.start();
+		
 	}
 
 }

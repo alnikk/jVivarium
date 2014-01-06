@@ -20,6 +20,8 @@ import fr.utbm.lo43.jvivarium.core.Mario;
 import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
 import fr.utbm.lo43.jvivarium.core.Peach;
 import fr.utbm.lo43.jvivarium.mapeditor.EditorPanel;
+import fr.utbm.lo43.jvivarium.mapeditor.MainEditorPanel;
+import fr.utbm.lo43.jvivarium.mapeditor.MainMenuPanel;
 import fr.utbm.lo43.jvivarium.mapeditor.MenuListener;
 import fr.utbm.lo43.jvivarium.mapeditor.MenuPanel;
 
@@ -34,7 +36,6 @@ public class MainFrame extends JFrame
 	 * The Game Panel
 	 */
 	private GamePanel gameP = new GamePanel();
-	private MenuPanel edit= new MenuPanel(new EditorPanel());
 	/**
 	 * The loading JLabel
 	 */
@@ -65,6 +66,24 @@ public class MainFrame extends JFrame
 	 */
 	public void start() 
 	{
+		
+		
+			// Menu
+		MainMenuPanel menu;
+		menu = new MainMenuPanel(new MainEditorPanel());
+		
+		menu.setBounds(0, 0, this.gameP.getWidth(),this.gameP.getHeight());
+		
+			// Resize JFrame
+		int y;
+		
+		if(menu.getSize().height > this.gameP.getSize().height)
+			y = menu.getSize().height;
+		else
+			y = this.gameP.getSize().height;
+		
+		this.setSize(menu.getSize().width + this.gameP.getSize().width, y);
+		this.add(menu);
 		this.remove(load);
 		this.add(this.gameP);
 		this.add(win);
@@ -73,7 +92,7 @@ public class MainFrame extends JFrame
 		loose.setVisible(false);
 		this.setSize(
 				new Dimension(((int) this.gameP.getSize().getWidth()),
-						(int)(this.gameP.getSize().getHeight()+ 50 + this.getInsets().top)));
+						(int)(this.gameP.getSize().getHeight()+menu.getHeight() +50 + this.getInsets().top)));
 		
 		Thread game = new Thread(this.gameP);
 		game.start();

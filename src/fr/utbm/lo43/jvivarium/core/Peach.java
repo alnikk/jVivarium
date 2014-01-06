@@ -17,7 +17,7 @@ public final class Peach extends Entity
 	/**
 	 * Probability of having a baby (0 <= p <= 1)
 	 */
-	private final static double PRO_BABY = 0.02;
+	private final static double PRO_BABY = 0.5;
 	
 	/**
 	 * Probability of having Mario (< 0.5) or Peach (> 0.5) (0 <= p <= 1)
