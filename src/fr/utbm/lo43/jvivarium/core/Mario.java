@@ -131,11 +131,15 @@ public final class Mario extends Entity
 		if(o!=null)
 			this.goNearTo(o, this.move);
 		else{
-			if(p == null)
-				this.goNearTo(b, this.move);
-		else if(b == null)
-			//if (!((Peach) p).getChild())	
-				this.goNearTo(p, this.move);
+			
+			 if (p!=null && !((Peach) p).getChild()){	
+					this.goNearTo(p, this.move);
+			}
+			 else if(b!=null)
+					this.goNearTo(b, this.move);
+				else if(b == null && p!=null){
+					this.runAwayFrom(p, MOVE);
+			}
 		else
 		{
 			e = Map.compNear(this, b, p);
