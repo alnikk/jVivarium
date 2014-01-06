@@ -113,7 +113,7 @@ public abstract class Entity extends Element
 	}
 	
 	/**
-	 * Run axay from an element
+	 * Run away from an element
 	 * @param e The element to avoid
 	 * @param move The move to do
 	 */
@@ -134,7 +134,8 @@ public abstract class Entity extends Element
 		if(e.getArea().getPosition().getY() < this.getArea().getPosition().getY())
 			y = move;
 		else if(e.getArea().getPosition().getY() == this.getArea().getPosition().getY())
-			y = 0;
+			if(x==0)y = move;
+			else y=0;
 		else
 			y = -move;
 			

@@ -17,7 +17,7 @@ public final class Peach extends Entity
 	/**
 	 * Probability of having a baby (0 <= p <= 1)
 	 */
-	private final static double PRO_BABY = 0.01;
+	private final static double PRO_BABY = 0.02;
 	
 	/**
 	 * Probability of having Mario (< 0.5) or Peach (> 0.5) (0 <= p <= 1)
@@ -32,7 +32,7 @@ public final class Peach extends Entity
 	/**
 	 * Vision of Peach (in pixel)
 	 */
-	private final static int VISION = 400;
+	private final static int VISION = 10;
 	
 	/**
 	 * Max moving peach
@@ -40,6 +40,8 @@ public final class Peach extends Entity
 	private final static int MOVE = 2;
 	
 	//********************************* Attributes ********************
+	private boolean child = false;
+	private int timer=0;
 	
 	//******************************* Constructor ******************
 	public Peach(BoundingBox area)
@@ -88,12 +90,14 @@ public final class Peach extends Entity
 				// Search Mario
 				if(eMario instanceof Mario)
 				{
+					
 					// If Mario touch Peach
 					if(eMario.overlapping(this) != null)
 					{
 						this.reproduce();
 						act = true;
 						break;
+						
 					}
 				}
 			}
@@ -128,8 +132,14 @@ public final class Peach extends Entity
 		// If Peach see its chunks
 		if(findChunk)
 		{
+			if(Map.getMap().searchNearest(this, Mario.class)!=null){
 			//	Find and approach Mario
-			this.goNearTo(Map.getMap().searchNearest(this, Mario.class),this.move);
+				if(!this.getChild()){
+					this.goNearTo(Map.getMap().searchNearest(this, Mario.class),this.move);
+				}
+				else
+					this.runAwayFrom(Map.getMap().searchNearest(this, Mario.class),this.move);
+			}
 		}
 		else
 			this.goNearTo(Map.getMap().searchNearest(this, FieldType.PINK_BRICK),this.move);
@@ -138,20 +148,34 @@ public final class Peach extends Entity
 	/**
 	 * Peach will reproduce herself with Mario
 	 */
+	public boolean getChild(){return this.child;}
+	public void setChild(boolean ch){this.child=ch;}
 	private void reproduce()
 	{
+		timer=timer+1;
+		if(timer==100){
+			this.setChild(false);
+			timer=0;
+		}
+		int randomx,randomy;
 		//will the baby be a Mario or a Peach ?
+		randomx = (int) (Math.random()*(Map.getMap().getMaxMap().getX()));
+		randomy = (int) (Math.random()*(Map.getMap().getMaxMap().getY()));
 		try
+		
 		{
 			if(Math.random() < PRO_BABY)
 			{
 				// TODO Create new entity on another place than the existing peach
 				if(Math.random() < PRO_MarioPeach)
-					Map.getMap().add(new Mario(this.getArea()));
+					Map.getMap().add(new Mario(new BoundingBox(new Coordinates(randomx,randomy),new Coordinates(20,20))));
 				else
-					Map.getMap().add(new Peach(this.getArea()));
+					Map.getMap().add(new Peach(new BoundingBox(new Coordinates(randomx,randomy),new Coordinates(20,20))));
+				this.setChild(true);
+				this.runAwayFrom(Map.getMap().searchNearest(this, Mario.class),this.move);;
 			}
 		}
+		
 		catch(Exception e)
 		{
 			e.printStackTrace();

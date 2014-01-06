@@ -14,12 +14,12 @@ public final class Mario extends Entity
 	/**
 	 * The max Vision of a Mario entity
 	 */
-	private final static int VISION = 200;
+	private final static int VISION = 10;
 	
 	/**
 	 * The attack point of a Mario Entity
 	 */
-	private final static int ATTACK = 20;
+	private final static int ATTACK = 10;
 	
 	/**
 	 * The move of a Mario entity
@@ -39,6 +39,7 @@ public final class Mario extends Entity
 		this.vision = VISION;
 		this.move = MOVE;
 	}
+	
 
 	//********************************* Methods *****************************
 	
@@ -90,10 +91,10 @@ public final class Mario extends Entity
 	private void attack(Bowser b)
 	{
 		// Bowser lose life points, he lose more life points than Mario
-		b.setLifePoints(getLifePoints() - this.attPoints);
+		b.setLifePoints(b.getLifePoints() - this.attPoints);
 		
 		// TODO In the main loop I think... (turn by turn effect will be better, and so order in the list no matter)
-		if(b.getLifePoints() == 0)
+		if(b.getLifePoints() <= 0)
 			Map.getMap().remove(b);
 	}
 	
@@ -103,7 +104,7 @@ public final class Mario extends Entity
 	private void eat(Obj o)
 	{
 		// if the object is a MUSHROOM, we regenerate the life points of Mario
-		switch(Map.getMap().getObjAt(this.getArea().getPosition()).getType())
+		switch(o.getType())
 		{
 			case MUSHROOM:
 				this.setLifePoints(this.MAX_LIFE);
@@ -114,7 +115,7 @@ public final class Mario extends Entity
 		}
 		
 		//Mario eat this object, so we can remove it from the map
-		Map.getMap().remove(Map.getMap().getObjAt(this.getArea().getPosition()));
+		Map.getMap().remove(o);
 	}
 	
 	/**
@@ -124,12 +125,17 @@ public final class Mario extends Entity
 	{		
 		Entity p = Map.getMap().searchNearest(this, Peach.class);
 		Entity b = Map.getMap().searchNearest(this, Bowser.class);
-		Element e;
+		Element e = this;
+		Obj o = Map.getMap().searchNearest(e, ObjectType.MUSHROOM);
 		
-		if(p == null)
-			this.goNearTo(b, this.move);
+		if(o!=null)
+			this.goNearTo(o, this.move);
+		else{
+			if(p == null)
+				this.goNearTo(b, this.move);
 		else if(b == null)
-			this.goNearTo(p, this.move);
+			//if (!((Peach) p).getChild())	
+				this.goNearTo(p, this.move);
 		else
 		{
 			e = Map.compNear(this, b, p);
@@ -137,6 +143,7 @@ public final class Mario extends Entity
 				this.goNearTo(e, this.move);
 			else // Bowser for combativity
 				this.goNearTo(b, this.move);
+			}
 		}
 	}
 }

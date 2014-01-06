@@ -1,10 +1,27 @@
 package fr.utbm.lo43.jvivarium.view;
 
 import java.awt.Dimension;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import org.w3c.dom.NodeList;
+
+import fr.utbm.lo43.jvivarium.core.BoundingBox;
+import fr.utbm.lo43.jvivarium.core.Bowser;
+import fr.utbm.lo43.jvivarium.core.Coordinates;
+import fr.utbm.lo43.jvivarium.core.Entity;
+import fr.utbm.lo43.jvivarium.core.Map;
+import fr.utbm.lo43.jvivarium.core.Mario;
+import fr.utbm.lo43.jvivarium.core.NegativeSizeException;
+import fr.utbm.lo43.jvivarium.core.Peach;
+import fr.utbm.lo43.jvivarium.mapeditor.EditorPanel;
+import fr.utbm.lo43.jvivarium.mapeditor.MenuListener;
+import fr.utbm.lo43.jvivarium.mapeditor.MenuPanel;
 
 public class MainFrame extends JFrame
 {
@@ -17,11 +34,15 @@ public class MainFrame extends JFrame
 	 * The Game Panel
 	 */
 	private GamePanel gameP = new GamePanel();
-	
+	private MenuPanel edit= new MenuPanel(new EditorPanel());
 	/**
 	 * The loading JLabel
 	 */
 	private JLabel load = new JLabel("Loading");
+	public static JLabel win = new JLabel("Victory, Mario saved the princess !");
+	
+	public static JLabel loose = new JLabel("Defeat, Bowser kidnaped Peach !");
+
 	
 	/**
 	 * Initialize the main window
@@ -42,17 +63,24 @@ public class MainFrame extends JFrame
 	 * for the view and activate
 	 * the window
 	 */
-	public void start()
+	public void start() 
 	{
 		this.remove(load);
-		
 		this.add(this.gameP);
+		this.add(win);
+		win.setVisible(false);
+		this.add(loose);
+		loose.setVisible(false);
 		this.setSize(
-				new Dimension((int) this.gameP.getSize().getWidth(),
-						(int)(this.gameP.getSize().getHeight() + this.getInsets().top)));
+				new Dimension(((int) this.gameP.getSize().getWidth()),
+						(int)(this.gameP.getSize().getHeight()+ 50 + this.getInsets().top)));
 		
 		Thread game = new Thread(this.gameP);
 		game.start();
+		
+		//test if game is won or lost
+		
+		
 	}
 	
 	/**

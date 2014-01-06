@@ -13,17 +13,17 @@ public final class Bowser extends Entity
 	/**
 	 * The max Vision of a Bowser entity
 	 */
-	private final static int VISION = 200;
+	private final static int VISION = 400;
 	
 	/**
 	 * The attack point of a Bowser Entity
 	 */
-	private final static int ATTACK = 15;
+	private final static int ATTACK = 50;
 	
 	/**
 	 * The move of a Bowser entity
 	 */
-	private final static int MOVE = 3;
+	private final static int MOVE = 1;
 	
 	//************************* Attributes ****************
 	/**
@@ -95,6 +95,10 @@ public final class Bowser extends Entity
 		
 		if(e != null)
 			this.goNearTo(e,this.move);
+		else
+			e = Map.getMap().searchNearest(this, Mario.class);
+			if(e!=null)
+				this.goNearTo(e, MOVE);
 	}
 	
 	private void attack(Entity e)
@@ -103,8 +107,9 @@ public final class Bowser extends Entity
 		e.setLifePoints(getLifePoints() - this.attPoints);
 		
 		// TODO In the main loop I think... (turn by turn effect will be better, and so order in the list no matter)
-		if(e.getLifePoints() == 0)
+		if(e.getLifePoints() <= 0){
 			Map.getMap().remove(e);
+		}
 	}
 	
 	private void kidnap(Peach p)
@@ -115,6 +120,7 @@ public final class Bowser extends Entity
 			kidnaped = p;
 			// we remove her of the map
 			Map.getMap().remove(p);
+			kidnaped = null;
 		}
 	}
 }

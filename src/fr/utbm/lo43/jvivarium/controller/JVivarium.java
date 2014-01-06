@@ -1,5 +1,8 @@
 package fr.utbm.lo43.jvivarium.controller;
 
+import java.util.Iterator;
+import java.util.List;
+
 import fr.utbm.lo43.jvivarium.core.BoundingBox;
 import fr.utbm.lo43.jvivarium.core.Bowser;
 import fr.utbm.lo43.jvivarium.core.Coordinates;
@@ -81,6 +84,28 @@ public final class JVivarium
 		// Main of the game
 		while(true)
 		{
+			List<Entity> l = Map.getMap().getEntitys();
+			boolean won = true;
+			boolean lost = true; 
+			for(Iterator<Entity> it = l.iterator(); it.hasNext();)
+			{
+				Entity e = it.next();
+				if (e instanceof Bowser)
+					won=false;
+				else
+					if(e instanceof Peach || e instanceof Mario)
+						lost=false;
+			
+			}
+			if (won){	
+				MainFrame.win.setVisible(true);
+			}
+			else
+				if(lost){
+					MainFrame.loose.setVisible(true);
+
+				}
+			
 			// Call the life method on each entity
 			this.callEntity();
 			
