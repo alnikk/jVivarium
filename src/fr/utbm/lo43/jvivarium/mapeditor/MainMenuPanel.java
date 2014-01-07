@@ -91,7 +91,7 @@ public class MainMenuPanel extends JPanel implements Runnable
 	/**
 	 * Menu Listener for sending events to the editor
 	 */
-	private MenuListener mListener;
+	MenuListener mListener;
 	
 	/**
 	 * List for stocking JButtons drew
@@ -223,12 +223,14 @@ public class MainMenuPanel extends JPanel implements Runnable
 				{
 					try
 					{
-						MainMenuPanel.this.mListener.addObject(
-								new Obj(
-										new BoundingBox(
-												new Coordinates(0, 0), 
-												new Coordinates(XCHUNK, YCHUNK)),
-										ObjectType.STAR));
+				
+						
+						
+						MainMenuPanel.this.mListener.addObject(new Obj(new BoundingBox(
+								new Coordinates(0, 0), 
+								new Coordinates(XCHUNK, YCHUNK)),
+								ObjectType.STAR));
+										
 					}
 					catch (NegativeSizeException e)
 					{

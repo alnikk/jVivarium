@@ -210,8 +210,10 @@ public class MainEditorPanel extends JPanel implements Runnable, MouseListener, 
 					{
 						this.drag = c;
 						this.oldPosition = c.getArea();
+						
 					}
 				}
+					
 			}
 			else
 				this.drag = null;
